@@ -29,7 +29,7 @@ namespace FunctionApp1.Controllers
         [OpenApiRequestBody("application/json", typeof(CreateShowerDataDTO), Description = "The shower data.")]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(ShowerData), Description = "The OK response with the new shower.")]
-        public async Task<IActionResult> CreateUser([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "showerdata/{UserId:Guid}")] HttpRequest req, Guid UserId)
+        public async Task<IActionResult> CreateShower([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "showerdata/{UserId:Guid}")] HttpRequest req, Guid UserId)
         {
             _logger.LogInformation("Creating new shower.");
 
