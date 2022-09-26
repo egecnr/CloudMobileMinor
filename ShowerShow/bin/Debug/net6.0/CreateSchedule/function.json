@@ -14,5 +14,5 @@
   ],
   "disabled": false,
   "scriptFile": "../bin/ShowerShow.dll",
-  "entryPoint": "ShowerShow.Controllers.ScheduleController.CreateShower"
+  "entryPoint": "ShowerShow.Controllers.ScheduleController.CreateSchedule"
 }

@@ -25,11 +25,11 @@ namespace ShowerShow.Controllers
             _logger = log;
         }
         [FunctionName("CreateSchedule")]
-        [OpenApiOperation(operationId: "CreateSchedule", tags: new[] { "Showers" })]
+        [OpenApiOperation(operationId: "CreateSchedule", tags: new[] { "Schedules" })]
         [OpenApiRequestBody("application/json", typeof(CreateScheduleDTO), Description = "The schedule data.")]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(Schedule), Description = "The OK response with the new schedule.")]
-        public async Task<IActionResult> CreateShower([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "schedule/{UserId:Guid}")] HttpRequest req, Guid UserId)
+        public async Task<IActionResult> CreateSchedule([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "schedule/{UserId:Guid}")] HttpRequest req, Guid UserId)
         {
             _logger.LogInformation("Creating new shower.");
 
