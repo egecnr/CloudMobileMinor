@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace FunctionApp1.Models
+namespace ShowerShow.Models
 {
     internal class Schedule
     {

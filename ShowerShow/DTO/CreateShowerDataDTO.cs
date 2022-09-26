@@ -1,9 +1,9 @@
-﻿using FunctionApp1.Models;
+﻿using ShowerShow.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
-namespace FunctionApp1.DTO
+namespace ShowerShow.DTO
 {
     internal class CreateShowerDataDTO
     {

@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using FunctionApp1.Models;
+using ShowerShow.Models;
 
-namespace FunctionApp1.DTO
+namespace ShowerShow.DTO
 {
     internal class CreateUserDTO
     {

@@ -1,8 +1,8 @@
-﻿using FunctionApp1.Models;
+﻿using ShowerShow.Models;
 using Newtonsoft.Json;
 using System;
 
-namespace FunctionApp1.DTO
+namespace ShowerShow.DTO
 {
     internal class CreatePreferencesDTO
     {

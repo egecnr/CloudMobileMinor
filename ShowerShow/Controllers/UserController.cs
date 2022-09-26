@@ -2,8 +2,8 @@ using System;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using FunctionApp1.DTO;
-using FunctionApp1.Models;
+using ShowerShow.DTO;
+using ShowerShow.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 
-namespace FunctionApp1.Controllers
+namespace ShowerShow.Controllers
 {
     public class UserController
     {

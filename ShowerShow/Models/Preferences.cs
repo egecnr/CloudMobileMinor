@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace FunctionApp1.Models
+namespace ShowerShow.Models
 {
     internal class Preferences
     {

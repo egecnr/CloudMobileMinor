@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace FunctionApp1.DTO
+namespace ShowerShow.DTO
 {
     internal class CreateAchievementDTO
     {
