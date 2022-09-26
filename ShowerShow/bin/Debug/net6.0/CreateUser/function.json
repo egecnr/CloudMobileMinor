@@ -14,5 +14,5 @@
   ],
   "disabled": false,
   "scriptFile": "../bin/ShowerShow.dll",
-  "entryPoint": "FunctionApp1.Controllers.UserController.CreateUser"
+  "entryPoint": "ShowerShow.Controllers.UserController.CreateUser"
 }
