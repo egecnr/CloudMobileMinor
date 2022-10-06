@@ -12,9 +12,9 @@ namespace ShowerShow.Models
         [JsonRequired]
         public string Username { get; set; }
         [JsonRequired]
-        public string Password { get; set; }
+        public string PasswordHash { get; set; }
         public string Email { get; set; }
-        public List<User> Friends { get; set; }
+        public List<Guid> Friends { get; set; }
         public List<Achievement> Achievements { get; set; }
         public string UserBadge { get; set; }
 

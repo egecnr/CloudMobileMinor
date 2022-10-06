@@ -1,15 +1,15 @@
-﻿using ShowerShow.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using ShowerShow.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ShowerShow.DTO
 {
-    internal class CreateScheduleDTO
+    internal class UpdateScheduleDTO
     {
-
-        [JsonRequired]
-        public Guid UserId { get; set; }
         [JsonRequired]
         public List<Models.DayOfWeek> DaysOfWeek { get; set; }
         [JsonRequired]

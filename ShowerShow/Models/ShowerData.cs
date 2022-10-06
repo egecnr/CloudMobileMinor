@@ -9,6 +9,10 @@ namespace ShowerShow.Models
         public Guid Id { get; } = Guid.NewGuid();
         [JsonRequired]
         public Guid UserId { get; set; }
+
+        [JsonRequired]
+        public Guid ScheduleId { get; set; }
+
         [JsonRequired]
         public double Duration { get; set; }
         [JsonRequired]
@@ -19,7 +23,6 @@ namespace ShowerShow.Models
         public double GasCost { get; set; }
         [JsonRequired]
         public DateTime Date { get; set; }
-        public Schedule Schedule { get; set; }
         
     }
 }

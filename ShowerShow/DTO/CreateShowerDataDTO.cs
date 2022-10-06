@@ -18,6 +18,8 @@ namespace ShowerShow.DTO
         public double GasCost { get; set; }
         [JsonRequired]
         public DateTime Date { get; set; }
-        public Schedule Schedule { get; set; } = null;
+
+        [JsonRequired]
+        public Guid ScheduleId { get; set; }
     }
 }

@@ -3,7 +3,9 @@ using System;
 
 namespace ShowerShow.Models
 {
-    internal class Achievement
+    //This achievement class along with dtos can be changed to fit the right implementation.
+
+    internal abstract class Achievement
     {
         public Guid Id { get; } = Guid.NewGuid();
         [JsonRequired]
