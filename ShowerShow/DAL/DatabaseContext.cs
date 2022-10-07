@@ -39,7 +39,7 @@ namespace ShowerShow.DAL
               .Property(s => s.DaysOfWeek)
               .HasConversion(converter);
 
-            modelBuilder.Entity<User>()
+           modelBuilder.Entity<User>()
                  .HasMany(p => p.Friends)
                  .WithOne().HasForeignKey(s => s.Id);
         }
