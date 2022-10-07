@@ -5,7 +5,7 @@ namespace ShowerShow.Models
 {
     internal class Preferences
     {
-        public Guid Id { get; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.NewGuid();
         [JsonRequired]
         public Guid UserId { get; set; }
         public AvailableVoices SelectedVoice { get; set; } = AvailableVoices.Default_Male;

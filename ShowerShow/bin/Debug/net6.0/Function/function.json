@@ -1,0 +1,22 @@
+{
+  "generatedBy": "Microsoft.NET.Sdk.Functions.Generator-4.1.1",
+  "configurationSource": "attributes",
+  "bindings": [
+    {
+      "type": "cosmosDBTrigger",
+      "connectionStringSetting": "CosmosConnectionString",
+      "leaseCollectionName": "leases",
+      "collectionName": "collectionName",
+      "databaseName": "databaseName",
+      "leaseDatabaseName": "databaseName",
+      "createLeaseCollectionIfNotExists": false,
+      "startFromBeginning": false,
+      "useMultipleWriteLocations": false,
+      "useDefaultJsonSerialization": false,
+      "name": "input"
+    }
+  ],
+  "disabled": false,
+  "scriptFile": "../bin/ShowerShow.dll",
+  "entryPoint": "ShowerShow.Function.Run"
+}

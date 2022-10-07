@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using DayOfWeek = ShowerShow.Models.DayOfWeek;
 
 namespace ShowerShow.DTO
 {
@@ -11,7 +12,7 @@ namespace ShowerShow.DTO
         [JsonRequired]
         public Guid UserId { get; set; }
         [JsonRequired]
-        public List<Models.DayOfWeek> DaysOfWeek { get; set; }
+        public List<DayOfWeek> DaysOfWeek { get; set; }
         [JsonRequired]
         public List<ScheduleTag> Tags { get; set; }
     }

@@ -48,7 +48,7 @@ namespace ShowerShow.Controllers
                 shower.WaterCost = data.WaterCost;
                 shower.GasCost = data.GasCost;
                 shower.Date = data.Date;
-                shower.Schedule = data.Schedule;
+                shower.ScheduleId = data.ScheduleId;
 
 
                 return new OkObjectResult(shower);

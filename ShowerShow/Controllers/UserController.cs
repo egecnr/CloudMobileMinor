@@ -42,7 +42,7 @@ namespace ShowerShow.Controllers
                 user.Name = data.Name;
                 user.Username = data.Username;
                 user.Email = data.Email;
-                user.Password = data.Password;
+                user.PasswordHash = data.PasswordHash;
 
 
                 return new OkObjectResult(user);

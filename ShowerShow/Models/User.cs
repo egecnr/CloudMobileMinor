@@ -6,7 +6,7 @@ namespace ShowerShow.Models
 {
     internal class User
     {
-        public Guid Id { get; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.NewGuid();
         [JsonRequired]
         public string Name { get; set; }
         [JsonRequired]
@@ -14,7 +14,7 @@ namespace ShowerShow.Models
         [JsonRequired]
         public string PasswordHash { get; set; }
         public string Email { get; set; }
-        public List<Guid> Friends { get; set; }
+        public List<User> Friends { get; set; }
         public List<Achievement> Achievements { get; set; }
         public string UserBadge { get; set; }
 

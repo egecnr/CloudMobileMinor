@@ -6,7 +6,7 @@ namespace ShowerShow.Models
 {
     internal class ShowerData
     {
-        public Guid Id { get; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.NewGuid();
         [JsonRequired]
         public Guid UserId { get; set; }
 
