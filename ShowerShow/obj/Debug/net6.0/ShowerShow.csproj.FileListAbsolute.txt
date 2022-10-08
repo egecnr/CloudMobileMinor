@@ -232,3 +232,4 @@ C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShow\bin\Debug\net6.0\Microsoft.
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShow\bin\Debug\net6.0\Microsoft.Rest.ClientRuntime.dll
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShow\bin\Debug\net6.0\Microsoft.Rest.ClientRuntime.Azure.dll
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShow\bin\Debug\net6.0\YamlDotNet.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShow\bin\Debug\net6.0\Microsoft.AspNetCore.CookiePolicy.dll

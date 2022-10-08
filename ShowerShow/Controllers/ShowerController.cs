@@ -1,18 +1,16 @@
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Net;
-using System.Threading.Tasks;
-using ShowerShow.DTO;
-using ShowerShow.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using System.IO;
+using System.Net;
+using System.Threading.Tasks;
+using System;
+using ShowerShow.DTO;
+using ShowerShow.Models;
 
 namespace ShowerShow.Controllers
 {
@@ -24,12 +22,12 @@ namespace ShowerShow.Controllers
         {
             _logger = log;
         }
-        [FunctionName("CreateShower")]
+        [Function("CreateShower")]
         [OpenApiOperation(operationId: "CreateShower", tags: new[] { "Showers" })]
         [OpenApiRequestBody("application/json", typeof(CreateShowerDataDTO), Description = "The shower data.")]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(ShowerData), Description = "The OK response with the new shower.")]
-        public async Task<IActionResult> CreateShower([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "showerdata/{UserId:Guid}")] HttpRequest req, Guid UserId)
+        public async Task<IActionResult> CreateShower([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "showerdata/{UserId:Guid}")] HttpRequestData req, Guid UserId)
         {
             _logger.LogInformation("Creating new shower.");
 

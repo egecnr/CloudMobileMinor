@@ -12,6 +12,8 @@ using DayOfWeek = ShowerShow.Models.DayOfWeek;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShowerShow.Utils;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace ShowerShow.DAL
 {
@@ -24,15 +26,15 @@ namespace ShowerShow.DAL
         public DbSet<Achievement> Achievements { get; set; } = null!;
         public DbSet<Preferences> Preferences { get; set; } = null!;
 
-        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
-        {
 
-        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
             //secure connection string later
-            optionsBuilder.UseCosmos("https://database-sawa.documents.azure.com:443/", "0iV6DDVOqBso4R7ylBYskYk7vPhYtzoQS8kg7ltSdAuTY7xpXLlHtCZAh3au9qDoEOPw4lE91jVApTkQrHLB8g==", databaseName: "Database - SAWA");
+        
+            optionsBuilder.UseCosmos("https://database-sawa.documents.azure.com:443/",
+                "0iV6DDVOqBso4R7ylBYskYk7vPhYtzoQS8kg7ltSdAuTY7xpXLlHtCZAh3au9qDoEOPw4lE91jVApTkQrHLB8g==",
+                databaseName: "Database - SAWA");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
