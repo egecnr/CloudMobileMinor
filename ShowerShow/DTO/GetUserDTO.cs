@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using ShowerShow.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace ShowerShow.DTO
         [JsonRequired]
         public string Email { get; set; }
         public string UserBadge { get; set; }
-        public List<Guid> Friends { get; set; } = new List<Guid>();
+        public List<UserFriend> Friends { get; set; }
 
     }
 }

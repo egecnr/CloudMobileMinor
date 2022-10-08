@@ -12,12 +12,17 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using ShowerShow.DAL;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Azure.WebJobs.Hosting;
+using ShowerShow;
 
 namespace ShowerShow.Controllers
 {
     public class UserController
     {
         private readonly ILogger<UserController> _logger;
+        private DatabaseContext databaseContext = new DatabaseContext(new DbContextOptions<DatabaseContext>());
 
         public UserController(ILogger<UserController> log)
         {
@@ -30,6 +35,7 @@ namespace ShowerShow.Controllers
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(User), Description = "The OK response with the new user.")]
         public async Task<IActionResult> CreateUser([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "user/register")] HttpRequest req)
         {
+
             _logger.LogInformation("Creating new user.");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
@@ -43,6 +49,7 @@ namespace ShowerShow.Controllers
                 user.Username = data.Username;
                 user.Email = data.Email;
                 user.PasswordHash = data.PasswordHash;
+                databaseContext.Users.Add(user);
 
 
                 return new OkObjectResult(user);

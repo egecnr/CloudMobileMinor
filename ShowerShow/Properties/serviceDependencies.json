@@ -10,9 +10,19 @@
     "secrets1": {
       "type": "secrets"
     },
+    "secrets2": {
+      "type": "secrets",
+      "connectionId": "VaultUri"
+    },
     "cosmosdb1": {
       "type": "cosmosdb",
-      "connectionId": "CosmosConnectionString"
+      "connectionId": "DBConnection",
+      "dynamicId": null
+    },
+    "cosmosdb2": {
+      "type": "cosmosdb",
+      "connectionId": "DBConnection",
+      "dynamicId": null
     }
   }
 }

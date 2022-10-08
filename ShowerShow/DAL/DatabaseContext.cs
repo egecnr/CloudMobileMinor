@@ -24,11 +24,15 @@ namespace ShowerShow.DAL
         public DbSet<Achievement> Achievements { get; set; } = null!;
         public DbSet<Preferences> Preferences { get; set; } = null!;
 
+        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
+        {
+
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-         
+
             //secure connection string later
-            optionsBuilder.UseCosmos("https://localhost:8081", "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==", databaseName: "Database - SAWA");
+            optionsBuilder.UseCosmos("https://database-sawa.documents.azure.com:443/", "0iV6DDVOqBso4R7ylBYskYk7vPhYtzoQS8kg7ltSdAuTY7xpXLlHtCZAh3au9qDoEOPw4lE91jVApTkQrHLB8g==", databaseName: "Database - SAWA");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -39,9 +43,9 @@ namespace ShowerShow.DAL
               .Property(s => s.DaysOfWeek)
               .HasConversion(converter);
 
-           modelBuilder.Entity<User>()
-                 .HasMany(p => p.Friends)
-                 .WithOne().HasForeignKey(s => s.Id);
+            modelBuilder.Entity<User>()
+                  .HasMany(p => p.Friends)
+                  .WithOne().HasForeignKey(s => s.Id);
         }
     }
 }

@@ -17,10 +17,10 @@ namespace ShowerShow.DAL
     internal class DatabaseConnect
     {
         // The Azure Cosmos DB endpoint for running this sample.
-        private static readonly string EndpointUri = ConfigurationManager.AppSettings["https://localhost:8081"];
+        private static readonly string EndpointUri = ConfigurationManager.AppSettings["https://database-sawa.documents.azure.com:443/"];
 
         // The primary key for the Azure Cosmos account.
-        private static readonly string PrimaryKey = ConfigurationManager.AppSettings["C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw=="];
+        private static readonly string PrimaryKey = ConfigurationManager.AppSettings["0iV6DDVOqBso4R7ylBYskYk7vPhYtzoQS8kg7ltSdAuTY7xpXLlHtCZAh3au9qDoEOPw4lE91jVApTkQrHLB8g=="];
 
         // The Cosmos client instance
         private CosmosClient cosmosClient;
@@ -32,8 +32,8 @@ namespace ShowerShow.DAL
         private Container container;
 
         // The name of the database and container we will create
-        private string databaseId = "Database-SAWA";
-        private string containerId = "users";
+        private string databaseId = "Database - SAWA";
+        private string containerId = "Users";
         public static async Task Main(string[] args) //make back into main if needed
         {
             try

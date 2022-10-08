@@ -1,8 +1,16 @@
 {
   "dependencies": {
+    "cosmosdb2": {
+      "restored": true,
+      "restoreTime": "2022-10-08T14:46:29.9100144Z"
+    },
     "cosmosdb1": {
       "restored": true,
-      "restoreTime": "2022-10-07T20:56:45.5390379Z"
+      "restoreTime": "2022-10-08T14:44:24.2355801Z"
+    },
+    "secrets2": {
+      "restored": true,
+      "restoreTime": "2022-10-08T14:44:23.3568149Z"
     },
     "secrets1": {
       "restored": true,
@@ -17,5 +25,36 @@
       "restoreTime": "2022-09-24T18:12:54.4142342Z"
     }
   },
-  "parameters": {}
+  "parameters": {
+    "cosmosdb1.subscriptionId": {
+      "Name": "cosmosdb1.subscriptionId",
+      "Type": "subscription",
+      "Value": "c6ae200d-698c-41db-9f61-f05c92ceb1a7"
+    },
+    "secrets2.resourceGroupName": {
+      "Name": "secrets2.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "SAWA"
+    },
+    "secrets2.subscriptionId": {
+      "Name": "secrets2.subscriptionId",
+      "Type": "subscription",
+      "Value": "c6ae200d-698c-41db-9f61-f05c92ceb1a7"
+    },
+    "cosmosdb2.resourceGroupName": {
+      "Name": "cosmosdb2.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "SAWA"
+    },
+    "cosmosdb2.subscriptionId": {
+      "Name": "cosmosdb2.subscriptionId",
+      "Type": "subscription",
+      "Value": "c6ae200d-698c-41db-9f61-f05c92ceb1a7"
+    },
+    "cosmosdb1.resourceGroupName": {
+      "Name": "cosmosdb1.resourceGroupName",
+      "Type": "resourceGroup",
+      "Value": "SAWA"
+    }
+  }
 }
