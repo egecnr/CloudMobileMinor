@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using ShowerShow.Models;
+using System;
+using ShowerShow.Utils;
 
 namespace ShowerShow.DTO
 {
@@ -13,7 +15,5 @@ namespace ShowerShow.DTO
         [JsonRequired]
         public string PasswordHash { get; set; }
         public string Email { get; set; }
-        public string UserBadge { get; set; }
-
     }
 }
