@@ -1,7 +1,7 @@
 ﻿
 namespace ShowerShow.Models
 {
-    internal enum AvailableVoices
+    public enum AvailableVoices
     {
         Default_Female,
         Default_Male,

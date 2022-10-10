@@ -9,6 +9,12 @@ using System.Text;
 using System.Threading.Tasks;
 using ShowerShow.Models;
 using User = ShowerShow.Models.User;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using ShowerShow.Service;
+using ShowerShow.Repository.Interface;
+using ShowerShow.Repository;
 
 namespace ShowerShow
 {
@@ -22,6 +28,13 @@ namespace ShowerShow
                     .ConfigureOpenApi()
                     .ConfigureServices(services =>
                     {
+                        services.AddControllers();
+                        services.AddDbContext<DatabaseContext>(options =>
+                                   options.UseCosmos("https://sawa-db.documents.azure.com:443/",
+                            "gggcb28Z24nJAmpz4SRwQRNT9Xyd0wn1riSKAUkvVyaBf4WRALsyx4kgl6POPmi8Ka7JHZfTx06uWD3DHzoqTw==",
+                            "sawa-db"));
+                        services.AddTransient<IUserService, UserService>();
+                        services.AddTransient<IUserRepository, UserRepository>();
                     })
                     .Build();
             await host.RunAsync();

@@ -11,23 +11,27 @@ using System.Threading.Tasks;
 using System;
 using User = ShowerShow.Models.User;
 using CreateUserDTO = ShowerShow.DTO.CreateUserDTO;
+using AutoMapper;
+using ShowerShow.Repository.Interface;
 
 namespace ShowerShow.Controllers
 {
     public class UserController
     {
         private readonly ILogger<UserController> _logger;
+        private IUserService userService;
 
-        public UserController(ILogger<UserController> log)
+        public UserController(ILogger<UserController> log,IUserService userService)
         {
             _logger = log;
+            this.userService = userService;
         }
 
         [Function("CreateUser")]
         [OpenApiOperation(operationId: "CreateUser", tags: new[] { "Users" })]
         [OpenApiRequestBody("application/json", typeof(CreateUserDTO), Description = "The user data.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(User), Description = "The OK response with the new user.")]
-        public async Task<IActionResult> CreateUser([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "user/register")] HttpRequestData req)//HTTPRequestData
+        public async Task<IActionResult> CreateUser([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "user/register")] HttpRequestData req)
         {
 
             _logger.LogInformation("Creating new user.");
@@ -36,16 +40,10 @@ namespace ShowerShow.Controllers
 
             try
             {
-                CreateUserDTO data = JsonConvert.DeserializeObject<CreateUserDTO>(requestBody);
+                CreateUserDTO userDTO = JsonConvert.DeserializeObject<CreateUserDTO>(requestBody);
+                await userService.CreateUser(userDTO);
 
-                User user = new();
-                user.Name = data.Name;
-                user.Username = data.Username;
-                user.Email = data.Email;
-                user.PasswordHash = data.PasswordHash;
-
-
-                return new OkObjectResult(user);
+                return new OkObjectResult($"User created: {userDTO.Name}");
             }
             catch (Exception ex)
             {
