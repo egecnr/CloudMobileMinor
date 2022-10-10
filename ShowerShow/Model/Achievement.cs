@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace ShowerShow.Models
 {
@@ -8,7 +7,7 @@ namespace ShowerShow.Models
 
     public class Achievement
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; } = Guid.NewGuid(); //guid not added in constructor
         [JsonRequired]
         public string Title { get; set; }
         [JsonRequired]
@@ -17,5 +16,20 @@ namespace ShowerShow.Models
         public int CurrentValue { get; set; } = 0;
         [JsonRequired]
         public int TargetValue { get; set; }
+
+
+        public Achievement(string title, string description, int TargetValue, int currentValue, int targetValue)
+        {
+
+            //this.Id = id;
+            this.Title = title;
+            this.Description = description;
+            this.TargetValue = targetValue;
+            this.CurrentValue = currentValue;
+
+
+
+
+        }
     }
 }

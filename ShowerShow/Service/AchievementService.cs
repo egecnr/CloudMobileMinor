@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace ShowerShow.Service
 {
-    internal class Class
+    internal class AchievementService
     {
+
     }
 }

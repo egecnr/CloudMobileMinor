@@ -1,3 +1,10 @@
 /.vs
 .vs/ShowerShow/v17/.suo
 ShowerShow/obj/Debug/net6.0/ShowerShow.GeneratedMSBuildEditorConfig.editorconfig
+*.targets
+*.props
+*.json
+*.cache
+*.json
+*.cache
+*.cache
