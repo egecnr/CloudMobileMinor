@@ -8,3 +8,7 @@ ShowerShow/obj/Debug/net6.0/ShowerShow.GeneratedMSBuildEditorConfig.editorconfig
 *.json
 *.cache
 *.cache
+.vs/ShowerShow/v17/.suo
+.vs/ShowerShow/v17/.suo
+*.dll
+*.cache

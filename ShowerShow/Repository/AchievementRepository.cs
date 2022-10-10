@@ -1,4 +1,5 @@
-﻿using ShowerShow.Models;
+﻿using ShowerShow.DAL;
+using ShowerShow.Models;
 using ShowerShow.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -6,16 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShowerShow.Service
+namespace ShowerShow.Repository
 {
-    internal class AchievementService : IAchievementService
+    internal class AchievementRepository : IAchievementRepository
     {
-        private readonly IAchievementRepository _achievementRepository;
+        private readonly DatabaseContext _databaseContext;
 
-        public AchievementService(IAchievementRepository achievementrepository)
+        public AchievementRepository(DatabaseContext databasecontext)
         {
-            _achievementRepository = achievementrepository;
+            _databaseContext = databasecontext;  
         }
+
         public Task<Achievement> getAchievementById(Guid achievementId)
         {
             throw new NotImplementedException();

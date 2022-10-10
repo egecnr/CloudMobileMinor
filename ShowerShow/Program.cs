@@ -9,6 +9,10 @@ using System.Text;
 using System.Threading.Tasks;
 using ShowerShow.Models;
 using User = ShowerShow.Models.User;
+using Microsoft.Extensions.DependencyInjection;
+using ShowerShow.Repository.Interfaces;
+using ShowerShow.Repository;
+using ShowerShow.Service;
 
 namespace ShowerShow
 {
@@ -22,6 +26,9 @@ namespace ShowerShow
                     .ConfigureOpenApi()
                     .ConfigureServices(services =>
                     {
+                        services.AddTransient<IAchievementRepository, AchievementRepository>();
+                        services.AddTransient<IAchievementService, AchievementService>();
+
                     })
                     .Build();
             await host.RunAsync();

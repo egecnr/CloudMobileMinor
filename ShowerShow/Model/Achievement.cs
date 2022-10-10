@@ -18,7 +18,7 @@ namespace ShowerShow.Models
         public int TargetValue { get; set; }
 
 
-        public Achievement(string title, string description, int TargetValue, int currentValue, int targetValue)
+        public Achievement(string title, string description, int currentValue, int targetValue)
         {
 
             //this.Id = id;
@@ -26,9 +26,6 @@ namespace ShowerShow.Models
             this.Description = description;
             this.TargetValue = targetValue;
             this.CurrentValue = currentValue;
-
-
-
 
         }
     }
