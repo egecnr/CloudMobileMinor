@@ -6,7 +6,7 @@ using ShowerShow.Utils;
 
 namespace ShowerShow.DTO
 {
-    internal class CreateUserDTO
+    public class CreateUserDTO
     {
         [JsonRequired]
         public string Name { get; set; }

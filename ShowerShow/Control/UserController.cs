@@ -11,20 +11,20 @@ using System.Threading.Tasks;
 using System;
 using User = ShowerShow.Models.User;
 using CreateUserDTO = ShowerShow.DTO.CreateUserDTO;
-using ShowerShow.Service;
 using AutoMapper;
+using ShowerShow.Repository.Interface;
 
 namespace ShowerShow.Controllers
 {
     public class UserController
     {
         private readonly ILogger<UserController> _logger;
-        private UserService userService;
+        private IUserService userService;
 
-        public UserController(ILogger<UserController> log)
+        public UserController(ILogger<UserController> log,IUserService userService)
         {
             _logger = log;
-            userService = new UserService();
+            this.userService = userService;
         }
 
         [Function("CreateUser")]

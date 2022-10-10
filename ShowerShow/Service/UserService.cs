@@ -2,6 +2,7 @@
 using ShowerShow.DAL;
 using ShowerShow.DTO;
 using ShowerShow.Models;
+using ShowerShow.Repository.Interface;
 using ShowerShow.Utils;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,15 @@ using System.Threading.Tasks;
 
 namespace ShowerShow.Service
 {
-    internal class UserService
+    public class UserService: IUserService
     {
-        private DatabaseContext dbContext = new DatabaseContext();
-     
+        private DatabaseContext dbContext;
 
+        public UserService(DatabaseContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
+     
         public async Task CreateUser(CreateUserDTO user)
         {
             Mapper mapper= AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<CreateUserDTO, User>()));

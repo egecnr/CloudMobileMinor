@@ -17,7 +17,7 @@ using System.IO;
 
 namespace ShowerShow.DAL
 {
-    internal class DatabaseContext : DbContext
+    public class DatabaseContext : DbContext
     {
 
         public DbSet<User> Users { get; set; } = null!;
@@ -26,9 +26,12 @@ namespace ShowerShow.DAL
         public DbSet<Achievement> Achievements { get; set; } = null!;
         public DbSet<Preferences> Preferences { get; set; } = null!;
 
-        /*public DatabaseContext(DbContextOptions<DatabaseContext>options):base(options)
+        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
-        }*/
+        }
+        public DatabaseContext() 
+        {
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
@@ -51,9 +54,10 @@ namespace ShowerShow.DAL
             modelBuilder.Entity<User>().OwnsMany(u => u.Friends);
             modelBuilder.Entity<User>().OwnsMany(u => u.Achievements);
             modelBuilder.Entity<Schedule>().OwnsMany(s => s.Tags);
-
-           
-            /*  modelBuilder.Entity<Schedule>().OwnsMany(s => s.DaysOfWeek);*/
+            modelBuilder
+              .Entity<Schedule>()
+              .Property(s => s.DaysOfWeek)
+              .HasConversion(converter);
         }
     }
 }
