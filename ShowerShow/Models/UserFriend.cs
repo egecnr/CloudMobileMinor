@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ShowerShow.Models
 {
-    internal class UserFriend
+    public class UserFriend
     {
         public Guid Id { get; set; }
         [JsonRequired]

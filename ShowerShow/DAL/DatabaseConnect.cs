@@ -14,13 +14,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ShowerShow.DAL
 {
-    internal class DatabaseConnect
+    /*internal class DatabaseConnect
     {
         // The Azure Cosmos DB endpoint for running this sample.
-        private static readonly string EndpointUri = ConfigurationManager.AppSettings["https://database-sawa.documents.azure.com:443/"];
+        private static readonly string EndpointUri = ConfigurationManager.AppSettings["https://sawa-db-local.documents.azure.com:443/"];
 
         // The primary key for the Azure Cosmos account.
-        private static readonly string PrimaryKey = ConfigurationManager.AppSettings["0iV6DDVOqBso4R7ylBYskYk7vPhYtzoQS8kg7ltSdAuTY7xpXLlHtCZAh3au9qDoEOPw4lE91jVApTkQrHLB8g=="];
+        private static readonly string PrimaryKey = ConfigurationManager.AppSettings["4lDM1FeIeXMrcx4NyBHfzAP1uG3CpAQYnNAKxQFL5unpNclfHkamHBJmBCVv99IJFhVpTne8jnoVObp6v6obIQ=="];
 
         // The Cosmos client instance
         private CosmosClient cosmosClient;
@@ -60,7 +60,7 @@ namespace ShowerShow.DAL
         public async Task GetStartedDemoAsync()
         {
             // Create a new instance of the Cosmos Client
-            this.cosmosClient = new CosmosClient(EndpointUri, PrimaryKey, new CosmosClientOptions() { ApplicationName = "CosmosDB - SAWA" });
+            this.cosmosClient = new CosmosClient(EndpointUri, PrimaryKey, new CosmosClientOptions() { ApplicationName = "sawa-db-local" });
             await this.CreateDatabaseAsync();
             await this.CreateContainerAsync();
             await this.ScaleContainerAsync();
@@ -123,7 +123,7 @@ namespace ShowerShow.DAL
         {
             
             // Create a family object for the Andersen family
-          /*  Family andersenFamily = new Family
+          *//*  Family andersenFamily = new Family
             {
                 Id = "Andersen.1",
                 LastName = "Andersen",
@@ -213,7 +213,7 @@ namespace ShowerShow.DAL
 
                 // Note that after creating the item, we can access the body of the item with the Resource property off the ItemResponse. We can also access the RequestCharge property to see the amount of RUs consumed on this request.
                 Console.WriteLine("Created item in database with id: {0} Operation consumed {1} RUs.\n", wakefieldFamilyResponse.Resource.Id, wakefieldFamilyResponse.RequestCharge);
-            }*/
+            }*//*
         }
 
         // <QueryItemsAsync>
@@ -224,7 +224,7 @@ namespace ShowerShow.DAL
         private async Task QueryItemsAsync()
         {
             var sqlQueryText = "SELECT * FROM c WHERE c.LastName = 'Andersen'";
-/*
+*//*
             Console.WriteLine("Running query: {0}\n", sqlQueryText);
 
             QueryDefinition queryDefinition = new QueryDefinition(sqlQueryText);
@@ -240,7 +240,7 @@ namespace ShowerShow.DAL
                     families.Add(family);
                     Console.WriteLine("\tRead {0}\n", family);
                 }
-            }*/
+            }*//*
         }
 
         // <ReplaceFamilyItemAsync>
@@ -249,7 +249,7 @@ namespace ShowerShow.DAL
         /// </summary>
         private async Task ReplaceFamilyItemAsync()
         {
-     /*       ItemResponse<Family> wakefieldFamilyResponse = await this.container.ReadItemAsync<Family>("Wakefield.7", new PartitionKey("Wakefield"));
+     *//*       ItemResponse<Family> wakefieldFamilyResponse = await this.container.ReadItemAsync<Family>("Wakefield.7", new PartitionKey("Wakefield"));
             var itemBody = wakefieldFamilyResponse.Resource;
 
             // update registration status from false to true
@@ -259,7 +259,7 @@ namespace ShowerShow.DAL
 
             // replace the item with the updated content
             wakefieldFamilyResponse = await this.container.ReplaceItemAsync<Family>(itemBody, itemBody.Id, new PartitionKey(itemBody.LastName));
-            Console.WriteLine("Updated Family [{0},{1}].\n \tBody is now: {2}\n", itemBody.LastName, itemBody.Id, wakefieldFamilyResponse.Resource);*/
+            Console.WriteLine("Updated Family [{0},{1}].\n \tBody is now: {2}\n", itemBody.LastName, itemBody.Id, wakefieldFamilyResponse.Resource);*//*
         }
 
         // <DeleteFamilyItemAsync>
@@ -271,9 +271,9 @@ namespace ShowerShow.DAL
             var partitionKeyValue = "Wakefield";
             var familyId = "Wakefield.7";
 
-   /*         // Delete an item. Note we must provide the partition key value and id of the item to delete
+   *//*         // Delete an item. Note we must provide the partition key value and id of the item to delete
             ItemResponse<Family> wakefieldFamilyResponse = await this.container.DeleteItemAsync<Family>(familyId, new PartitionKey(partitionKeyValue));
-            Console.WriteLine("Deleted Family [{0},{1}]\n", partitionKeyValue, familyId);*/
+            Console.WriteLine("Deleted Family [{0},{1}]\n", partitionKeyValue, familyId);*//*
         }
 
         // <DeleteDatabaseAndCleanupAsync>
@@ -290,5 +290,5 @@ namespace ShowerShow.DAL
             //Dispose of CosmosClient
             this.cosmosClient.Dispose();
         }
-    }
+    }*/
 }

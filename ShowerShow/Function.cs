@@ -13,7 +13,7 @@ namespace ShowerShow
     {
         [FunctionName("Function")]
         public static void Run([CosmosDBTrigger(
-            databaseName: "Database - SAWA",
+            databaseName: "testdb",
             collectionName: "Users",
             ConnectionStringSetting = "DBConnection",
             LeaseCollectionName = "leases",

@@ -26,28 +26,34 @@ namespace ShowerShow.DAL
         public DbSet<Achievement> Achievements { get; set; } = null!;
         public DbSet<Preferences> Preferences { get; set; } = null!;
 
-
+        /*public DatabaseContext(DbContextOptions<DatabaseContext>options):base(options)
+        {
+        }*/
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
             //secure connection string later
-        
-            optionsBuilder.UseCosmos("https://database-sawa.documents.azure.com:443/",
-                "0iV6DDVOqBso4R7ylBYskYk7vPhYtzoQS8kg7ltSdAuTY7xpXLlHtCZAh3au9qDoEOPw4lE91jVApTkQrHLB8g==",
-                databaseName: "Database - SAWA");
+
+            optionsBuilder.UseCosmos("https://sawa-db.documents.azure.com:443/",
+                "gggcb28Z24nJAmpz4SRwQRNT9Xyd0wn1riSKAUkvVyaBf4WRALsyx4kgl6POPmi8Ka7JHZfTx06uWD3DHzoqTw==",
+                "sawa-db");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var converter = new EnumCollectionJsonValueConverter<DayOfWeek>();
+         
+            modelBuilder.Entity<User>().ToContainer("Users").HasPartitionKey(c => c.Id);
+            
+            modelBuilder.Entity<Schedule>().ToContainer("Schedules").HasPartitionKey(c=>c.UserId);
+            modelBuilder.Entity<Preferences>().ToContainer("Preferences").HasPartitionKey(c=>c.UserId);
+            modelBuilder.Entity<ShowerData>().ToContainer("ShowerData").HasPartitionKey(c=>c.UserId); //This could be a date too ask Frank
 
-            modelBuilder
-              .Entity<Schedule>()
-              .Property(s => s.DaysOfWeek)
-              .HasConversion(converter);
+            modelBuilder.Entity<User>().OwnsMany(u => u.Friends);
+            modelBuilder.Entity<User>().OwnsMany(u => u.Achievements);
+            modelBuilder.Entity<Schedule>().OwnsMany(s => s.Tags);
 
-            modelBuilder.Entity<User>()
-                  .HasMany(p => p.Friends)
-                  .WithOne().HasForeignKey(s => s.Id);
+           
+            /*  modelBuilder.Entity<Schedule>().OwnsMany(s => s.DaysOfWeek);*/
         }
     }
 }

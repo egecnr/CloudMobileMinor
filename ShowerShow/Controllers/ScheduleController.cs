@@ -39,7 +39,7 @@ namespace ShowerShow.Controllers
 
                 Schedule schedule = new();
                 schedule.UserId = UserId;
-                schedule.DaysOfWeek = data.DaysOfWeek;
+          /*      schedule.DaysOfWeek = data.DaysOfWeek;*/
                 schedule.Tags = data.Tags;
 
 
