@@ -61,11 +61,11 @@
             },
             "Microsoft.Azure.Functions.Worker": {
               "target": "Package",
-              "version": "[1.6.0, )"
+              "version": "[1.10.0, )"
             },
             "Microsoft.Azure.Functions.Worker.Extensions.Http": {
               "target": "Package",
-              "version": "[3.0.12, )"
+              "version": "[3.0.13, )"
             },
             "Microsoft.Azure.Functions.Worker.Extensions.OpenApi": {
               "target": "Package",
@@ -73,7 +73,7 @@
             },
             "Microsoft.Azure.Functions.Worker.Sdk": {
               "target": "Package",
-              "version": "[1.3.0, )"
+              "version": "[1.7.0, )"
             },
             "Microsoft.Azure.WebJobs.Extensions.CosmosDB": {
               "target": "Package",

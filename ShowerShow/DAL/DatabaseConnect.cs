@@ -32,9 +32,9 @@ namespace ShowerShow.DAL
         private Container container;
 
         // The name of the database and container we will create
-        private string databaseId = "Database - SAWA";
+        private string databaseId = "testdb";
         private string containerId = "Users";
-        public static async Task Main(string[] args) //make back into main if needed
+        public static async Task StartDb(string[] args) //make back into main if needed
         {
             try
             {

@@ -19,7 +19,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ShowerShow
-{
+{/*
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -46,5 +46,5 @@ namespace ShowerShow
 
 
         }
-    }
+    }*/
 }
