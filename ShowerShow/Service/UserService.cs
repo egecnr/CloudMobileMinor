@@ -14,18 +14,16 @@ namespace ShowerShow.Service
 {
     public class UserService: IUserService
     {
-        private DatabaseContext dbContext;
+        private IUserRepository userRepository;
 
-        public UserService(DatabaseContext dbContext)
+        public UserService(IUserRepository userRepository)
         {
-            this.dbContext = dbContext;
+            this.userRepository = userRepository;
         }
      
         public async Task CreateUser(CreateUserDTO user)
         {
-            Mapper mapper= AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<CreateUserDTO, User>()));
-            dbContext.Users?.Add(mapper.Map<User>(user));
-            await dbContext.SaveChangesAsync();
+            await userRepository.CreateUser(user);
         }
     }
 }
