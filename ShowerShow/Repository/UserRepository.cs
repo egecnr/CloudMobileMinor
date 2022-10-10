@@ -2,6 +2,7 @@
 using ShowerShow.DAL;
 using ShowerShow.DTO;
 using ShowerShow.Models;
+using ShowerShow.Repository.Interface;
 using ShowerShow.Utils;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ShowerShow.Repository
 {
-    public class UserRepository
+    public class UserRepository:IUserRepository
     {
         private DatabaseContext dbContext;
 

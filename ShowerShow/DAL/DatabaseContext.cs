@@ -29,9 +29,6 @@ namespace ShowerShow.DAL
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
         }
-        public DatabaseContext() 
-        {
-        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
