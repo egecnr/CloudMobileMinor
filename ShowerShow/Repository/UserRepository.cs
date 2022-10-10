@@ -24,7 +24,9 @@ namespace ShowerShow.Repository
         public async Task CreateUser(CreateUserDTO user)
         {
             Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<CreateUserDTO, User>()));
-            dbContext.Users?.Add(mapper.Map<User>(user));
+            User fullUser = mapper.Map<User>(user);
+            fullUser.PasswordHash =PasswordHasher.HashPassword(fullUser.PasswordHash);
+            dbContext.Users?.Add();
             await dbContext.SaveChangesAsync();
         }
     }
