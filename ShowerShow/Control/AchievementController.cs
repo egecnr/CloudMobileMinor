@@ -74,6 +74,29 @@ namespace ShowerShow.Control
                 return new BadRequestObjectResult(ex.Message);
             }
         }
+        [Function(nameof(UpdateAchievementById))]
+        [OpenApiOperation(operationId: "UpdateAchievement", tags: new[] { "Achievement" })]
+        [OpenApiRequestBody("application/json", typeof(UpdateAchievementDTO), Description = "update achievement")]
+        [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
+        [OpenApiParameter(name: "AchId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "Id of the requested achievement")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(Achievement), Description = "Achievement updated")]
+        public async Task<IActionResult> UpdateAchievementById([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "user/{UserId}/achievement/{AchId}")] HttpRequestData req, Guid UserId, Achievement achievementId)
+        {
+            _logger.LogInformation("");
+
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+
+            try
+            {
+
+                return new OkObjectResult(null); //returning null for now
+            }
+            catch (Exception ex)
+            {
+                // DEV ONLY
+                return new BadRequestObjectResult(ex.Message);
+            }
+        }
 
 
     }
