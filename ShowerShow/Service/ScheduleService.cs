@@ -26,5 +26,10 @@ namespace ShowerShow.Service
         {
             return scheduleRepository.GetAllSchedules(UserId);
         }
+
+        public Task<Schedule> GetScheduleById(Guid scheduleId)
+        {
+            return scheduleRepository.GetScheduleById(scheduleId);
+        }
     }
 }

@@ -73,6 +73,27 @@ namespace ShowerShow.Controllers
                 throw new Exception(ex.Message);
             }
         }
+        [Function("GetSchedule")]
+        [OpenApiOperation(operationId: "GetScheduleById", tags: new[] { "Schedules" })]
+        [OpenApiParameter(name: "ScheduleId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The Schedule ID parameter")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Schedule), Description = "The OK response with the retrieved schedule")]
+        public async Task<Schedule> GetSchedule([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "schedule/{ScheduleId:Guid}")] HttpRequestData req, Guid ScheduleId)
+        {
+            _logger.LogInformation("Retrieving schedule.");
+
+            try
+            {
+                Schedule schedule = await scheduleService.GetScheduleById(ScheduleId);
+
+
+                return schedule;
+            }
+            catch (Exception ex)
+            {
+                // DEV ONLY
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
 

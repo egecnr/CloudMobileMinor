@@ -10,5 +10,6 @@ namespace ShowerShow.Repository.Interface
     {
         public Task CreateSchedule(CreateScheduleDTO schedule, Guid id);
         public Task<List<Schedule>> GetAllSchedules(Guid UserId);
+        public Task<Schedule> GetScheduleById(Guid scheduleId);
     }
 }

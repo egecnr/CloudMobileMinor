@@ -35,5 +35,11 @@ namespace ShowerShow.Repository
             await dbContext.SaveChangesAsync();
             return dbContext.Schedules.Where(x => x.UserId == UserId).ToList();
         }
+
+        public async Task<Schedule> GetScheduleById(Guid scheduleId)
+        {
+            await dbContext.SaveChangesAsync();
+            return dbContext.Schedules.FirstOrDefault(x => x.Id == scheduleId);
+        }
     }
 }
