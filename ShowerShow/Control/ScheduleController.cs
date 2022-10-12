@@ -11,23 +11,26 @@ using System.Threading.Tasks;
 using System;
 using ShowerShow.Models;
 using ShowerShow.DTO;
+using ShowerShow.Repository.Interface;
 
 namespace ShowerShow.Controllers
 {
     public class ScheduleController
     {
         private readonly ILogger<ScheduleController> _logger;
+        private IScheduleService scheduleService;
 
-        public ScheduleController(ILogger<ScheduleController> log)
+        public ScheduleController(ILogger<ScheduleController> log, IScheduleService scheduleService)
         {
             _logger = log;
+            this.scheduleService = scheduleService;
         }
         [Function("CreateSchedule")]
         [OpenApiOperation(operationId: "CreateSchedule", tags: new[] { "Schedules" })]
         [OpenApiRequestBody("application/json", typeof(CreateScheduleDTO), Description = "The schedule data.")]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(Schedule), Description = "The OK response with the new schedule.")]
-        public async Task<IActionResult> CreateSchedule([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "schedule/{UserId:Guid}")] HttpRequestData req, Guid UserId)
+        public async Task<CreateScheduleDTO> CreateSchedule([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "schedule/{UserId:Guid}")] HttpRequestData req, Guid UserId)
         {
             _logger.LogInformation("Creating new shower.");
 
@@ -36,19 +39,14 @@ namespace ShowerShow.Controllers
             try
             {
                 CreateScheduleDTO data = JsonConvert.DeserializeObject<CreateScheduleDTO>(requestBody);
+                await scheduleService.CreateSchedule(data,UserId);
 
-                Schedule schedule = new();
-                schedule.UserId = UserId;
-          /*      schedule.DaysOfWeek = data.DaysOfWeek;*/
-                schedule.Tags = data.Tags;
-
-
-                return new OkObjectResult(schedule);
+                return data;
             }
             catch (Exception ex)
             {
                 // DEV ONLY
-                return new BadRequestObjectResult(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
     }
