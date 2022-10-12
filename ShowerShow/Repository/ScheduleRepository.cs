@@ -5,7 +5,10 @@ using ShowerShow.Models;
 using ShowerShow.Repository.Interface;
 using ShowerShow.Utils;
 using System;
+using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace ShowerShow.Repository
 {
@@ -25,6 +28,12 @@ namespace ShowerShow.Repository
             fullSchedule.UserId = userId;
             dbContext.Schedules?.Add(fullSchedule);
             await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<List<Schedule>> GetAllSchedules(Guid UserId)
+        {
+            await dbContext.SaveChangesAsync();
+            return dbContext.Schedules.Where(x => x.UserId == UserId).ToList();
         }
     }
 }

@@ -12,6 +12,7 @@ using System;
 using ShowerShow.Models;
 using ShowerShow.DTO;
 using ShowerShow.Repository.Interface;
+using System.Collections.Generic;
 
 namespace ShowerShow.Controllers
 {
@@ -42,6 +43,29 @@ namespace ShowerShow.Controllers
                 await scheduleService.CreateSchedule(data,UserId);
 
                 return data;
+            }
+            catch (Exception ex)
+            {
+                // DEV ONLY
+                throw new Exception(ex.Message);
+            }
+        }
+        [Function("GetSchedules")]
+        [OpenApiOperation(operationId: "GetSchedules", tags: new[] { "Schedules" })]
+        [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Schedule), Description = "The OK response with the new schedule.")]
+        public async Task<List<Schedule>> GetSchedules([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "schedule/{UserId:Guid}")] HttpRequestData req, Guid UserId)
+        {
+            _logger.LogInformation("Creating new shower.");
+
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+
+            try
+            {
+                List<Schedule> schedules = await scheduleService.GetAllSchedules(UserId);
+                
+
+                return schedules;
             }
             catch (Exception ex)
             {

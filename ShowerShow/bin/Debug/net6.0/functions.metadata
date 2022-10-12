@@ -130,6 +130,32 @@
     ]
   },
   {
+    "name": "GetSchedules",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.ScheduleController.GetSchedules",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "schedule/{UserId:Guid}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
     "name": "CreateShower",
     "scriptFile": "ShowerShow.dll",
     "entryPoint": "ShowerShow.Controllers.ShowerController.CreateShower",

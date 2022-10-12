@@ -1,4 +1,5 @@
 ﻿using ShowerShow.DTO;
+using ShowerShow.Models;
 using ShowerShow.Repository.Interface;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,11 @@ namespace ShowerShow.Service
         public async Task CreateSchedule(CreateScheduleDTO schedule, Guid id)
         {
             await scheduleRepository.CreateSchedule(schedule, id);
+        }
+
+        public Task<List<Schedule>> GetAllSchedules(Guid UserId)
+        {
+            return scheduleRepository.GetAllSchedules(UserId);
         }
     }
 }
