@@ -20,8 +20,6 @@ namespace ShowerShow.Models
 
         public Achievement(string title, string description, int currentValue, int targetValue)
         {
-
-            //this.Id = id;
             this.Title = title;
             this.Description = description;
             this.TargetValue = targetValue;

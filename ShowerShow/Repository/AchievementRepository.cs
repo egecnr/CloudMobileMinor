@@ -18,17 +18,17 @@ namespace ShowerShow.Repository
             _databaseContext = databasecontext;  
         }
 
-        public Task<Achievement> getAchievementById(Guid achievementId)
+        public Task<Achievement> GetAchievementById(Guid achievementId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Achievement>> getAchievementsById(Guid userId)
+        public Task<List<Achievement>> GetAchievementsById(Guid userId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Achievement> updateAchievementById(Guid achievementId, Guid userId)
+        public Task<Achievement> UpdateAchievementById(Guid achievementId, Guid userId)
         {
             throw new NotImplementedException();
         }
