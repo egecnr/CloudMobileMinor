@@ -11,8 +11,6 @@ namespace ShowerShow.Models
         [JsonRequired]
         public string Name { get; set; }
         [JsonRequired]
-        public string Username { get; set; }
-        [JsonRequired]
         public string PasswordHash { get; set; }
         public string Email { get; set; }
         public List<UserFriendDTO> Friends { get; set; } = new List<UserFriendDTO>();
