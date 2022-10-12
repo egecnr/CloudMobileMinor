@@ -33,7 +33,7 @@ namespace ShowerShow.Controllers
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(Schedule), Description = "The OK response with the new schedule.")]
         public async Task<CreateScheduleDTO> CreateSchedule([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "schedule/{UserId:Guid}")] HttpRequestData req, Guid UserId)
         {
-            _logger.LogInformation("Creating new shower.");
+            _logger.LogInformation("Creating new schedule.");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 
@@ -56,7 +56,7 @@ namespace ShowerShow.Controllers
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Schedule), Description = "The OK response with the new schedule.")]
         public async Task<List<Schedule>> GetSchedules([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "schedule/{UserId:Guid}")] HttpRequestData req, Guid UserId)
         {
-            _logger.LogInformation("Creating new shower.");
+            _logger.LogInformation("Creating new schedule.");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 
