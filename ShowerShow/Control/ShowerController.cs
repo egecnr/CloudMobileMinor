@@ -11,23 +11,48 @@ using System.Threading.Tasks;
 using System;
 using ShowerShow.DTO;
 using ShowerShow.Models;
+using System.Collections.Generic;
+using ShowerShow.Repository.Interface;
+using ShowerShow.Service;
 
 namespace ShowerShow.Controllers
 {
     public class ShowerController
     {
         private readonly ILogger<ShowerController> _logger;
+        private readonly IShowerService _showerService;
 
-        public ShowerController(ILogger<ShowerController> log)
+        public ShowerController(ILogger<ShowerController> log, ShowerService showerService)
         {
             _logger = log;
+            _showerService = showerService;
         }
-        [Function("CreateShower")]
-        [OpenApiOperation(operationId: "CreateShower", tags: new[] { "Showers" })]
-        [OpenApiRequestBody("application/json", typeof(CreateShowerDataDTO), Description = "The shower data.")]
+
+        [Function(nameof(GetShowerById))]
+        [OpenApiOperation(operationId: "getShowerById", tags: new[] { "Shower data" })]
+        [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The user id parameter")]
+        [OpenApiParameter(name: "ShowerId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "id of the requested shower")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerData), Description = "Successfully received the shower data.")]
+        public async Task<HttpResponseData> GetShowerById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{UserId}/showerdata/{showerId}")] HttpRequestData req, Guid UserId, Guid showerId)
+        {
+
+            var response = _showerService.GetShowerDataByUserId(UserId, showerId);
+
+            HttpResponseData responseData = req.CreateResponse(HttpStatusCode.OK);
+
+            await responseData.WriteAsJsonAsync(response);
+            return responseData;
+
+
+        }
+
+
+        [Function(nameof(CreateShower))]
+        [OpenApiOperation(operationId: "CreateShowerDataById", tags: new[] { "Shower data" })]
+        [OpenApiRequestBody("application/json", typeof(CreateShowerDataDTO), Description = "Created the shower data object")]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(ShowerData), Description = "The OK response with the new shower.")]
-        public async Task<IActionResult> CreateShower([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "showerdata/{UserId:Guid}")] HttpRequestData req, Guid UserId)
+        public async Task<IActionResult> CreateShower([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "user/{userId/showerdata")] HttpRequestData req, Guid UserId)
         {
             _logger.LogInformation("Creating new shower.");
 
@@ -35,21 +60,13 @@ namespace ShowerShow.Controllers
 
             try
             {
-                CreateShowerDataDTO data = JsonConvert.DeserializeObject<CreateShowerDataDTO>(requestBody);
 
-                ShowerData shower = new();
-                //shower.UserId = Guid.Parse(req.Path.Value);
-                shower.UserId = UserId;
-                shower.Duration = data.Duration;
-                shower.WaterUsage = data.WaterUsage;
-                shower.GasUsage = data.GasUsage;
-                shower.WaterCost = data.WaterCost;
-                shower.GasCost = data.GasCost;
-                shower.Date = data.Date;
-                shower.ScheduleId = data.ScheduleId;
+                CreateShowerDataDTO showerDataDTO = JsonConvert.DeserializeObject<CreateShowerDataDTO>(requestBody);
+                await _showerService.CreateShower(showerDataDTO);
+
+                return new OkObjectResult($"Shower created: {showerDataDTO.Date}");
 
 
-                return new OkObjectResult(shower);
             }
             catch (Exception ex)
             {

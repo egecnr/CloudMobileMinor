@@ -12118,23 +12118,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\31683\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\fabio\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA_APP\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj",
+      "projectUniqueName": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj",
       "projectName": "ShowerShow",
-      "projectPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA_APP\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj",
-      "packagesPath": "C:\\Users\\31683\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA_APP\\SAWA-Backend\\ShowerShow\\obj\\",
+      "projectPath": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj",
+      "packagesPath": "C:\\Users\\fabio\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShow\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\31683\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\fabio\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -12256,5 +12252,13 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShow\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }

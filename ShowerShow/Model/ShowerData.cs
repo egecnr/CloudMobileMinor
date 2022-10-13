@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ShowerShow.Models
 {
@@ -23,6 +24,10 @@ namespace ShowerShow.Models
         public double GasCost { get; set; }
         [JsonRequired]
         public DateTime Date { get; set; }
-        
+
+        public static explicit operator Task<object>(ShowerData v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
