@@ -25,6 +25,8 @@ namespace ShowerShow.Repository
         {
             Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<CreateUserDTO, User>()));
             User fullUser = mapper.Map<User>(user);
+            var achievements = dbContext.InitAchievemnets();
+            fullUser.Achievements = achievements;
             fullUser.PasswordHash =PasswordHasher.HashPassword(fullUser.PasswordHash);
             dbContext.Users?.Add(fullUser);
             await dbContext.SaveChangesAsync();

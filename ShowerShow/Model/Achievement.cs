@@ -7,7 +7,7 @@ namespace ShowerShow.Models
 
     public class Achievement
     {
-        public Guid Id { get; } = Guid.NewGuid(); //guid not added in constructor
+        public Guid Id { get; set; } = Guid.NewGuid(); //guid not added in constructor 
         [JsonRequired]
         public string Title { get; set; }
         [JsonRequired]
@@ -18,8 +18,9 @@ namespace ShowerShow.Models
         public int TargetValue { get; set; }
 
 
-        public Achievement(string title, string description, int currentValue, int targetValue)
+        public Achievement(Guid achId, string title, string description, int currentValue, int targetValue)
         {
+            this.Id = achId;
             this.Title = title;
             this.Description = description;
             this.TargetValue = targetValue;

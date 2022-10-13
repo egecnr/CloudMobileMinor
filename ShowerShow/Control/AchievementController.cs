@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace ShowerShow.Control
 {
-    internal class AchievementController
+    public class AchievementController
     {
         private readonly ILogger<AchievementController> _logger;
         private readonly IAchievementService _achievementService;

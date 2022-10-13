@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ShowerShow.Repository.Interfaces
 {
-    internal interface IAchievementService
+    public interface IAchievementService
     {
         Task<List<Achievement>> GetAchievementsById(Guid userId); //getting a list of achievement
         Task<Achievement> GetAchievementById(Guid achievementId, Guid userId); //getting a single achievement
