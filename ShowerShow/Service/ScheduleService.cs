@@ -36,5 +36,10 @@ namespace ShowerShow.Service
         {
             return scheduleRepository.GetScheduleById(scheduleId);
         }
+
+        public async Task UpdateSchedule(Schedule oldSchedule, UpdateScheduleDTO newSchedule)
+        {
+            await scheduleRepository.UpdateSchedule(oldSchedule, newSchedule);
+        }
     }
 }

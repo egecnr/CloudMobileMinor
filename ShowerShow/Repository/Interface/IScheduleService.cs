@@ -12,5 +12,6 @@ namespace ShowerShow.Repository.Interface
         public Task<List<Schedule>> GetAllSchedules(Guid UserId);
         public Task<Schedule> GetScheduleById(Guid scheduleId);
         public Task DeleteSchedule(Schedule schedule);
+        public Task UpdateSchedule(Schedule oldSchedule, UpdateScheduleDTO newSchedule);
     }
 }

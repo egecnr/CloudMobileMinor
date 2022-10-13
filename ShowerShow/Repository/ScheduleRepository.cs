@@ -47,5 +47,14 @@ namespace ShowerShow.Repository
             await dbContext.SaveChangesAsync();
             return dbContext.Schedules.FirstOrDefault(x => x.Id == scheduleId);
         }
+
+        public async Task UpdateSchedule(Schedule oldSchedule, UpdateScheduleDTO newSchedule)
+        {
+            oldSchedule.DaysOfWeek = newSchedule.DaysOfWeek;
+            oldSchedule.Tags = newSchedule.Tags;
+            dbContext.Schedules?.Update(oldSchedule);
+
+            await dbContext.SaveChangesAsync();
+        }
     }
 }

@@ -128,6 +128,41 @@ namespace ShowerShow.Controllers
                 return responseData;
             }
         }
+        [Function("UpdateSchedule")]
+        [OpenApiOperation(operationId: "UpdateSchedule", tags: new[] { "Schedules" })]
+        [OpenApiRequestBody("application/json", typeof(UpdateScheduleDTO), Description = "The schedule data.")]
+        [OpenApiParameter(name: "ScheduleId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The s ID parameter")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(Schedule), Description = "The OK response with the updated schedule.")]
+        public async Task<HttpResponseData> UpdateSchedule([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "schedule/{ScheduleId:Guid}")] HttpRequestData req, Guid ScheduleId)
+        {
+            _logger.LogInformation("Updating.");
+
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            HttpResponseData responseData = req.CreateResponse();
+            try
+            {
+                Schedule schedule = null;
+                UpdateScheduleDTO newSchedule = JsonConvert.DeserializeObject<UpdateScheduleDTO>(requestBody);
+                //this is to give priority to tasks
+                Task getId = Task.Run(() =>
+                {
+                    schedule = scheduleService.GetScheduleById(ScheduleId).Result;
+                });
+                await getId.ContinueWith(prev =>
+                {
+                    scheduleService.UpdateSchedule(schedule,newSchedule);
+                });
+                responseData.StatusCode = HttpStatusCode.OK;
+
+                return responseData;
+            }
+            catch
+            {
+                // DEV ONLY
+                responseData.StatusCode = HttpStatusCode.InternalServerError;
+                return responseData;
+            }
+        }
     }
 }
 
