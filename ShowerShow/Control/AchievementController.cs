@@ -57,22 +57,16 @@ namespace ShowerShow.Control
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The user id parameter")]
         [OpenApiParameter(name: "AchId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "Id of the requested achievement")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<Achievement>), Description = "The OK response with userId and id of requested achievement.")]
-        public async Task<IActionResult> GetAchievementById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{UserId}/achievement/{AchId}")] HttpRequestData req, Guid UserId, Achievement achievementId)
+        public async Task<HttpResponseData> GetAchievementById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{UserId}/achievement/{AchId}")] HttpRequestData req, Guid UserId, Guid achievementId)
         {
             _logger.LogInformation("");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            var res = _achievementService.GetAchievementById(achievementId, UserId);
 
-            try
-            {
+            HttpResponseData response = req.CreateResponse(HttpStatusCode.OK);
 
-                return new OkObjectResult(null); //returning null for now
-            }
-            catch (Exception ex)
-            {
-                // DEV ONLY
-                return new BadRequestObjectResult(ex.Message);
-            }
+            await  response.WriteAsJsonAsync(res);
+            return response;
         }
         [Function(nameof(UpdateAchievementById))]
         [OpenApiOperation(operationId: "UpdateAchievement", tags: new[] { "Achievement" })]

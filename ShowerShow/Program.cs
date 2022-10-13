@@ -28,6 +28,7 @@ namespace ShowerShow
                     {
                         services.AddTransient<IAchievementRepository, AchievementRepository>();
                         services.AddTransient<IAchievementService, AchievementService>();
+                        services.AddDbContext<DatabaseContext>();
 
                     })
                     .Build();

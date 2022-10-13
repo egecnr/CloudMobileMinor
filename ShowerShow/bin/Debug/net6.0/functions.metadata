@@ -232,5 +232,31 @@
         "direction": "Out"
       }
     ]
+  },
+  {
+    "name": "UpdateAchievementById",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.AchievementController.UpdateAchievementById",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "put"
+        ],
+        "route": "user/{UserId}/achievement/{AchId}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
   }
 ]
