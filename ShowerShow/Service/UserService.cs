@@ -53,5 +53,20 @@ namespace ShowerShow.Service
         {
             return await userRepository.CheckIfUserIsAlreadyFriend(userId1, userId2);
         }
+
+        public async Task DeleteUserFriend(Guid user1, Guid user2)
+        {
+            await userRepository.DeleteUserFriend(user1,user2);
+        }
+
+        public async Task UpdateUser(Guid userId, UpdateUserDTO userDTO)
+        {
+            await userRepository.UpdateUser(userId,userDTO);
+        }
+
+        public async Task DeactivateUserAccount(Guid userId, bool isAccountActive)
+        {
+            await userRepository.DeactivateUserAccount(userId, isAccountActive);
+        }
     }
 }

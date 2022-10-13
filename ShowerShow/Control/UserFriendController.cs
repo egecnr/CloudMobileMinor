@@ -29,7 +29,7 @@ namespace ShowerShow.Control
 
         //This is not complete at all yet.
         [Function("GetUserFriends")]
-        [OpenApiOperation(operationId: "GetUserFriends", tags: new[] { "Users" })]
+        [OpenApiOperation(operationId: "GetUserFriends", tags: new[] { "User Friends" })]
         [OpenApiParameter(name: "userId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<GetUserDTO>), Description = "The OK response with the new schedule.")]
         public async Task<HttpResponseData> GetUserFriends([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{userId:Guid}/friends")] HttpRequestData req, Guid userId)
@@ -39,7 +39,6 @@ namespace ShowerShow.Control
             if (await userService.CheckIfUserExist(userId))
             {
                 List<GetUserDTO> friendListToView = await userService.GetAllFriendsOfUser(userId);
-                _logger.LogDebug(friendListToView.Count.ToString());
                 HttpResponseData responseData = req.CreateResponse();
                 await responseData.WriteAsJsonAsync(friendListToView);
                 responseData.StatusCode = HttpStatusCode.Created;
@@ -53,8 +52,33 @@ namespace ShowerShow.Control
             }
         }
 
+        [Function("GetUserFriendById")]
+        [OpenApiOperation(operationId: "GetUserFriendById", tags: new[] { "User Friends" })]
+        [OpenApiParameter(name: "userId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
+        [OpenApiParameter(name: "friendId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(GetUserDTO), Description = "The OK response with get friend by id.")]
+        public async Task<HttpResponseData> GetUserFriendById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{userId:Guid}/friends/{friendId:Guid}")] HttpRequestData req, Guid userId, Guid friendId)
+        {
+            _logger.LogInformation($"Fetching friend from the user with id.{userId}");
+
+            if (await userService.CheckIfUserExist(userId) && await userService.CheckIfUserIsAlreadyFriend(userId,friendId))
+            {
+                GetUserDTO userDTO = await userService.GetUserById(friendId);            
+                HttpResponseData responseData = req.CreateResponse();
+                await responseData.WriteAsJsonAsync(userDTO);
+                responseData.StatusCode = HttpStatusCode.OK;
+                return responseData;
+            }
+            else
+            {
+                HttpResponseData responseData = req.CreateResponse();
+                responseData.StatusCode = HttpStatusCode.NotFound;
+                return responseData;
+            }
+        }
+
         [Function("CreateUserFriend")]
-        [OpenApiOperation(operationId: "CreateUserFriend", tags: new[] { "Users" })]
+        [OpenApiOperation(operationId: "CreateUserFriend", tags: new[] { "User Friends" })]
         [OpenApiParameter(name: "userId1", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiParameter(name: "userId2", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(User), Description = "The OK response with the new user.")]
@@ -84,6 +108,45 @@ namespace ShowerShow.Control
             }
             else
             {              
+                HttpResponseData responseData = req.CreateResponse();
+                responseData.StatusCode = HttpStatusCode.NotFound;
+                return responseData;
+            }
+
+
+        }
+
+        [Function("DeleteUserFriend")]
+        [OpenApiOperation(operationId: "DeleteUserFriend", tags: new[] { "User Friends" })]
+        [OpenApiParameter(name: "userId1", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
+        [OpenApiParameter(name: "userId2", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(User), Description = "The OK response with the new user.")]
+        public async Task<HttpResponseData> DeleteUserFriend([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "user/{userId1:Guid}/{userId2:Guid}/friends")] HttpRequestData req, Guid userId1, Guid userId2)
+        {
+            //You cant add the same friend twice. Implement it
+            _logger.LogInformation("Creating new user.");
+
+            //Check if both users are present in db
+            if (await userService.CheckIfUserExist(userId1)
+                && await userService.CheckIfUserExist(userId2))
+            {
+                //Check if they re already friends
+                if (await userService.CheckIfUserIsAlreadyFriend(userId1, userId2))
+                {
+                    await userService.DeleteUserFriend(userId1, userId2);
+                    HttpResponseData responseData = req.CreateResponse();
+                    responseData.StatusCode = HttpStatusCode.Accepted;
+                    return responseData;
+                }
+                else
+                {     
+                    HttpResponseData responseData = req.CreateResponse();
+                    responseData.StatusCode = HttpStatusCode.BadRequest;
+                    return responseData;
+                }
+            }
+            else
+            {
                 HttpResponseData responseData = req.CreateResponse();
                 responseData.StatusCode = HttpStatusCode.NotFound;
                 return responseData;

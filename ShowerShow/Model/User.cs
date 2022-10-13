@@ -16,6 +16,6 @@ namespace ShowerShow.Models
         public List<UserFriendDTO> Friends { get; set; } = new List<UserFriendDTO>();
         public List<Achievement> Achievements { get; set; } = new List<Achievement>();
         public string UserBadge { get; set; }
-
+        public bool isAccountActive { get; set; } = true;
     }
 }
