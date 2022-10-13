@@ -3,7 +3,7 @@ using System;
 
 namespace ShowerShow.Models
 {
-    internal class ScheduleTag
+    public class ScheduleTag
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         [JsonRequired]

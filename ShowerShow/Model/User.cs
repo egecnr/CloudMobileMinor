@@ -15,8 +15,8 @@ namespace ShowerShow.Models
         [JsonRequired]
         public string PasswordHash { get; set; }
         public string Email { get; set; }
-        public List<UserFriend> Friends { get; set; }
-        public List<Achievement> Achievements { get; set; }
+        public List<UserFriendDTO> Friends { get; set; } = new List<UserFriendDTO>();
+        public List<Achievement> Achievements { get; set; } = new List<Achievement>();
         public string UserBadge { get; set; }
 
     }

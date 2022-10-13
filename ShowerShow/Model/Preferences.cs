@@ -3,7 +3,7 @@ using System;
 
 namespace ShowerShow.Models
 {
-    internal class Preferences
+    public class Preferences
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         [JsonRequired]

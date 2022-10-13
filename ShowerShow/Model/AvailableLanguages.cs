@@ -1,7 +1,7 @@
 ﻿
 namespace ShowerShow.Models
 {
-    internal enum AvailableLanguages
+    public enum AvailableLanguages
     {
         English,
         Dutch,
