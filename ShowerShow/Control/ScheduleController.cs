@@ -40,7 +40,7 @@ namespace ShowerShow.Controllers
             try
             {
                 CreateScheduleDTO data = JsonConvert.DeserializeObject<CreateScheduleDTO>(requestBody);
-                await scheduleService.CreateSchedule(data,UserId);
+                await scheduleService.CreateSchedule(data, UserId);
 
                 return data;
             }
@@ -53,19 +53,20 @@ namespace ShowerShow.Controllers
         [Function("GetSchedules")]
         [OpenApiOperation(operationId: "GetSchedules", tags: new[] { "Schedules" })]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Schedule), Description = "The OK response with the new schedule.")]
-        public async Task<List<Schedule>> GetSchedules([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "schedule/{UserId:Guid}")] HttpRequestData req, Guid UserId)
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Schedule), Description = "Deleted schedule")]
+        public async Task<HttpResponseData> GetSchedules([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "schedule/{UserId:Guid}")] HttpRequestData req, Guid UserId)
         {
-            _logger.LogInformation("Creating new schedule.");
+            _logger.LogInformation("Getting schedules.");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-
+            HttpResponseData responseData = req.CreateResponse();
             try
             {
                 List<Schedule> schedules = await scheduleService.GetAllSchedules(UserId);
-                
+                responseData.StatusCode = HttpStatusCode.OK;
 
-                return schedules;
+                return responseData;
+
             }
             catch (Exception ex)
             {
@@ -92,6 +93,40 @@ namespace ShowerShow.Controllers
             {
                 // DEV ONLY
                 throw new Exception(ex.Message);
+            }
+        }
+        [Function("DeleteSchedule")]
+        [OpenApiOperation(operationId: "DeleteScheduleById", tags: new[] { "Schedules" })]
+        [OpenApiParameter(name: "ScheduleId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The Schedule ID parameter")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Schedule), Description = "The OK response with the deleted schedule")]
+        public async Task<HttpResponseData> DeleteSchedule([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "schedule/{ScheduleId:Guid}")] HttpRequestData req, Guid ScheduleId)
+        {
+            _logger.LogInformation("Deleting schedule.");
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            HttpResponseData responseData = req.CreateResponse();
+            try
+            {
+                Schedule schedule = null;
+
+                //this is to give priority to tasks
+                Task getId = Task.Run(() =>
+                {
+                    schedule = scheduleService.GetScheduleById(ScheduleId).Result;
+                });
+                await getId.ContinueWith(prev =>
+                {
+                    scheduleService.DeleteSchedule(schedule);
+                });
+                responseData.StatusCode = HttpStatusCode.OK;
+
+                return responseData;
+            }
+            catch (Exception ex)
+            {
+
+                // DEV ONLY
+                responseData.StatusCode = HttpStatusCode.InternalServerError;
+                return responseData;
             }
         }
     }

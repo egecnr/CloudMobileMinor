@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace ShowerShow.Repository
 {
-    internal class ScheduleRepository :IScheduleRepository
+    internal class ScheduleRepository : IScheduleRepository
     {
         private DatabaseContext dbContext;
 
@@ -27,6 +27,12 @@ namespace ShowerShow.Repository
             Schedule fullSchedule = mapper.Map<Schedule>(schedule);
             fullSchedule.UserId = userId;
             dbContext.Schedules?.Add(fullSchedule);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteSchedule(Schedule schedule)
+        {
+            dbContext.Schedules?.Remove(schedule);
             await dbContext.SaveChangesAsync();
         }
 

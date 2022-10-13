@@ -182,6 +182,32 @@
     ]
   },
   {
+    "name": "DeleteSchedule",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.ScheduleController.DeleteSchedule",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "delete"
+        ],
+        "route": "schedule/{ScheduleId:Guid}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
     "name": "CreateShower",
     "scriptFile": "ShowerShow.dll",
     "entryPoint": "ShowerShow.Controllers.ShowerController.CreateShower",
