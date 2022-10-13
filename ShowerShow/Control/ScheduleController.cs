@@ -121,9 +121,8 @@ namespace ShowerShow.Controllers
 
                 return responseData;
             }
-            catch (Exception ex)
+            catch
             {
-
                 // DEV ONLY
                 responseData.StatusCode = HttpStatusCode.InternalServerError;
                 return responseData;
