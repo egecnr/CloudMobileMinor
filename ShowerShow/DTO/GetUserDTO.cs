@@ -11,6 +11,8 @@ namespace ShowerShow.DTO
     public class GetUserDTO
     {
         [JsonRequired]
+        public Guid Id { get; set; }
+        [JsonRequired]
         public string Name { get; set; }
         [JsonRequired]
         public string Email { get; set; }

@@ -42,5 +42,16 @@ namespace ShowerShow.Service
         {
             return await userRepository.CheckIfEmailExist(email);
         }
+
+        public async Task CreateUserFriend(Guid user1, Guid user2)
+        {
+             await userRepository.CreateUserFriend(user1, user2);
+        }
+
+
+        public async Task<bool> CheckIfUserIsAlreadyFriend(Guid userId1, Guid userId2)
+        {
+            return await userRepository.CheckIfUserIsAlreadyFriend(userId1, userId2);
+        }
     }
 }

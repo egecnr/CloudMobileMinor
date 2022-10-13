@@ -55,7 +55,7 @@ namespace ShowerShow.Repository
             List<GetUserDTO> users = new List<GetUserDTO>();
             foreach(UserFriendDTO user in allFriends)
             {
-                users.Add(mapper.Map<GetUserDTO>(dbContext.Users.Find(userId)));
+                users.Add(mapper.Map<GetUserDTO>(dbContext.Users.Find(user.Id)));
             }
             return users;
         }
@@ -67,6 +67,36 @@ namespace ShowerShow.Repository
                 return true;
             else
                 return false;
+        }
+
+        public async Task CreateUserFriend(Guid user1, Guid user2)
+        {
+            //Whether these users exist has been verified in the controller logic already.
+            User user1dto = dbContext.Users.FirstOrDefault(x => x.Id == user1);
+            User user2dto = dbContext.Users.FirstOrDefault(x => x.Id == user2);
+            //Add each other to each other's friend list.
+
+            
+            user1dto.Friends.Add(new UserFriendDTO(user2dto.Id));
+            user2dto.Friends.Add(new UserFriendDTO(user1dto.Id));
+            dbContext.Users.Update(user1dto);
+            dbContext.Users.Update(user2dto);
+              dbContext.SaveChanges();
+        }
+
+        public async Task<bool> CheckIfUserIsAlreadyFriend(Guid userId1, Guid userId2)
+        {
+            await dbContext.SaveChangesAsync();
+            //No need to check the other user since they have a duplex friend relationship. Either they re both friends or none are.
+            User user1dto =  dbContext.Users.FirstOrDefault(x => x.Id == userId1);
+            foreach(UserFriendDTO us in user1dto.Friends)
+            {
+                if (us.Id == userId2)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

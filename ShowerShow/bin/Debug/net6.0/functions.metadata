@@ -120,7 +120,33 @@
         "methods": [
           "get"
         ],
-        "route": "user/{UserId:Guid}/friends"
+        "route": "user/{userId:Guid}/friends"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "CreateUserFriend",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserFriendController.CreateUserFriend",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "post"
+        ],
+        "route": "user/{userId1:Guid}/{userId2:Guid}/friends"
       },
       {
         "name": "$return",

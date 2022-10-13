@@ -55,7 +55,7 @@ namespace ShowerShow.Controllers
                 HttpResponseData responseData = req.CreateResponse();
                 await responseData.WriteAsJsonAsync(userDTO);
                 responseData.StatusCode = HttpStatusCode.Created;
-
+                
                 return responseData;
             }
                 
