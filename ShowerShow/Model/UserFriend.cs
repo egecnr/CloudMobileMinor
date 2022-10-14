@@ -3,15 +3,15 @@ using ShowerShow.Models;
 using System;
 using System.Collections.Generic;
 
-namespace ShowerShow.DTO
+namespace ShowerShow.Model
 {
-    public class UserFriendDTO
+    public class UserFriend
     {
         public Guid Id { get; set; }
-        public UserFriendDTO() { }
-        public UserFriendDTO(Guid id) 
+        public UserFriend() { }
+        public UserFriend(Guid id)
         {
-            this.Id = id;
+            Id = id;
         }
     }
 }

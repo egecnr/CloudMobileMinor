@@ -286,6 +286,32 @@
     ]
   },
   {
+    "name": "GetUsersByName",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.UserController.GetUsersByName",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "user/{userName}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
     "name": "GetUser",
     "scriptFile": "ShowerShow.dll",
     "entryPoint": "ShowerShow.Controllers.UserController.GetUser",
@@ -326,7 +352,7 @@
         "direction": "In",
         "authLevel": "Anonymous",
         "methods": [
-          "delete"
+          "put"
         ],
         "route": "user/{userId:Guid}/{isAccountActive:bool}"
       },

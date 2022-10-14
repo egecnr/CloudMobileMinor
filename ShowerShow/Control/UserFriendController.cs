@@ -36,9 +36,9 @@ namespace ShowerShow.Control
         {
             _logger.LogInformation($"Fetching friends from the user with id.{userId}");
 
-            if (await userService.CheckIfUserExist(userId))
+            if (await userService.CheckIfUserExistAndActive(userId))
             {
-                List<GetUserDTO> friendListToView = await userService.GetAllFriendsOfUser(userId);
+                IEnumerable<GetUserDTO> friendListToView = await userService.GetAllFriendsOfUser(userId);
                 HttpResponseData responseData = req.CreateResponse();
                 await responseData.WriteAsJsonAsync(friendListToView);
                 responseData.StatusCode = HttpStatusCode.Created;
@@ -61,7 +61,7 @@ namespace ShowerShow.Control
         {
             _logger.LogInformation($"Fetching friend from the user with id.{userId}");
 
-            if (await userService.CheckIfUserExist(userId) && await userService.CheckIfUserIsAlreadyFriend(userId,friendId))
+            if (await userService.CheckIfUserExistAndActive(userId) && await userService.CheckIfUserIsAlreadyFriend(userId,friendId))
             {
                 GetUserDTO userDTO = await userService.GetUserById(friendId);            
                 HttpResponseData responseData = req.CreateResponse();
@@ -88,8 +88,8 @@ namespace ShowerShow.Control
             _logger.LogInformation("Creating new user.");
           
             //Check if both users are present in db
-            if (await userService.CheckIfUserExist(userId1) 
-                && await userService.CheckIfUserExist(userId2))
+            if (await userService.CheckIfUserExistAndActive(userId1) 
+                && await userService.CheckIfUserExistAndActive(userId2))
             {
                 //Check if they re already friends or  whether both ids are the same.
                 if (await userService.CheckIfUserIsAlreadyFriend(userId1, userId2))
@@ -127,8 +127,8 @@ namespace ShowerShow.Control
             _logger.LogInformation("Creating new user.");
 
             //Check if both users are present in db
-            if (await userService.CheckIfUserExist(userId1)
-                && await userService.CheckIfUserExist(userId2))
+            if (await userService.CheckIfUserExistAndActive(userId1)
+                && await userService.CheckIfUserExistAndActive(userId2))
             {
                 //Check if they re already friends
                 if (await userService.CheckIfUserIsAlreadyFriend(userId1, userId2))

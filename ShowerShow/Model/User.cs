@@ -1,7 +1,8 @@
 ﻿using Newtonsoft.Json;
-using ShowerShow.DTO;
+using ShowerShow.Model;
 using System;
 using System.Collections.Generic;
+
 
 namespace ShowerShow.Models
 {
@@ -13,7 +14,7 @@ namespace ShowerShow.Models
         [JsonRequired]
         public string PasswordHash { get; set; }
         public string Email { get; set; }
-        public List<UserFriendDTO> Friends { get; set; } = new List<UserFriendDTO>();
+        public List<UserFriend> Friends { get; set; } = new List<UserFriend>();
         public List<Achievement> Achievements { get; set; } = new List<Achievement>();
         public string UserBadge { get; set; }
         public bool isAccountActive { get; set; } = true;

@@ -29,11 +29,11 @@ namespace ShowerShow.Service
         {
             return await userRepository.GetUserById(Id);
         }
-        public async Task<bool> CheckIfUserExist(Guid userId)
+        public async Task<bool> CheckIfUserExistAndActive(Guid userId)
         {
-            return await userRepository.CheckIfUserExist(userId);
+            return await userRepository.CheckIfUserExistAndActive(userId);
         }
-        public async Task<List<GetUserDTO>> GetAllFriendsOfUser(Guid userId)
+        public async Task<IEnumerable<GetUserDTO>> GetAllFriendsOfUser(Guid userId)
         {
             return await userRepository.GetAllFriendsOfUser(userId);
         }
@@ -67,6 +67,16 @@ namespace ShowerShow.Service
         public async Task DeactivateUserAccount(Guid userId, bool isAccountActive)
         {
             await userRepository.DeactivateUserAccount(userId, isAccountActive);
+        }
+
+        public async Task<IEnumerable<GetUserDTO>> GetUsersByName(string userName)
+        {
+            return await userRepository.GetUsersByName(userName);
+        }
+
+        public async Task<bool> CheckIfUserExist(Guid userId)
+        {
+            return await userRepository.CheckIfUserExist(userId);
         }
     }
 }

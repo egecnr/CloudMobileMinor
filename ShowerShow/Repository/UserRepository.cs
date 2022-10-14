@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ShowerShow.DAL;
 using ShowerShow.DTO;
+using ShowerShow.Model;
 using ShowerShow.Models;
 using ShowerShow.Repository.Interface;
 using ShowerShow.Utils;
@@ -32,28 +33,28 @@ namespace ShowerShow.Repository
         public async Task<GetUserDTO> GetUserById(Guid userId)
         {
             await dbContext.SaveChangesAsync();
-            User user = dbContext.Users.FirstOrDefault(x => x.Id == userId);
+            User user = dbContext.Users.Where(acc => acc.isAccountActive ==true).FirstOrDefault(u=> u.Id==userId);
             Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<User, GetUserDTO>()));
             GetUserDTO userDTO = mapper.Map<GetUserDTO>(user);
             return userDTO; 
         }
 
-        public async Task<bool> CheckIfUserExist(Guid userId)
+        public async Task<bool> CheckIfUserExistAndActive(Guid userId)
         {
-            await dbContext.SaveChangesAsync();
-            if(dbContext.Users.Count(x => x.Id == userId)>0)           
+            await dbContext.SaveChangesAsync();          
+            if (dbContext.Users.Where(a => a.isAccountActive == true).Count(x => x.Id == userId) > 0)           
                 return true;
             else               
                 return false;
         }
-        public async Task<List<GetUserDTO>> GetAllFriendsOfUser(Guid userId)
+        public async Task<IEnumerable<GetUserDTO>> GetAllFriendsOfUser(Guid userId)
         {
             await dbContext.SaveChangesAsync();
-            List<UserFriendDTO> allFriends = dbContext.Users.Find(userId).Friends;
+            List<UserFriend> allFriends = dbContext.Users.Find(userId).Friends;
             Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<User, GetUserDTO>()));
 
             List<GetUserDTO> users = new List<GetUserDTO>();
-            foreach(UserFriendDTO user in allFriends)
+            foreach(UserFriend user in allFriends)
             {
                 users.Add(mapper.Map<GetUserDTO>(dbContext.Users.Find(user.Id)));
             }
@@ -78,8 +79,8 @@ namespace ShowerShow.Repository
             //Add each other to each other's friend list.
 
             
-            user1dto.Friends.Add(new UserFriendDTO(user2dto.Id));
-            user2dto.Friends.Add(new UserFriendDTO(user1dto.Id));
+            user1dto.Friends.Add(new UserFriend(user2dto.Id));
+            user2dto.Friends.Add(new UserFriend(user1dto.Id));
             dbContext.Users.Update(user1dto);
             dbContext.Users.Update(user2dto);
             await dbContext.SaveChangesAsync();
@@ -90,7 +91,7 @@ namespace ShowerShow.Repository
             await dbContext.SaveChangesAsync();
             //No need to check the other user since they have a duplex friend relationship. Either they re both friends or none are.
             User user1dto =  dbContext.Users.FirstOrDefault(x => x.Id == userId1);
-            foreach(UserFriendDTO us in user1dto.Friends)
+            foreach(UserFriend us in user1dto.Friends)
             {
                 if (us.Id == userId2)
                 {
@@ -135,13 +136,42 @@ namespace ShowerShow.Repository
         }
         private void removeFriendFromList(User u, Guid otherUserId)
         {
-            foreach (UserFriendDTO us in u.Friends.ToList())
+            foreach (UserFriend us in u.Friends.ToList())
             {
                 if (us.Id == otherUserId)
                 {
                     u.Friends.Remove(us);
                 }
             }
+        }
+        private IEnumerable<GetUserDTO> convertGetdtos(List<User> users)
+        {
+            Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<User, GetUserDTO>()));
+            List<GetUserDTO> userdtos = new List<GetUserDTO>();
+
+            foreach (User u in users)
+            {
+                userdtos.Add(mapper.Map<GetUserDTO>(u));
+            }
+            return userdtos;
+        }
+
+        public async Task<IEnumerable<GetUserDTO>> GetUsersByName(string userName)
+        {
+
+            List<User> usersWithName = dbContext.Users.Where(u => u.Name.StartsWith(userName)).ToList();
+            IEnumerable<GetUserDTO> dtos =convertGetdtos(usersWithName);
+            return dtos;
+         
+        }
+
+        public async Task<bool> CheckIfUserExist(Guid userId)
+        {
+            await dbContext.SaveChangesAsync();
+            if (dbContext.Users.Count(x => x.Id == userId) > 0)
+                return true;
+            else
+                return false;
         }
     }
 }
