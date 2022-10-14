@@ -20,7 +20,7 @@ namespace ShowerShow.Repository
             _databaseContext = databasecontext;  
         }
 
-        public async Task<Achievement> GetAchievementById(string achievementTitle, Guid userId)
+        public async Task<Achievement> GetAchievementByTitle(string achievementTitle, Guid userId)
         {
             await _databaseContext.SaveChangesAsync();
             return _databaseContext.Users.FirstOrDefault(x => x.Id == userId)?.Achievements.FirstOrDefault(y => y.Title == achievementTitle) ?? null; //a long line, just like my tralala

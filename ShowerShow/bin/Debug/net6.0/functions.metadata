@@ -208,9 +208,9 @@
     ]
   },
   {
-    "name": "GetAchievementById",
+    "name": "GetAchievementByTitle",
     "scriptFile": "ShowerShow.dll",
-    "entryPoint": "ShowerShow.Control.AchievementController.GetAchievementById",
+    "entryPoint": "ShowerShow.Control.AchievementController.GetAchievementByTitle",
     "language": "dotnet-isolated",
     "properties": {
       "IsCodeless": false
