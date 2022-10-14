@@ -16,6 +16,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace ShowerShow.Control
 {
@@ -44,7 +45,6 @@ namespace ShowerShow.Control
             HttpResponseData response = req.CreateResponse(HttpStatusCode.OK);
 
             await response.WriteAsJsonAsync(res);
-
             return response;
         }
 
@@ -52,8 +52,8 @@ namespace ShowerShow.Control
         [OpenApiOperation(operationId: "GetUserAchievement", tags: new[] { "Achievement" })]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The user id parameter")]
         [OpenApiParameter(name: "Title", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "Achievement Title")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<Achievement>), Description = "The OK response with userId and id of requested achievement.")]
-        public async Task<HttpResponseData> GetAchievementById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{UserId}/achievement/{Tttle}")] HttpRequestData req, Guid UserId, string achievementTitle)
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Achievement), Description = "The OK response with userId and id of requested achievement.")]
+        public async Task<HttpResponseData> GetAchievementById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{UserId}/achievement/{Title}")] HttpRequestData req, Guid UserId, string achievementTitle)
         {
             _logger.LogInformation("");
 
@@ -66,26 +66,20 @@ namespace ShowerShow.Control
         }
         [Function(nameof(UpdateAchievementById))]
         [OpenApiOperation(operationId: "UpdateAchievement", tags: new[] { "Achievement" })]
-        [OpenApiRequestBody("application/json", typeof(UpdateAchievementDTO), Description = "update achievement")]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
-        [OpenApiParameter(name: "AchId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "Id of the requested achievement")]
+        [OpenApiParameter(name: "CurrentValue", In = ParameterLocation.Query, Required = true, Type = typeof(int), Description = "The cuurent value you want to change")]
+        [OpenApiParameter(name: "achievementTitle", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "Title of the requested achievement")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(Achievement), Description = "Achievement updated")]
-        public async Task<IActionResult> UpdateAchievementById([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "user/{UserId}/achievement/{AchId}")] HttpRequestData req, Guid UserId, Achievement achievementId)
+        public async Task<HttpResponseData> UpdateAchievementById([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "user/{UserId}/achievement/{achievementTitle}")] HttpRequestData req, Guid UserId, string achievementTitle, int currentValue)
         {
             _logger.LogInformation("");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            var res = _achievementService.UpdateAchievementById(achievementTitle, UserId, currentValue);
 
-            try
-            {
+            HttpResponseData response = req.CreateResponse(HttpStatusCode.OK);
 
-                return new OkObjectResult(null); //returning null for now
-            }
-            catch (Exception ex)
-            {
-                // DEV ONLY
-                return new BadRequestObjectResult(ex.Message);
-            }
+            await response.WriteAsJsonAsync(res);
+            return response;
         }
 
 

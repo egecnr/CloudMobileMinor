@@ -224,7 +224,7 @@
         "methods": [
           "get"
         ],
-        "route": "user/{UserId}/achievement/{Tttle}"
+        "route": "user/{UserId}/achievement/{Title}"
       },
       {
         "name": "$return",
@@ -250,7 +250,7 @@
         "methods": [
           "put"
         ],
-        "route": "user/{UserId}/achievement/{AchId}"
+        "route": "user/{UserId}/achievement/{achievementTitle}"
       },
       {
         "name": "$return",

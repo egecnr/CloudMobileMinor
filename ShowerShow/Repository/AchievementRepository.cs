@@ -20,25 +20,27 @@ namespace ShowerShow.Repository
             _databaseContext = databasecontext;  
         }
 
-        public Task<Achievement> GetAchievementById(string achievementTitle, Guid userId)
+        public async Task<Achievement> GetAchievementById(string achievementTitle, Guid userId)
         {
+            await _databaseContext.SaveChangesAsync();
+            return _databaseContext.Users.FirstOrDefault(x => x.Id == userId)?.Achievements.FirstOrDefault(y => y.Title == achievementTitle) ?? null; //a long line, just like my tralala
 
-
-            var ach =  _databaseContext.Users.Where(x => x.Id == userId).Include(y => y.Achievements.Where(z => z.Title == achievementTitle));
-            
-
-            return (Task<Achievement>)ach;
         }
 
         public async Task<List<Achievement>> GetAchievementsById(Guid userId)
         {
-            var res = _databaseContext.Users.Where(x => x.Id == userId).Include(y => y.Achievements);
-            return (List<Achievement>)res;
+            await _databaseContext.SaveChangesAsync();
+            return _databaseContext.Users.FirstOrDefault(x => x.Id == userId)?.Achievements.ToList() ?? null;
+
         }
 
-        public async Task<Achievement> UpdateAchievementById(Guid achievementId, Guid userId)
+        public async Task UpdateAchievementById(string achievementTitle, Guid userId , int currentvalue)
         {
-            throw new NotImplementedException();
+        
+            Achievement achievement =  _databaseContext.Users.FirstOrDefault(x => x.Id == userId)?.Achievements.FirstOrDefault(y => y.Title == achievementTitle) ?? null;
+            achievement.CurrentValue = currentvalue;
+            _databaseContext.Update(achievement);
+            await _databaseContext.SaveChangesAsync();
         }
     }
 }

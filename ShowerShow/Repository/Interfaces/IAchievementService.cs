@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace ShowerShow.Repository.Interfaces
 {
@@ -11,6 +12,6 @@ namespace ShowerShow.Repository.Interfaces
     {
         Task<List<Achievement>> GetAchievementsById(Guid userId); //getting a list of achievement
         Task<Achievement> GetAchievementById(string achievementTitle, Guid userId); //getting a single achievement
-        Task<Achievement> UpdateAchievementById(Guid achievementId, Guid userId);
+        Task UpdateAchievementById(string achievementTitle, Guid userId, int currentValue);
     }
 }
