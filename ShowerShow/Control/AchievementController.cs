@@ -55,13 +55,13 @@ namespace ShowerShow.Control
         [Function(nameof(GetAchievementById))]
         [OpenApiOperation(operationId: "GetUserAchievement", tags: new[] { "Achievement" })]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The user id parameter")]
-        [OpenApiParameter(name: "AchId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "Id of the requested achievement")]
+        [OpenApiParameter(name: "Title", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "Achievement Title")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<Achievement>), Description = "The OK response with userId and id of requested achievement.")]
-        public async Task<HttpResponseData> GetAchievementById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{UserId}/achievement/{AchId}")] HttpRequestData req, Guid UserId, Guid achievementId)
+        public async Task<HttpResponseData> GetAchievementById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{UserId}/achievement/{Tttle}")] HttpRequestData req, Guid UserId, string achievementTitle)
         {
             _logger.LogInformation("");
 
-            var res = _achievementService.GetAchievementById(achievementId, UserId);
+            var res = _achievementService.GetAchievementById(achievementTitle, UserId);
 
             HttpResponseData response = req.CreateResponse(HttpStatusCode.OK);
 

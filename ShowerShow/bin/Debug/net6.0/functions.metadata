@@ -224,7 +224,7 @@
         "methods": [
           "get"
         ],
-        "route": "user/{UserId}/achievement/{AchId}"
+        "route": "user/{UserId}/achievement/{Tttle}"
       },
       {
         "name": "$return",

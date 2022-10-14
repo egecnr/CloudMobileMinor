@@ -10,7 +10,7 @@ namespace ShowerShow.Repository.Interfaces
     public interface IAchievementService
     {
         Task<List<Achievement>> GetAchievementsById(Guid userId); //getting a list of achievement
-        Task<Achievement> GetAchievementById(Guid achievementId, Guid userId); //getting a single achievement
+        Task<Achievement> GetAchievementById(string achievementTitle, Guid userId); //getting a single achievement
         Task<Achievement> UpdateAchievementById(Guid achievementId, Guid userId);
     }
 }

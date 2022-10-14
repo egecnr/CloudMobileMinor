@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Google.Protobuf.WellKnownTypes;
+using Microsoft.EntityFrameworkCore;
 using ShowerShow.DAL;
 using ShowerShow.Models;
 using ShowerShow.Repository.Interfaces;
@@ -19,10 +20,13 @@ namespace ShowerShow.Repository
             _databaseContext = databasecontext;  
         }
 
-        public  Task<Achievement> GetAchievementById(Guid achievementId, Guid userId)
+        public Task<Achievement> GetAchievementById(string achievementTitle, Guid userId)
         {
-            // this.context.Boards.Where(x => x.UserId == userId).Select(y => y.BoardId);
-            var ach = _databaseContext.Users.Where(x => x.Id == userId).Include(y => y.Achievements.Where(z => z.Id == achievementId));
+
+
+            var ach = _databaseContext.Users.Where(x => x.Id == userId).Include(y => y.Achievements.Where(z => z.Title == achievementTitle));
+            
+
             return (Task<Achievement>)ach;
         }
 

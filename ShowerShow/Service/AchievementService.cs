@@ -16,9 +16,9 @@ namespace ShowerShow.Service
         {
             _achievementRepository = achievementrepository;
         }
-        public Task<Achievement> GetAchievementById(Guid achievementId, Guid userId)
+        public Task<Achievement> GetAchievementById(string achievementTitle, Guid userId)
         {
-            return _achievementRepository.GetAchievementById(achievementId, userId);
+            return _achievementRepository.GetAchievementById(achievementTitle, userId);
         }
 
 
