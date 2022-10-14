@@ -34,22 +34,18 @@ namespace ShowerShow.Control
         [OpenApiOperation(operationId: "GetUserAchievements", tags: new[] { "Achievement" })]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<Achievement>), Description = "The OK response with all achievements from user.")]
-        public async Task<IActionResult> GetAchievementsById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{UserId}/achievements")] HttpRequestData req, Guid UserId)
+        public async Task<HttpResponseData> GetAchievementsById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{UserId}/achievements")] HttpRequestData req, Guid UserId)
         {
             _logger.LogInformation("");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 
-            try
-            {
+            var res = _achievementService.GetAchievementsById(UserId);
 
-                return new OkObjectResult(null); //returning null for now
-            }
-            catch (Exception ex)
-            {
-                // DEV ONLY
-                return new BadRequestObjectResult(ex.Message);
-            }
+            HttpResponseData response = req.CreateResponse(HttpStatusCode.OK);
+
+            await response.WriteAsJsonAsync(res);
+
+            return response;
         }
 
         [Function(nameof(GetAchievementById))]

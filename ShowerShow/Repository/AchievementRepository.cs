@@ -24,7 +24,7 @@ namespace ShowerShow.Repository
         {
 
 
-            var ach = _databaseContext.Users.Where(x => x.Id == userId).Include(y => y.Achievements.Where(z => z.Title == achievementTitle));
+            var ach =  _databaseContext.Users.Where(x => x.Id == userId).Include(y => y.Achievements.Where(z => z.Title == achievementTitle));
             
 
             return (Task<Achievement>)ach;
@@ -32,7 +32,8 @@ namespace ShowerShow.Repository
 
         public async Task<List<Achievement>> GetAchievementsById(Guid userId)
         {
-            throw new NotImplementedException();
+            var res = _databaseContext.Users.Where(x => x.Id == userId).Include(y => y.Achievements);
+            return (List<Achievement>)res;
         }
 
         public async Task<Achievement> UpdateAchievementById(Guid achievementId, Guid userId)

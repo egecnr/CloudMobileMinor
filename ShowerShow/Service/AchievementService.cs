@@ -24,7 +24,7 @@ namespace ShowerShow.Service
 
         public Task<List<Achievement>> GetAchievementsById(Guid userId)
         {
-            throw new NotImplementedException();
+            return _achievementRepository.GetAchievementsById(userId);
         }
 
         public Task<Achievement> UpdateAchievementById(Guid achievementId, Guid userId)
