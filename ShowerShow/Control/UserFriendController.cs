@@ -61,7 +61,7 @@ namespace ShowerShow.Control
         public async Task<HttpResponseData> GetUserFriendsByName([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{userId:Guid}/friends/{userName}")] HttpRequestData req, string userName,Guid userId)
         {
             _logger.LogInformation($"Fetching users by name {userName}");
-            if (!userName.IsNullOrWhiteSpace() && await userService.CheckIfUserExistAndActive(userId) )
+            if (!userName.IsNullOrWhiteSpace() && await userService.CheckIfUserExistAndActive(userId))
             {
                 HttpResponseData responseData = req.CreateResponse();
                 IEnumerable<GetUserDTO> allFriendsWithName = await userService.GetUserFriendsByName(userId, userName);

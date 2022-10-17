@@ -60,19 +60,17 @@ namespace ShowerShow.Repository
             }
             return users;
         }
-        //This method has an error. Come up with a good solution for this issue
+       
         public async Task<IEnumerable<GetUserDTO>> GetUserFriendsByName(Guid id, string userName)
         {
-            List<GetUserDTO> users = (List<GetUserDTO>) await GetAllFriendsOfUser(id);
-            foreach(GetUserDTO us in users)
+            List<UserFriend> users = dbContext.Users.FirstOrDefault(x => x.Id == id)?.Friends.ToList().Where(x=>x.UserName.ToLower().StartsWith(userName.ToLower())).ToList();
+            Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<UserFriend, GetUserDTO>()));
+            List<GetUserDTO> usersdto = new List<GetUserDTO>();
+            users.ForEach(delegate (UserFriend user)
             {
-                if (!us.UserName.ToLower().StartsWith(userName.ToLower()))
-                {
-                    users.Remove(us);
-                }
-            }
-
-            return users;
+                usersdto.Add(mapper.Map<GetUserDTO>(user));
+            });
+            return usersdto;
 
         }
         public async Task<bool> CheckIfEmailExist(string email)
