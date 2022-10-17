@@ -28,7 +28,7 @@ namespace ShowerShow.Models
         }
 
 
-        public static List<Achievement> initializedAchievements()
+        public static List<Achievement> InitializedAchievements()
         {
             List<Achievement> achievements = new List<Achievement>();
 
