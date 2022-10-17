@@ -7,4 +7,5 @@ namespace ShowerShow.Repository.Interface
     {
         public Task CreateUser(CreateUserDTO user);
     }
+
 }

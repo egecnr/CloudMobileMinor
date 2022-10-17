@@ -14,16 +14,19 @@ namespace ShowerShow.Service
 {
     public class UserService: IUserService
     {
-        private IUserRepository userRepository;
+        private DatabaseContext dbContext;
 
-        public UserService(IUserRepository userRepository)
+        private IUserRepository userRepository; 
+
+        public UserService(IUserRepository userRepository, DatabaseContext dbContext)
         {
             this.userRepository = userRepository;
+            this.dbContext = dbContext;
         }
      
         public async Task CreateUser(CreateUserDTO user)
         {
             await userRepository.CreateUser(user);
-        }
+        }     
     }
 }
