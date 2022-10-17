@@ -45,7 +45,7 @@ namespace ShowerShow.Controllers
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 
                 CreateUserDTO userDTO = JsonConvert.DeserializeObject<CreateUserDTO>(requestBody);
-            if(await userService.CheckIfEmailExist(userDTO.Email))
+            if(await userService.CheckIfEmailExist(userDTO.Email) || await userService.CheckIfUserNameExist(userDTO.UserName))
             {
                  HttpResponseData responseData = req.CreateResponse();
                  responseData.StatusCode = HttpStatusCode.BadRequest;
@@ -144,7 +144,7 @@ namespace ShowerShow.Controllers
 
             if (await userService.CheckIfUserExistAndActive(userId))
             {
-                if (!(await userService.CheckIfEmailExist(userDTO.Email))) {
+                if (!(await userService.CheckIfEmailExist(userDTO.Email)) && !(await userService.CheckIfUserNameExist(userDTO.UserName))) {
                     HttpResponseData responseData = req.CreateResponse();
                     await userService.UpdateUser(userId, userDTO);
                     responseData.StatusCode = HttpStatusCode.Accepted;

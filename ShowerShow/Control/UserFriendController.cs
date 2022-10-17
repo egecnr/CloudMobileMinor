@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
@@ -42,6 +43,30 @@ namespace ShowerShow.Control
                 HttpResponseData responseData = req.CreateResponse();
                 await responseData.WriteAsJsonAsync(friendListToView);
                 responseData.StatusCode = HttpStatusCode.Created;
+                return responseData;
+            }
+            else
+            {
+                HttpResponseData responseData = req.CreateResponse();
+                responseData.StatusCode = HttpStatusCode.NotFound;
+                return responseData;
+            }
+        }
+
+        [Function("GetUserFriendsByName")]
+        [OpenApiOperation(operationId: "GetUserFriendByName", tags: new[] { "Users" })]
+        [OpenApiParameter(name: "userName", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "The User ID parameter")]
+        [OpenApiParameter(name: "userId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<GetUserDTO>), Description = "The OK response with the new schedule.")]
+        public async Task<HttpResponseData> GetUserFriendsByName([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{userId:Guid}/friends/{userName}")] HttpRequestData req, string userName,Guid userId)
+        {
+            _logger.LogInformation($"Fetching users by name {userName}");
+            if (!userName.IsNullOrWhiteSpace() && await userService.CheckIfUserExistAndActive(userId) )
+            {
+                HttpResponseData responseData = req.CreateResponse();
+                IEnumerable<GetUserDTO> allFriendsWithName = await userService.GetUserFriendsByName(userId, userName);
+                await responseData.WriteAsJsonAsync(allFriendsWithName);
+                responseData.StatusCode = HttpStatusCode.OK;
                 return responseData;
             }
             else

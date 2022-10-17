@@ -78,5 +78,15 @@ namespace ShowerShow.Service
         {
             return await userRepository.CheckIfUserExist(userId);
         }
+
+        public async Task<bool> CheckIfUserNameExist(string userName)
+        {
+            return await userRepository.CheckIfUserNameExist(userName);
+        }
+
+        public async Task<IEnumerable<GetUserDTO>> GetUserFriendsByName(Guid id, string userName)
+        {
+            return await userRepository.GetUserFriendsByName(id, userName);
+        }
     }
 }

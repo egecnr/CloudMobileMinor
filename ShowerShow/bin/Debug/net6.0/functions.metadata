@@ -130,6 +130,32 @@
     ]
   },
   {
+    "name": "GetUserFriendsByName",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserFriendController.GetUserFriendsByName",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "user/{userId:Guid}/friends/{userName}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
     "name": "GetUserFriendById",
     "scriptFile": "ShowerShow.dll",
     "entryPoint": "ShowerShow.Control.UserFriendController.GetUserFriendById",

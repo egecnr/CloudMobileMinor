@@ -60,7 +60,21 @@ namespace ShowerShow.Repository
             }
             return users;
         }
+        //This method has an error. Come up with a good solution for this issue
+        public async Task<IEnumerable<GetUserDTO>> GetUserFriendsByName(Guid id, string userName)
+        {
+            List<GetUserDTO> users = (List<GetUserDTO>) await GetAllFriendsOfUser(id);
+            foreach(GetUserDTO us in users)
+            {
+                if (!us.UserName.ToLower().StartsWith(userName.ToLower()))
+                {
+                    users.Remove(us);
+                }
+            }
 
+            return users;
+
+        }
         public async Task<bool> CheckIfEmailExist(string email)
         {
             await dbContext.SaveChangesAsync();
@@ -79,8 +93,8 @@ namespace ShowerShow.Repository
             //Add each other to each other's friend list.
 
             
-            user1dto.Friends.Add(new UserFriend(user2dto.Id));
-            user2dto.Friends.Add(new UserFriend(user1dto.Id));
+            user1dto.Friends.Add(new UserFriend(user2dto.Id,user2dto.UserName));
+            user2dto.Friends.Add(new UserFriend(user1dto.Id,user1dto.UserName));
             dbContext.Users.Update(user1dto);
             dbContext.Users.Update(user2dto);
             await dbContext.SaveChangesAsync();
@@ -144,26 +158,27 @@ namespace ShowerShow.Repository
                 }
             }
         }
-        private IEnumerable<GetUserDTO> convertGetdtos(List<User> users)
+        private List<GetUserDTO> ConvertGetDtos(List<User> users)
         {
             Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<User, GetUserDTO>()));
             List<GetUserDTO> userdtos = new List<GetUserDTO>();
 
-            foreach (User u in users)
-            {
+            users.ForEach(delegate (User u) {
                 userdtos.Add(mapper.Map<GetUserDTO>(u));
-            }
+            });
             return userdtos;
         }
 
         public async Task<IEnumerable<GetUserDTO>> GetUsersByName(string userName)
         {
 
-            List<User> usersWithName = dbContext.Users.Where(u => u.Name.StartsWith(userName)).ToList();
-            IEnumerable<GetUserDTO> dtos =convertGetdtos(usersWithName);
-            return dtos;
-         
+            List<User> usersWithName = dbContext.Users.Where(u => u.UserName.ToLower().StartsWith(userName.ToLower())).ToList();
+            Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<User, GetUserDTO>()));
+            List<GetUserDTO> dtos = ConvertGetDtos(usersWithName);            
+            return dtos;       
         }
+
+       
 
         public async Task<bool> CheckIfUserExist(Guid userId)
         {
@@ -173,5 +188,16 @@ namespace ShowerShow.Repository
             else
                 return false;
         }
+
+        public async Task<bool> CheckIfUserNameExist(string userName)
+        {
+            await dbContext.SaveChangesAsync();
+            if (dbContext.Users.Count(x => x.UserName.ToLower() == userName.ToLower()) > 0)
+                return true;
+            else
+                return false;
+        }
+
+       
     }
 }

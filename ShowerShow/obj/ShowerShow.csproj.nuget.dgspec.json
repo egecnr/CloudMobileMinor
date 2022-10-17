@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\31683\\Desktop\\Year 4\\SAWA_APP\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj": {}
+    "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj": {}
   },
   "projects": {
-    "C:\\Users\\31683\\Desktop\\Year 4\\SAWA_APP\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj": {
+    "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA_APP\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj",
+        "projectUniqueName": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj",
         "projectName": "ShowerShow",
-        "projectPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA_APP\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj",
+        "projectPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj",
         "packagesPath": "C:\\Users\\31683\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA_APP\\SAWA-Backend\\ShowerShow\\obj\\",
+        "outputPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
