@@ -104,6 +104,110 @@
     ]
   },
   {
+    "name": "GetUserFriends",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserFriendController.GetUserFriends",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "user/{userId:Guid}/friends"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "GetUserFriendById",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserFriendController.GetUserFriendById",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "user/{userId:Guid}/friends/{friendId:Guid}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "CreateUserFriend",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserFriendController.CreateUserFriend",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "post"
+        ],
+        "route": "user/{userId1:Guid}/{userId2:Guid}/friends"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "DeleteUserFriend",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserFriendController.DeleteUserFriend",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "delete"
+        ],
+        "route": "user/{userId1:Guid}/{userId2:Guid}/friends"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
     "name": "CreateSchedule",
     "scriptFile": "ShowerShow.dll",
     "entryPoint": "ShowerShow.Controllers.ScheduleController.CreateSchedule",
@@ -182,9 +286,9 @@
     ]
   },
   {
-    "name": "GetAchievementsById",
+    "name": "GetUsersByName",
     "scriptFile": "ShowerShow.dll",
-    "entryPoint": "ShowerShow.Control.AchievementController.GetAchievementsById",
+    "entryPoint": "ShowerShow.Controllers.UserController.GetUsersByName",
     "language": "dotnet-isolated",
     "properties": {
       "IsCodeless": false
@@ -198,7 +302,7 @@
         "methods": [
           "get"
         ],
-        "route": "user/{UserId}/achievements"
+        "route": "user/{userName}"
       },
       {
         "name": "$return",
@@ -208,9 +312,9 @@
     ]
   },
   {
-    "name": "GetAchievementByTitle",
+    "name": "GetUser",
     "scriptFile": "ShowerShow.dll",
-    "entryPoint": "ShowerShow.Control.AchievementController.GetAchievementByTitle",
+    "entryPoint": "ShowerShow.Controllers.UserController.GetUser",
     "language": "dotnet-isolated",
     "properties": {
       "IsCodeless": false
@@ -224,7 +328,7 @@
         "methods": [
           "get"
         ],
-        "route": "user/{UserId}/achievement/{Title}"
+        "route": "user/{userId:Guid}"
       },
       {
         "name": "$return",
@@ -234,9 +338,9 @@
     ]
   },
   {
-    "name": "UpdateAchievementById",
+    "name": "DeactivateUser",
     "scriptFile": "ShowerShow.dll",
-    "entryPoint": "ShowerShow.Control.AchievementController.UpdateAchievementById",
+    "entryPoint": "ShowerShow.Controllers.UserController.DeactivateUser",
     "language": "dotnet-isolated",
     "properties": {
       "IsCodeless": false
@@ -250,7 +354,33 @@
         "methods": [
           "put"
         ],
-        "route": "user/{UserId}/achievement/{achievementTitle}"
+        "route": "user/{userId:Guid}/{isAccountActive:bool}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "UpdateUser",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.UserController.UpdateUser",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "put"
+        ],
+        "route": "user/{userId:Guid}"
       },
       {
         "name": "$return",
