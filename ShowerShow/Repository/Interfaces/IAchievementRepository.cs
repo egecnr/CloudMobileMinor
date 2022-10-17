@@ -12,7 +12,5 @@ namespace ShowerShow.Repository.Interfaces
         Task<List<Achievement>> GetAchievementsById(Guid userId); //getting a list of achievement
         Task<Achievement> GetAchievementByTitle(string achievementTitle, Guid userId); //getting a single achievement
         Task UpdateAchievementById(string achievementTitle, Guid userId, int currentvalue);
-  
-
     }
 }
