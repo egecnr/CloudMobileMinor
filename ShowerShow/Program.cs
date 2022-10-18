@@ -30,9 +30,9 @@ namespace ShowerShow
                     {
                         services.AddControllers();
                         services.AddDbContext<DatabaseContext>(options =>
-                                   options.UseCosmos("https://database-sawa.documents.azure.com:443/",
-                            "0iV6DDVOqBso4R7ylBYskYk7vPhYtzoQS8kg7ltSdAuTY7xpXLlHtCZAh3au9qDoEOPw4lE91jVApTkQrHLB8g==",
-                            "Database - SAWA"));
+                                   options.UseCosmos("https://sawa-db-fabio.documents.azure.com:443/",
+                            "tfGJUagGE3YBw3vCrDhreFiJn0RT0EfnS5NESBJ0ypja5MxfOgRoBFvVUiMoWgurdPzZ1kWcZ1topQrOy5Et7Q==",
+                            "sawa-db-fabio"));
                         services.AddTransient<IUserService, UserService>();
                         services.AddTransient<IUserRepository, UserRepository>();
                         services.AddTransient<IScheduleService, ScheduleService>();
