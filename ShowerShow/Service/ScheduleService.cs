@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ShowerShow.Service
 {
-    internal class ScheduleService : IScheduleService
+    public class ScheduleService : IScheduleService
     {
         private IScheduleRepository scheduleRepository;
 
