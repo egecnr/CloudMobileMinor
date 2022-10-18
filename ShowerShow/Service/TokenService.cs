@@ -16,7 +16,7 @@ namespace ShowerShow.Service
 {
     public class TokenService :ITokenService
     {
-        private ILogger Logger { get; }
+
 
         private string Issuer { get; }
         private string Audience { get; }
@@ -25,20 +25,17 @@ namespace ShowerShow.Service
         private SigningCredentials Credentials { get; }
         private TokenValidationParametersJWT ValidationParameters { get; }
 
-        public TokenService(IConfiguration Configuration, ILogger<TokenService> Logger)
+        public TokenService(IConfiguration con)
         {
-            this.Logger = Logger;
 
-            Issuer = Configuration.GetClassValueChecked("JWT:Issuer", "DebugIssuer", Logger);
-            Audience = Configuration.GetClassValueChecked("JWT:Audience", "DebugAudience", Logger);
+            Issuer = con.GetValue<string>("JwtSettings:Issuer");
+            Audience = con.GetValue<string>("JwtSettings:Audience");
             ValidityDuration = TimeSpan.FromDays(1);// Todo: configure
-            string Key = Configuration.GetClassValueChecked("JWT:Key", "DebugKey DebugKey", Logger);
+            string Key = con.GetValue<string>("JwtSettings:Key");
 
             SymmetricSecurityKey SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key));
-
             Credentials = new SigningCredentials(SecurityKey, SecurityAlgorithms.HmacSha256Signature);
-
-            ValidationParameters = new TokenIdentityValidationParameters(Issuer, Audience, SecurityKey);
+            ValidationParameters = new TokenValidationParametersJWT(Issuer, Audience, SecurityKey);
         }
         public async Task<LoginResult> CreateToken(Login Login)
         {

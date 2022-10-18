@@ -15,6 +15,8 @@ using Microsoft.Extensions.Options;
 using ShowerShow.Service;
 using ShowerShow.Repository.Interface;
 using ShowerShow.Repository;
+using ShowerShow.Authorization;
+using Microsoft.Extensions.Configuration;
 
 namespace ShowerShow
 {
@@ -24,7 +26,9 @@ namespace ShowerShow
         static async Task Main(string[] args)
         {
             var host = new HostBuilder()
-                    .ConfigureFunctionsWorkerDefaults()
+                    .ConfigureFunctionsWorkerDefaults(Worker => Worker.UseNewtonsoftJson().UseMiddleware<JWTMiddleware>())
+                    .ConfigureAppConfiguration(config =>
+                         config.AddJsonFile("local.settings.json", optional: true, reloadOnChange: false))
                     .ConfigureOpenApi()
                     .ConfigureServices(services =>
                     {
@@ -38,7 +42,9 @@ namespace ShowerShow
                         services.AddSingleton<ITokenService, TokenService>();
                     })
                     .Build();
-            await host.RunAsync();
+
+
+             host.Run();
 
             
         }

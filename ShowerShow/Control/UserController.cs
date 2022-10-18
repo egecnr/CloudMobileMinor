@@ -19,6 +19,8 @@ using System.Collections.Generic;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ShowerShow.Utils;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
+using ShowerShow.Authorization;
+using System.Security.Claims;
 
 namespace ShowerShow.Controllers
 {
@@ -65,11 +67,21 @@ namespace ShowerShow.Controllers
 
         [Function("GetUsersByName")]
         [OpenApiOperation(operationId: "GetUsersByName", tags: new[] { "Users" })]
+        [ExampleAuthAttribute]
         [OpenApiParameter(name: "userName", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "The User ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<GetUserDTO>), Description = "The OK response with the new schedule.")]
-        public async Task<HttpResponseData> GetUsersByName([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{userName}")] HttpRequestData req, string userName)
+        public async Task<HttpResponseData> GetUsersByName([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{userName}")] HttpRequestData req, string userName,FunctionContext func)
         {
             _logger.LogInformation($"Fetching users by name {userName}");
+            ClaimsPrincipal user = FunctionContextExtention.GetUser(func);
+            //TO DO: make this a better function
+            if(user == null)
+            {
+                HttpResponseData responseData = req.CreateResponse();
+                responseData.StatusCode = HttpStatusCode.Unauthorized;
+                return responseData;
+            }
+
             if (!userName.IsNullOrWhiteSpace()) {
                 HttpResponseData responseData = req.CreateResponse();
                 IEnumerable<GetUserDTO> users = await userService.GetUsersByName(userName);

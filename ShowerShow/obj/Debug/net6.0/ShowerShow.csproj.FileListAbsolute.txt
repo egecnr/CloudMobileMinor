@@ -284,3 +284,4 @@ C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\obj\Debug\net6.0\refi
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\obj\Debug\net6.0\ShowerShow.pdb
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\obj\Debug\net6.0\ShowerShow.genruntimeconfig.cache
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\obj\Debug\net6.0\ref\ShowerShow.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll

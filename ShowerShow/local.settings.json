@@ -6,5 +6,10 @@
     "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
     "DBConnection": "AccountEndpoint=https://sawa-db.documents.azure.com:443/;AccountEndpoint=https://sawa-db.documents.azure.com:443/;AccountKey=gggcb28Z24nJAmpz4SRwQRNT9Xyd0wn1riSKAUkvVyaBf4WRALsyx4kgl6POPmi8Ka7JHZfTx06uWD3DHzoqTw==;"
 
+  },
+  "JwtSettings": {
+    "Key": "azurejwtkeyforexamplethatneedstobelonginordertoworkletsseeifthisworks",
+    "Issuer": "SawaApp.azurewebsites.net",
+    "Audience": "User"
   }
 }
