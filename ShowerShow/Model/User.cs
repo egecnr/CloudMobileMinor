@@ -1,14 +1,13 @@
 ﻿using Newtonsoft.Json;
-using ShowerShow.DTO;
 using ShowerShow.Model;
 using System;
 using System.Collections.Generic;
+
 
 namespace ShowerShow.Models
 {
     public class User
     {
-        [JsonProperty]
         public Guid Id { get; set; } = Guid.NewGuid();
         [JsonRequired]
         public string Name { get; set; }
@@ -19,6 +18,5 @@ namespace ShowerShow.Models
         public List<Achievement> Achievements { get; set; } = new List<Achievement>();
         public string UserBadge { get; set; }
         public bool isAccountActive { get; set; } = true;
-
     }
 }

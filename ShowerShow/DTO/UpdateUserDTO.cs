@@ -1,17 +1,20 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Generic;
 using ShowerShow.Models;
 using System;
-using ShowerShow.Utils;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ShowerShow.DTO
 {
-    public class CreateUserDTO
+    public class UpdateUserDTO
     {
         [JsonRequired]
         public string Name { get; set; }
         [JsonRequired]
         public string PasswordHash { get; set; }
+        [JsonRequired]
         public string Email { get; set; }
     }
 }
