@@ -35,6 +35,7 @@ namespace ShowerShow
                             "sawa-db"));
                         services.AddTransient<IUserService, UserService>();
                         services.AddTransient<IUserRepository, UserRepository>();
+                        services.AddSingleton<ITokenService, TokenService>();
                     })
                     .Build();
             await host.RunAsync();
