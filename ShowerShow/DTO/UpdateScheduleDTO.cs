@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using DayOfWeek = ShowerShow.Models.DayOfWeek;
 namespace ShowerShow.DTO
 {
-    internal class UpdateScheduleDTO
+    public class UpdateScheduleDTO
     {
         [JsonRequired]
         public List<DayOfWeek> DaysOfWeek { get; set; }

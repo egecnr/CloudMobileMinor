@@ -21,7 +21,14 @@ namespace ShowerShow.Repository
         {
             this.dbContext = dbContext;
         }
-
+        public async Task<bool> CheckIfUserExist(Guid userId)
+        {
+            await dbContext.SaveChangesAsync();
+            if (dbContext.Users.Count(x => x.Id == userId) > 0)
+                return true;
+            else
+                return false;
+        }
         public async Task CreateUser(CreateUserDTO user)
         {
             Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<CreateUserDTO, User>()));
