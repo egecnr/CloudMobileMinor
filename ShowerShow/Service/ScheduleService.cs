@@ -27,7 +27,7 @@ namespace ShowerShow.Service
             await scheduleRepository.DeleteSchedule(schedule);
         }
 
-        public Task<List<Schedule>> GetAllSchedules(Guid UserId)
+        public Task<IEnumerable<Schedule>> GetAllSchedules(Guid UserId)
         {
             return scheduleRepository.GetAllSchedules(UserId);
         }

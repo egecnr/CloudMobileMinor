@@ -146,7 +146,7 @@
         "methods": [
           "get"
         ],
-        "route": "schedule/{UserId:Guid}"
+        "route": "schedule/{UserId:Guid}/schedules"
       },
       {
         "name": "$return",

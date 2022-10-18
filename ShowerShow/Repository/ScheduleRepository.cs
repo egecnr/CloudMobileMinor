@@ -36,7 +36,7 @@ namespace ShowerShow.Repository
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<Schedule>> GetAllSchedules(Guid UserId)
+        public async Task<IEnumerable<Schedule>> GetAllSchedules(Guid UserId)
         {
             await dbContext.SaveChangesAsync();
             return dbContext.Schedules.Where(x => x.UserId == UserId).ToList();
