@@ -171,14 +171,5 @@ namespace ShowerShow.Repository
             return dtos;
          
         }
-
-        public async Task<bool> CheckIfUserExist(Guid userId)
-        {
-            await dbContext.SaveChangesAsync();
-            if (dbContext.Users.Count(x => x.Id == userId) > 0)
-                return true;
-            else
-                return false;
-        }
     }
 }
