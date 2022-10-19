@@ -196,6 +196,28 @@ namespace ShowerShow.Repository
                 return false;
         }
 
-       
+        public async Task<bool> CheckIfUserNameExist(Guid userId, string wantedUsername)
+        {
+            await dbContext.SaveChangesAsync();
+            User user =  dbContext.Users.FirstOrDefault(u => u.Id == userId);
+            if (user.UserName.ToLower() == wantedUsername.ToLower()) //We want to skip the badrequest if user is inputting the same email.
+                return false;
+            else
+            {
+                return await CheckIfUserNameExist(wantedUsername);
+            }
+        }
+
+        public async Task<bool> CheckIfEmailExist(Guid userId, string wantedEmail)
+        {
+            await dbContext.SaveChangesAsync();
+            User user = dbContext.Users.FirstOrDefault(u => u.Id == userId);
+            if (user.Email == wantedEmail) //We want to skip the badrequest if user is inputting the same email.
+                return false;
+            else
+            {
+                return await CheckIfEmailExist(wantedEmail);
+            }
+        }
     }
 }

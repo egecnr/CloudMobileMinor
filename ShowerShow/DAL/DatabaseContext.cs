@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShowerShow.Utils;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using Microsoft.Extensions.Options;
 
 namespace ShowerShow.DAL
 {
@@ -35,8 +36,8 @@ namespace ShowerShow.DAL
             //secure connection string later
 
             optionsBuilder.UseCosmos("https://sawa-db.documents.azure.com:443/",
-                "gggcb28Z24nJAmpz4SRwQRNT9Xyd0wn1riSKAUkvVyaBf4WRALsyx4kgl6POPmi8Ka7JHZfTx06uWD3DHzoqTw==",
-                "sawa-db");
+               "gggcb28Z24nJAmpz4SRwQRNT9Xyd0wn1riSKAUkvVyaBf4WRALsyx4kgl6POPmi8Ka7JHZfTx06uWD3DHzoqTw==",
+               "sawa-db");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

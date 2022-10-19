@@ -177,7 +177,7 @@ namespace ShowerShow.Controllers
             }
             if (await userService.CheckIfUserExistAndActive(userId))
             {
-                if (!(await userService.CheckIfEmailExist(userDTO.Email)) && !(await userService.CheckIfUserNameExist(userDTO.UserName))) {
+                if (!(await userService.CheckIfEmailExist(userId,userDTO.Email)) && !(await userService.CheckIfUserNameExist(userId, userDTO.UserName))) {
                     HttpResponseData responseData = req.CreateResponse();
                     await userService.UpdateUser(userId, userDTO);
                     responseData.StatusCode = HttpStatusCode.Accepted;

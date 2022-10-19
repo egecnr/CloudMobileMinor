@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 
 namespace ShowerShow.Utils
 {
-    internal class PasswordHasher
+    public class PasswordHasher
     {
 
         public static string HashPassword(string plainPassword)

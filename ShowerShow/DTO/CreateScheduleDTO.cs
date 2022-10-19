@@ -6,11 +6,9 @@ using DayOfWeek = ShowerShow.Models.DayOfWeek;
 
 namespace ShowerShow.DTO
 {
-    internal class CreateScheduleDTO
+    public class CreateScheduleDTO
     {
 
-        [JsonRequired]
-        public Guid UserId { get; set; }
         [JsonRequired]
         public List<DayOfWeek> DaysOfWeek { get; set; }
         [JsonRequired]

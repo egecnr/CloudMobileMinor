@@ -17,6 +17,8 @@ namespace ShowerShow.Repository.Interface
         public Task<IEnumerable<GetUserDTO>> GetAllFriendsOfUser(Guid userId);
         public Task<IEnumerable<GetUserDTO>> GetUsersByName(string userName);
         public Task<IEnumerable<GetUserDTO>> GetUserFriendsByName(Guid id, string userName);
+        public Task<bool> CheckIfEmailExist(Guid userId, string wantedEmail);
+        public Task<bool> CheckIfUserNameExist(Guid userId, string wantedUsername);
         public Task DeactivateUserAccount(Guid userId, bool isAccountActive);
         public Task DeleteUserFriend(Guid user1, Guid user2);
         public Task<bool> CheckIfUserIsAlreadyFriend(Guid userId1, Guid userId2);

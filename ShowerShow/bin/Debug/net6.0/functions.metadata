@@ -130,6 +130,110 @@
     ]
   },
   {
+    "name": "GetSchedules",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.ScheduleController.GetSchedules",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "schedule/{UserId:Guid}/schedules"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "GetSchedule",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.ScheduleController.GetSchedule",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "schedule/{ScheduleId:Guid}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "DeleteSchedule",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.ScheduleController.DeleteSchedule",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "delete"
+        ],
+        "route": "schedule/{ScheduleId:Guid}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "UpdateSchedule",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.ScheduleController.UpdateSchedule",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "put"
+        ],
+        "route": "schedule/{ScheduleId:Guid}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
     "name": "CreateShower",
     "scriptFile": "ShowerShow.dll",
     "entryPoint": "ShowerShow.Controllers.ShowerController.CreateShower",
