@@ -1,6 +1,7 @@
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.Azure.Cosmos.Serialization.HybridRow;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
@@ -14,13 +15,13 @@ namespace ShowerShow.Control
 {
     public class LoginController
     {
-        private readonly ILogger logger;
         private ITokenService tokenService;
+        private ILoginService loginService;
 
-        public LoginController(ILoggerFactory loggerFactory,ITokenService tokenService)
+        public LoginController(ITokenService tokenService,ILoginService loginService)
         {
-            logger = loggerFactory.CreateLogger<LoginController>();
             this.tokenService = tokenService;
+            this.loginService = loginService;
         }
 
         //TO DO: Verify credentials via  a method
@@ -33,14 +34,21 @@ namespace ShowerShow.Control
         public async Task<HttpResponseData> Login([HttpTrigger(AuthorizationLevel.Anonymous, "post")] HttpRequestData req, FunctionContext executionContext)
         {
             Login login = JsonConvert.DeserializeObject<Login>(await new StreamReader(req.Body).ReadToEndAsync());
+            if (await loginService.CheckIfCredentialsCorrect(login.Username, login.Password))
+            {
+                LoginResult result = await tokenService.CreateToken(login);
 
-            LoginResult result = await tokenService.CreateToken(login);
+                HttpResponseData response = req.CreateResponse(HttpStatusCode.OK);
+                await response.WriteAsJsonAsync(result);
+                return response;
+            }
+            else
+            {
 
-            HttpResponseData response = req.CreateResponse(HttpStatusCode.OK);
-            await response.WriteAsJsonAsync(result);
-
-
-            return response;
+                HttpResponseData response = req.CreateResponse(HttpStatusCode.BadRequest);
+                return response;
+            }
+                  
         }
     }
 }

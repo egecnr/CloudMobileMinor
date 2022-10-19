@@ -27,11 +27,11 @@ namespace ShowerShow.Model
     {
         public override IOpenApiExample<Login> Build(NamingStrategy NamingStrategy = null)
         {
-            Examples.Add(OpenApiExampleResolver.Resolve("Ege",
+            Examples.Add(OpenApiExampleResolver.Resolve("user",
                                                         new Login()
                                                         {
-                                                            Username = "Ege",
-                                                            Password = "EgePassword"
+                                                            Username = "username",
+                                                            Password = "password"
                                                         },
                                                         NamingStrategy));
 

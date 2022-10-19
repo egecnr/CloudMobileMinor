@@ -67,15 +67,15 @@ namespace ShowerShow.Controllers
 
         [Function("GetUsersByName")]
         [OpenApiOperation(operationId: "GetUsersByName", tags: new[] { "Users" })]
-        [ExampleAuthAttribute]
+        [ExampleAuth]
         [OpenApiParameter(name: "userName", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "The User ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<GetUserDTO>), Description = "The OK response with the new schedule.")]
-        public async Task<HttpResponseData> GetUsersByName([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{userName}")] HttpRequestData req, string userName,FunctionContext func)
+        public async Task<HttpResponseData> GetUsersByName([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{userName}")] HttpRequestData req, string userName,FunctionContext functionContext)
         {
             _logger.LogInformation($"Fetching users by name {userName}");
-            ClaimsPrincipal user = FunctionContextExtention.GetUser(func);
+
             //TO DO: make this a better function
-            if(user == null)
+            if(AuthCheck.CheckIfUserNotAuthorized(functionContext))
             {
                 HttpResponseData responseData = req.CreateResponse();
                 responseData.StatusCode = HttpStatusCode.Unauthorized;
@@ -99,12 +99,20 @@ namespace ShowerShow.Controllers
 
         [Function("GetUser")]
         [OpenApiOperation(operationId: "GetUserById", tags: new[] { "Users" })]
+        [ExampleAuth]
         [OpenApiParameter(name: "userId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The user ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(GetUserDTO), Description = "The OK response with the retrieved user")]
-        public async Task<HttpResponseData> GetUser([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{userId:Guid}")] HttpRequestData req, Guid userId)
+        public async Task<HttpResponseData> GetUser([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{userId:Guid}")] HttpRequestData req, Guid userId,FunctionContext functionContext)
         {        
                 _logger.LogInformation($"Fetching the user by id {userId}");
-                if (await userService.CheckIfUserExistAndActive(userId))
+
+            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            {
+                HttpResponseData responseData = req.CreateResponse();
+                responseData.StatusCode = HttpStatusCode.Unauthorized;
+                return responseData;
+            }
+            if (await userService.CheckIfUserExistAndActive(userId))
                 {
                     GetUserDTO userDTO = await userService.GetUserById(userId);
                     HttpResponseData responseData = req.CreateResponse();
@@ -120,12 +128,19 @@ namespace ShowerShow.Controllers
                 }        
         }
         [Function("DeactivateUser")]
+        [ExampleAuth]
         [OpenApiOperation(operationId: "DeactivateUser", tags: new[] { "Users" })]
         [OpenApiParameter(name: "userId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The user ID parameter")]
         [OpenApiParameter(name: "isAccountActive", In = ParameterLocation.Path, Required = true, Type = typeof(bool), Description = "Determines if the account is active or not")]
-        public async Task<HttpResponseData> DeactivateUser([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "user/{userId:Guid}/{isAccountActive:bool}")] HttpRequestData req, Guid userId,bool isAccountActive)
+        public async Task<HttpResponseData> DeactivateUser([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "user/{userId:Guid}/{isAccountActive:bool}")] HttpRequestData req, Guid userId,bool isAccountActive, FunctionContext functionContext)
         {
             _logger.LogInformation($"Fetching the user by id {userId}");
+            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            {
+                HttpResponseData responseData = req.CreateResponse();
+                responseData.StatusCode = HttpStatusCode.Unauthorized;
+                return responseData;
+            }
             if (await userService.CheckIfUserExist(userId))
             {
                 
@@ -144,16 +159,22 @@ namespace ShowerShow.Controllers
 
         [Function("UpdateUser")]
         [OpenApiOperation(operationId: "UpdateUser", tags: new[] { "Users" })]
+        [ExampleAuth]
         [OpenApiParameter(name: "userId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The user ID parameter")]
         [OpenApiRequestBody("application/json", typeof(UpdateUserDTO), Description = "The user data to update.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(UpdateUserDTO), Description = "The OK response with the updated user")]
-        public async Task<HttpResponseData> UpdateUser([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "user/{userId:Guid}")] HttpRequestData req, Guid userId)
+        public async Task<HttpResponseData> UpdateUser([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "user/{userId:Guid}")] HttpRequestData req, Guid userId, FunctionContext functionContext)
         {
             _logger.LogInformation($"Fetching the user by id {userId}");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             UpdateUserDTO userDTO = JsonConvert.DeserializeObject<UpdateUserDTO>(requestBody);
-
+            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            {
+                HttpResponseData responseData = req.CreateResponse();
+                responseData.StatusCode = HttpStatusCode.Unauthorized;
+                return responseData;
+            }
             if (await userService.CheckIfUserExistAndActive(userId))
             {
                 if (!(await userService.CheckIfEmailExist(userDTO.Email)) && !(await userService.CheckIfUserNameExist(userDTO.UserName))) {

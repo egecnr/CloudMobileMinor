@@ -10,6 +10,7 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using ShowerShow.Authorization;
 using ShowerShow.DTO;
 using ShowerShow.Models;
 using ShowerShow.Repository.Interface;
@@ -30,13 +31,19 @@ namespace ShowerShow.Control
 
         //This is not complete at all yet.
         [Function("GetUserFriends")]
+        [ExampleAuth]
         [OpenApiOperation(operationId: "GetUserFriends", tags: new[] { "User Friends" })]
         [OpenApiParameter(name: "userId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<GetUserDTO>), Description = "The OK response with the new schedule.")]
-        public async Task<HttpResponseData> GetUserFriends([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{userId:Guid}/friends")] HttpRequestData req, Guid userId)
+        public async Task<HttpResponseData> GetUserFriends([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{userId:Guid}/friends")] HttpRequestData req, Guid userId,FunctionContext functionContext)
         {
             _logger.LogInformation($"Fetching friends from the user with id.{userId}");
-
+            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            {
+                HttpResponseData responseData = req.CreateResponse();
+                responseData.StatusCode = HttpStatusCode.Unauthorized;
+                return responseData;
+            }
             if (await userService.CheckIfUserExistAndActive(userId))
             {
                 IEnumerable<GetUserDTO> friendListToView = await userService.GetAllFriendsOfUser(userId);
@@ -54,13 +61,20 @@ namespace ShowerShow.Control
         }
 
         [Function("GetUserFriendsByName")]
-        [OpenApiOperation(operationId: "GetUserFriendByName", tags: new[] { "Users" })]
+        [ExampleAuth]
+        [OpenApiOperation(operationId: "GetUserFriendByName", tags: new[] { "User Friends" })]
         [OpenApiParameter(name: "userName", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "The User ID parameter")]
         [OpenApiParameter(name: "userId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<GetUserDTO>), Description = "The OK response with the new schedule.")]
-        public async Task<HttpResponseData> GetUserFriendsByName([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{userId:Guid}/friends/{userName}")] HttpRequestData req, string userName,Guid userId)
+        public async Task<HttpResponseData> GetUserFriendsByName([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{userId:Guid}/friends/{userName}")] HttpRequestData req, string userName,Guid userId, FunctionContext functionContext)
         {
             _logger.LogInformation($"Fetching users by name {userName}");
+            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            {
+                HttpResponseData responseData = req.CreateResponse();
+                responseData.StatusCode = HttpStatusCode.Unauthorized;
+                return responseData;
+            }
             if (!userName.IsNullOrWhiteSpace() && await userService.CheckIfUserExistAndActive(userId))
             {
                 HttpResponseData responseData = req.CreateResponse();
@@ -78,14 +92,21 @@ namespace ShowerShow.Control
         }
 
         [Function("GetUserFriendById")]
+        [ExampleAuth]
         [OpenApiOperation(operationId: "GetUserFriendById", tags: new[] { "User Friends" })]
         [OpenApiParameter(name: "userId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiParameter(name: "friendId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(GetUserDTO), Description = "The OK response with get friend by id.")]
-        public async Task<HttpResponseData> GetUserFriendById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{userId:Guid}/friends/{friendId:Guid}")] HttpRequestData req, Guid userId, Guid friendId)
+        public async Task<HttpResponseData> GetUserFriendById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{userId:Guid}/friends/{friendId:Guid}")] HttpRequestData req, Guid userId, Guid friendId, FunctionContext functionContext)
         {
             _logger.LogInformation($"Fetching friend from the user with id.{userId}");
 
+            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            {
+                HttpResponseData responseData = req.CreateResponse();
+                responseData.StatusCode = HttpStatusCode.Unauthorized;
+                return responseData;
+            }
             if (await userService.CheckIfUserExistAndActive(userId) && await userService.CheckIfUserIsAlreadyFriend(userId,friendId))
             {
                 GetUserDTO userDTO = await userService.GetUserById(friendId);            
@@ -103,16 +124,23 @@ namespace ShowerShow.Control
         }
 
         [Function("CreateUserFriend")]
+        [ExampleAuth]
         [OpenApiOperation(operationId: "CreateUserFriend", tags: new[] { "User Friends" })]
         [OpenApiParameter(name: "userId1", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiParameter(name: "userId2", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(User), Description = "The OK response with the new user.")]
-        public async Task<HttpResponseData> CreateUserFriend([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "user/{userId1:Guid}/{userId2:Guid}/friends")] HttpRequestData req,Guid userId1,Guid userId2)
+        public async Task<HttpResponseData> CreateUserFriend([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "user/{userId1:Guid}/{userId2:Guid}/friends")] HttpRequestData req,Guid userId1,Guid userId2, FunctionContext functionContext)
         {
             //You cant add the same friend twice. Implement it
             _logger.LogInformation("Creating new user.");
-          
+
             //Check if both users are present in db
+            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            {
+                HttpResponseData responseData = req.CreateResponse();
+                responseData.StatusCode = HttpStatusCode.Unauthorized;
+                return responseData;
+            }
             if (await userService.CheckIfUserExistAndActive(userId1) 
                 && await userService.CheckIfUserExistAndActive(userId2))
             {
@@ -142,16 +170,23 @@ namespace ShowerShow.Control
         }
 
         [Function("DeleteUserFriend")]
+        [ExampleAuth]
         [OpenApiOperation(operationId: "DeleteUserFriend", tags: new[] { "User Friends" })]
         [OpenApiParameter(name: "userId1", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiParameter(name: "userId2", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(User), Description = "The OK response with the new user.")]
-        public async Task<HttpResponseData> DeleteUserFriend([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "user/{userId1:Guid}/{userId2:Guid}/friends")] HttpRequestData req, Guid userId1, Guid userId2)
+        public async Task<HttpResponseData> DeleteUserFriend([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "user/{userId1:Guid}/{userId2:Guid}/friends")] HttpRequestData req, Guid userId1, Guid userId2, FunctionContext functionContext)
         {
             //You cant add the same friend twice. Implement it
             _logger.LogInformation("Creating new user.");
 
             //Check if both users are present in db
+            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            {
+                HttpResponseData responseData = req.CreateResponse();
+                responseData.StatusCode = HttpStatusCode.Unauthorized;
+                return responseData;
+            }
             if (await userService.CheckIfUserExistAndActive(userId1)
                 && await userService.CheckIfUserExistAndActive(userId2))
             {

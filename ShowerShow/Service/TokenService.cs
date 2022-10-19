@@ -30,7 +30,7 @@ namespace ShowerShow.Service
 
             Issuer = con.GetValue<string>("JwtSettings:Issuer");
             Audience = con.GetValue<string>("JwtSettings:Audience");
-            ValidityDuration = TimeSpan.FromDays(1);// Todo: configure
+            ValidityDuration = TimeSpan.FromDays(30);// Todo: configure
             string Key = con.GetValue<string>("JwtSettings:Key");
 
             SymmetricSecurityKey SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key));
@@ -42,7 +42,7 @@ namespace ShowerShow.Service
             JwtSecurityToken Token = await CreateToken(new Claim[] {
             new Claim(ClaimTypes.Role, "User"),
             new Claim(ClaimTypes.Name, Login.Username)
-  });
+        });
 
             return new LoginResult(Token);
         }
