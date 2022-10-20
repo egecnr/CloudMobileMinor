@@ -37,6 +37,8 @@ namespace ShowerShow
                         services.AddTransient<IUserRepository, UserRepository>();
                         services.AddTransient<IScheduleService, ScheduleService>();
                         services.AddTransient<IScheduleRepository, ScheduleRepository>();
+                        services.AddTransient<IUserPreferencesRepository, UserPrefencesRepository>();
+                        services.AddTransient<IUserPrefencesService, UserPreferencesService>();
                     })
                     .Build();
             await host.RunAsync();

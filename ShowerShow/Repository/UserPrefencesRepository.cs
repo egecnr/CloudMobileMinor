@@ -1,0 +1,61 @@
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using ShowerShow.DAL;
+using ShowerShow.DTO;
+using ShowerShow.Models;
+using ShowerShow.Repository.Interface;
+using ShowerShow.Utils;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ShowerShow.Repository
+{
+    public class  UserPrefencesRepository : IUserPreferencesRepository
+    {
+        private DatabaseContext _dbContext;
+        public UserPrefencesRepository(DatabaseContext _dbContext)
+        {
+
+            this._dbContext = _dbContext;
+        }
+
+
+        public async Task CreateUserPreferences(CreatePreferencesDTO createPreferencesDTO)
+        {
+            Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap < CreatePreferencesDTO, Preferences>())) ;
+            Preferences userPreferences = mapper.Map<Preferences>(createPreferencesDTO);
+            _dbContext.Preferences.Add(userPreferences);
+            await _dbContext.SaveChangesAsync();
+        }
+        public async Task<IEnumerable<Preferences>> GetUserPreferenceById(Guid userId)
+        {
+            await _dbContext.SaveChangesAsync();
+            return _dbContext.Preferences.Where(x => x.UserId == userId);
+
+        }
+        public async Task UpdatePreferenceById(Guid userId, UpdatePreferencesDTO updatePreferencesDTO)
+        {
+            await _dbContext.SaveChangesAsync();
+            Preferences preferences = _dbContext.Preferences.FirstOrDefault(u => u.UserId == userId);
+            preferences.SelectedVoice = updatePreferencesDTO.SelectedVoice;
+            preferences.SelectedLanguage = updatePreferencesDTO.SelectedLanguage;
+            Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<Preferences, UpdatePreferencesDTO>()));
+            UpdatePreferencesDTO updatePreferencesDTO1 = mapper.Map<UpdatePreferencesDTO>(preferences);
+            _dbContext.Preferences.Update(preferences);
+            await _dbContext.SaveChangesAsync();
+
+        }
+
+        public async Task<bool> CheckIfUserExistAndActive(Guid userId)
+        {
+            await _dbContext.SaveChangesAsync();
+            if (_dbContext.Users.Where(a => a.isAccountActive == true).Count(x => x.Id == userId) > 0)
+                return true;
+            else
+                return false;
+        }
+    }
+}

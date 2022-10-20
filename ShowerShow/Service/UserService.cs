@@ -79,6 +79,5 @@ namespace ShowerShow.Service
         {
             return await userRepository.GetUsersByName(userName);
         }
-
     }
 }

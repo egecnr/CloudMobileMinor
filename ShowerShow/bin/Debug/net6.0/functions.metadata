@@ -208,6 +208,84 @@
     ]
   },
   {
+    "name": "CreateUserPreferences",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserPreferencesController.CreateUserPreferences",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "post"
+        ],
+        "route": "user/{userId}/preferences"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "GetUserPreferenceById",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserPreferencesController.GetUserPreferenceById",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "user/{userId:Guid}/preferences"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "UpdatePreferenceById",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserPreferencesController.UpdatePreferenceById",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "put"
+        ],
+        "route": "user/{userId:Guid}/preferences"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
     "name": "CreateSchedule",
     "scriptFile": "ShowerShow.dll",
     "entryPoint": "ShowerShow.Controllers.ScheduleController.CreateSchedule",

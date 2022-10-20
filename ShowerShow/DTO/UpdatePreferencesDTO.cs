@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ShowerShow.DTO
 {
-    internal class UpdatePreferencesDTO
+    public class UpdatePreferencesDTO
     {
         public AvailableVoices SelectedVoice { get; set; } = AvailableVoices.Default_Male;
         public AvailableLanguages SelectedLanguage { get; set; } = AvailableLanguages.English;

@@ -4,7 +4,7 @@ using System;
 
 namespace ShowerShow.DTO
 {
-    internal class CreatePreferencesDTO
+    public class CreatePreferencesDTO
     {
         [JsonRequired]
         public Guid UserId { get; set; }
