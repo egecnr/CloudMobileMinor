@@ -15,6 +15,8 @@ using Microsoft.Extensions.Options;
 using ShowerShow.Service;
 using ShowerShow.Repository.Interface;
 using ShowerShow.Repository;
+using ShowerShow.Authorization;
+using Microsoft.Extensions.Configuration;
 
 namespace ShowerShow
 {
@@ -24,22 +26,27 @@ namespace ShowerShow
         static async Task Main(string[] args)
         {
             var host = new HostBuilder()
-                    .ConfigureFunctionsWorkerDefaults()
+                    .ConfigureFunctionsWorkerDefaults(Worker => Worker.UseNewtonsoftJson().UseMiddleware<JWTMiddleware>())
+                    .ConfigureAppConfiguration(config =>
+                         config.AddJsonFile("local.settings.json", optional: true, reloadOnChange: false))
                     .ConfigureOpenApi()
                     .ConfigureServices(services =>
                     {
                         services.AddControllers();
                         services.AddDbContext<DatabaseContext>(options =>
-                                   options.UseCosmos("https://database-sawa.documents.azure.com:443/",
-                            "0iV6DDVOqBso4R7ylBYskYk7vPhYtzoQS8kg7ltSdAuTY7xpXLlHtCZAh3au9qDoEOPw4lE91jVApTkQrHLB8g==",
-                            "Database - SAWA"));
+                                   options.UseCosmos("https://sawa-db.documents.azure.com:443/",
+                            "gggcb28Z24nJAmpz4SRwQRNT9Xyd0wn1riSKAUkvVyaBf4WRALsyx4kgl6POPmi8Ka7JHZfTx06uWD3DHzoqTw==",
+                            "sawa-db"));
                         services.AddTransient<IUserService, UserService>();
                         services.AddTransient<IUserRepository, UserRepository>();
-                        services.AddTransient<IScheduleService, ScheduleService>();
-                        services.AddTransient<IScheduleRepository, ScheduleRepository>();
+                        services.AddTransient<ILoginService, LoginService>();
+                        services.AddTransient<ILoginRepository, LoginRepository>();
+                        services.AddSingleton<ITokenService, TokenService>();
                     })
                     .Build();
-            await host.RunAsync();
+
+
+             host.Run();
 
             
         }

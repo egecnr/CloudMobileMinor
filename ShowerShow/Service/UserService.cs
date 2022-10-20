@@ -20,13 +20,7 @@ namespace ShowerShow.Service
         {
             this.userRepository = userRepository;
         }
-
-        public async Task<bool> CheckIfUserExist(Guid userId)
-        {
-            return await userRepository.CheckIfUserExist(userId);
-        }
-
-
+     
         public async Task CreateUser(CreateUserDTO user)
         {
             await userRepository.CreateUser(user);
@@ -78,6 +72,31 @@ namespace ShowerShow.Service
         public async Task<IEnumerable<GetUserDTO>> GetUsersByName(string userName)
         {
             return await userRepository.GetUsersByName(userName);
+        }
+
+        public async Task<bool> CheckIfUserExist(Guid userId)
+        {
+            return await userRepository.CheckIfUserExist(userId);
+        }
+
+        public async Task<bool> CheckIfUserNameExist(string userName)
+        {
+            return await userRepository.CheckIfUserNameExist(userName);
+        }
+
+        public async Task<IEnumerable<GetUserDTO>> GetUserFriendsByName(Guid id, string userName)
+        {
+            return await userRepository.GetUserFriendsByName(id, userName);
+        }
+
+        public async Task<bool> CheckIfEmailExist(Guid userId, string wantedEmail)
+        {
+            return await userRepository.CheckIfEmailExist(userId, wantedEmail);
+        }
+
+        public async Task<bool> CheckIfUserNameExist(Guid userId, string wantedUsername)
+        {
+            return await userRepository.CheckIfUserNameExist(userId, wantedUsername);
         }
     }
 }

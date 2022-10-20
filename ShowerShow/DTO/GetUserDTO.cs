@@ -16,9 +16,11 @@ namespace ShowerShow.DTO
         [JsonRequired]
         public string Name { get; set; }
         [JsonRequired]
-        public string Email { get; set; }
-        public string UserBadge { get; set; }
+        public string UserName { get; set; }
+        [JsonRequired]
+        public string Email { get; set; } //Consider deleting this
         public List<UserFriend> Friends { get; set; }
+        public List<Achievement> Achievements { get; set; }
 
     }
 }
