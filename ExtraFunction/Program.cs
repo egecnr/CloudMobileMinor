@@ -17,6 +17,9 @@ using ShowerShow.Repository.Interface;
 using ShowerShow.Repository;
 using Microsoft.Extensions.Configuration;
 using ShowerShow.Authorization;
+using ExtraFunction.Repository_.Interface;
+using ExtraFunction.Repository_;
+using ExtraFunction.Service_;
 
 namespace ExtraFunction
 {
@@ -42,6 +45,8 @@ namespace ExtraFunction
                         services.AddTransient<ILoginService, LoginService>();
                         services.AddTransient<ILoginRepository, LoginRepository>();
                         services.AddSingleton<ITokenService, TokenService>();
+                        services.AddTransient<IAchievementRepository, AchievementRepository>();
+                        services.AddTransient<IAchievementService, AchievementService>();
                     })
                     .Build();
             await host.RunAsync();

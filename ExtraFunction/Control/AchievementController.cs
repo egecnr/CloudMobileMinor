@@ -33,11 +33,11 @@ namespace ExtraFunction.Control
         }
 
         [Function(nameof(GetAchievementsById))]
-        [OpenApiOperation(operationId: "GetUserAchievements", tags: new[] { "Achievement" })]
+        [OpenApiOperation(operationId: "GetAchievementsById", tags: new[] { "Achievement" })]
         [ExampleAuth]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<Achievement>), Description = "The OK response with all achievements from user.")]
-        public async Task<HttpResponseData> GetAchievementsById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{UserId}/achievements")] HttpRequestData req, Guid UserId, FunctionContext functionContext)
+        public async Task<HttpResponseData> GetAchievementsById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{UserId:Guid}/achievements")] HttpRequestData req, Guid UserId, FunctionContext functionContext)
         {
             _logger.LogInformation("Getting achievement by Id");
             if (AuthCheck.CheckIfUserNotAuthorized(functionContext))

@@ -15,6 +15,7 @@ using ShowerShow.Utils;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 using Microsoft.Extensions.Options;
+using ExtraFunction.Model_;
 
 namespace ShowerShow.DAL
 {

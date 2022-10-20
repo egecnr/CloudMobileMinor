@@ -415,6 +415,58 @@
     ]
   },
   {
+    "name": "GetShowerById",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.ShowerDataController.GetShowerById",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "user/{UserId}/showerdata/{showerId}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "CreateShowerDataById",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.ShowerDataController.CreateShowerDataById",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "post"
+        ],
+        "route": "user/{UserId:Guid}/showerdata"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
     "name": "GetUserFriends",
     "scriptFile": "ShowerShow.dll",
     "entryPoint": "ShowerShow.Control.UserFriendController.GetUserFriends",
