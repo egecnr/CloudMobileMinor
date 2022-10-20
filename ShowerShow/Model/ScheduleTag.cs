@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using ShowerShow.Model;
 using System;
 
 namespace ShowerShow.Models
@@ -12,7 +13,7 @@ namespace ShowerShow.Models
         public double ActivityDuration { get; set; }
 
         [JsonRequired]
-        public bool IsGasOn { get; set; }
+        public WaterTemperature waterTemperature { get; set; }
 
         [JsonRequired]
         public bool IsWaterOn { get; set; }
