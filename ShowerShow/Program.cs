@@ -38,7 +38,9 @@ namespace ShowerShow
                             "gggcb28Z24nJAmpz4SRwQRNT9Xyd0wn1riSKAUkvVyaBf4WRALsyx4kgl6POPmi8Ka7JHZfTx06uWD3DHzoqTw==",
                             "sawa-db"));
                         services.AddTransient<IUserService, UserService>();
-                        services.AddTransient<IUserRepository, UserRepository>();
+                        services.AddTransient<IUserRepository, UserRepository>(); 
+                        services.AddTransient<IUserFriendService, UserFriendService>();
+                        services.AddTransient<IUserFriendRepository, UserFriendRepository>();
                         services.AddTransient<ILoginService, LoginService>();
                         services.AddTransient<ILoginRepository, LoginRepository>();
                         services.AddSingleton<ITokenService, TokenService>();

@@ -21,11 +21,13 @@ namespace ShowerShow.Control
     public class UserFriendController
     {
         private readonly ILogger _logger;
+        private IUserFriendService userFriendService;
         private IUserService userService;
 
-        public UserFriendController(ILoggerFactory loggerFactory,IUserService userService)
+        public UserFriendController(ILoggerFactory loggerFactory,IUserService userService,IUserFriendService userFriendService)
         {
             _logger = loggerFactory.CreateLogger<UserFriendController>();
+            this.userFriendService = userFriendService;
             this.userService = userService;
         }
 
@@ -46,7 +48,7 @@ namespace ShowerShow.Control
             }
             if (await userService.CheckIfUserExistAndActive(userId))
             {
-                IEnumerable<GetUserDTO> friendListToView = await userService.GetAllFriendsOfUser(userId);
+                IEnumerable<GetUserFriendDTO> friendListToView = await userFriendService.GetAllFriendsOfUser(userId);
                 HttpResponseData responseData = req.CreateResponse();
                 await responseData.WriteAsJsonAsync(friendListToView);
                 responseData.StatusCode = HttpStatusCode.Created;
@@ -78,8 +80,8 @@ namespace ShowerShow.Control
             if (!userName.IsNullOrWhiteSpace() && await userService.CheckIfUserExistAndActive(userId))
             {
                 HttpResponseData responseData = req.CreateResponse();
-                IEnumerable<GetUserDTO> allFriendsWithName = await userService.GetUserFriendsByName(userId, userName);
-                await responseData.WriteAsJsonAsync(allFriendsWithName);
+          /*      IEnumerable<GetUserDTO> allFriendsWithName = await userService.GetUserFriendsByName(userId, userName);
+                await responseData.WriteAsJsonAsync(allFriendsWithName);*/
                 responseData.StatusCode = HttpStatusCode.OK;
                 return responseData;
             }
@@ -107,7 +109,7 @@ namespace ShowerShow.Control
                 responseData.StatusCode = HttpStatusCode.Unauthorized;
                 return responseData;
             }
-            if (await userService.CheckIfUserExistAndActive(userId) && await userService.CheckIfUserIsAlreadyFriend(userId,friendId))
+            if (await userService.CheckIfUserExistAndActive(userId) && await userFriendService.CheckIfUserIsAlreadyFriend(userId,friendId))
             {
                 GetUserDTO userDTO = await userService.GetUserById(friendId);            
                 HttpResponseData responseData = req.CreateResponse();
@@ -122,17 +124,17 @@ namespace ShowerShow.Control
                 return responseData;
             }
         }
-
+        //done
         [Function("CreateUserFriend")]
         [ExampleAuth]
         [OpenApiOperation(operationId: "CreateUserFriend", tags: new[] { "User Friends" })]
-        [OpenApiParameter(name: "userId1", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
-        [OpenApiParameter(name: "userId2", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
+        [OpenApiParameter(name: "mainUserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
+        [OpenApiParameter(name: "userFriendId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(User), Description = "The OK response with the new user.")]
-        public async Task<HttpResponseData> CreateUserFriend([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "user/{userId1:Guid}/{userId2:Guid}/friends")] HttpRequestData req,Guid userId1,Guid userId2, FunctionContext functionContext)
+        public async Task<HttpResponseData> CreateUserFriend([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "user/{mainUserId:Guid}/{userFriendId:Guid}/friends")] HttpRequestData req,Guid mainUserId, Guid userFriendId, FunctionContext functionContext)
         {
             //You cant add the same friend twice. Implement it
-            _logger.LogInformation("Creating new user.");
+            _logger.LogInformation("Creating new friend request.");
 
             //Check if both users are present in db
             if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
@@ -141,11 +143,11 @@ namespace ShowerShow.Control
                 responseData.StatusCode = HttpStatusCode.Unauthorized;
                 return responseData;
             }
-            if (await userService.CheckIfUserExistAndActive(userId1) 
-                && await userService.CheckIfUserExistAndActive(userId2))
+            if (await userService.CheckIfUserExistAndActive(mainUserId) 
+                && await userService.CheckIfUserExistAndActive(userFriendId))
             {
                 //Check if they re already friends or  whether both ids are the same.
-                if (await userService.CheckIfUserIsAlreadyFriend(userId1, userId2))
+                if (await userFriendService.CheckIfUserIsAlreadyFriend(mainUserId, userFriendId))
                 {
                     HttpResponseData responseData = req.CreateResponse();
                     responseData.StatusCode = HttpStatusCode.BadRequest;
@@ -153,7 +155,7 @@ namespace ShowerShow.Control
                 }
                 else
                 {
-                    await userService.CreateUserFriend(userId1, userId2);
+                    await userFriendService.CreateUserFriend(mainUserId, userFriendId);
                     HttpResponseData responseData = req.CreateResponse();
                     responseData.StatusCode = HttpStatusCode.Created;
                     return responseData;
@@ -191,9 +193,9 @@ namespace ShowerShow.Control
                 && await userService.CheckIfUserExistAndActive(userId2))
             {
                 //Check if they re already friends
-                if (await userService.CheckIfUserIsAlreadyFriend(userId1, userId2))
+                if (await userFriendService.CheckIfUserIsAlreadyFriend(userId1, userId2))
                 {
-                    await userService.DeleteUserFriend(userId1, userId2);
+                   // await userService.DeleteUserFriend(userId1, userId2);
                     HttpResponseData responseData = req.CreateResponse();
                     responseData.StatusCode = HttpStatusCode.Accepted;
                     return responseData;
