@@ -13,9 +13,11 @@ namespace ShowerShow.Model
         public Guid ShowerId { get; set; }
         [JsonProperty]
         public Guid UserId { get; set; }
+        public bool IsFavorite { get; set; } = false;
+        public string Title { get; set; } = "My Shower Thought";
         [JsonRequired]
         public string Text { get; set; }
-        public bool ShareWithFriends { get; set; } = false;
+        public bool IsPublic { get; set; } = false;
         [JsonRequired]
         public DateTime DateTime { get; set; }
     }

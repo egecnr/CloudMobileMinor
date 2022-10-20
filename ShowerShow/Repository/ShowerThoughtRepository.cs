@@ -64,5 +64,25 @@ namespace ShowerShow.Repository
             await dbContext.SaveChangesAsync();
             return dbContext.ShowerThoughts.FirstOrDefault(x => x.ShowerId == showerId);
         }
+
+        public async Task<IEnumerable<ShowerThought>> GetThoughtsByContent(string searchWord, Guid userId)
+        {
+            await dbContext.SaveChangesAsync();
+            List<ShowerThought> resultsForTitle = dbContext.ShowerThoughts?.Where(x => x.UserId == userId && (x.Title.ToLower().Contains(searchWord) || x.Text.ToLower().Contains(searchWord))).ToList();
+/*            List <ShowerThought> resultsForContent = dbContext.ShowerThoughts?.Where(x => x.Text.ToLower().Contains(searchWord)).ToList();
+
+            List<ShowerThought> thoughts = new List<ShowerThought>();
+            thoughts.AddRange(resultsForTitle);
+            thoughts.AddRange(resultsForContent);*/
+            return resultsForTitle;
+        }
+
+        public async Task UpdateThought(ShowerThought thought, UpdateShowerThoughtDTO updatedThought)
+        {
+            thought.IsPublic = updatedThought.IsPublic;
+            thought.IsFavorite = updatedThought.IsFavorite;
+            dbContext.ShowerThoughts?.Update(thought);
+            await dbContext.SaveChangesAsync();
+        }
     }
 }

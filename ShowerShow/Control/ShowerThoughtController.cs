@@ -17,6 +17,7 @@ using System.Collections;
 using ShowerShow.Model;
 using ShowerShow.Service;
 using System.Configuration;
+using System.ComponentModel.DataAnnotations;
 
 namespace ShowerShow.Controllers
 {
@@ -44,7 +45,7 @@ namespace ShowerShow.Controllers
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             HttpResponseData responseData = req.CreateResponse();
 
-            if (await userService.CheckIfUserExist(UserId))
+            if (await userService.CheckIfUserExistAndActive(UserId))
             {
                // passing both shower id and user id because I dont have a ShowerData class
                // later get UserId based on ShowerId
@@ -151,7 +152,7 @@ namespace ShowerShow.Controllers
 
 
             HttpResponseData responseData = req.CreateResponse();
-            if(await userService.CheckIfUserExist(UserId))
+            if(await userService.CheckIfUserExistAndActive(UserId))
             {
                 List<ShowerThought> thoughts = (List<ShowerThought>)await showerThoughtService.GetAllShowerThoughtsForUser(UserId);
                 await responseData.WriteAsJsonAsync(thoughts);
@@ -176,7 +177,7 @@ namespace ShowerShow.Controllers
 
 
             HttpResponseData responseData = req.CreateResponse();
-            if(await userService.CheckIfUserExist(UserId))
+            if(await userService.CheckIfUserExistAndActive(UserId))
             {
                 DateTime dateTime = DateTime.ParseExact(Date, "dd-MM-yyyy",System.Globalization.CultureInfo.InvariantCulture);
                 List<ShowerThought> thoughts = (List<ShowerThought>)await showerThoughtService.GetShowerThoughtsByDate(dateTime, UserId);
@@ -184,6 +185,65 @@ namespace ShowerShow.Controllers
                 responseData.StatusCode = HttpStatusCode.OK;
                 return responseData;
 
+            }
+            else
+            {
+                responseData.StatusCode = HttpStatusCode.BadRequest;
+                return responseData;
+            }
+        }
+        [Function("UpdateThought")]
+        [OpenApiOperation(operationId: "UpdateThought", tags: new[] { "ShowerThoughts" })]
+        [OpenApiParameter(name: "ThoughtId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The ThoughtId  ")]
+        [OpenApiRequestBody("application/json", typeof(UpdateShowerThoughtDTO), Description = "The shower thought data.")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerThought), Description = "The OK response with the updated thought.")]
+        public async Task<HttpResponseData> UpdateThought([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "shower/thoughts/{ThoughtId:Guid}")] HttpRequestData req, Guid ThoughtId)
+        {
+            _logger.LogInformation("Updating.");
+
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            HttpResponseData responseData = req.CreateResponse();
+
+            try
+            {
+                ShowerThought thought = null;
+                UpdateShowerThoughtDTO updatedThought = JsonConvert.DeserializeObject<UpdateShowerThoughtDTO>(requestBody);
+                //this is to give priority to tasks
+                Task getId = Task.Run(() =>
+                {
+                    thought = showerThoughtService.GetShowerThoughtById(ThoughtId).Result;
+                });
+                await getId.ContinueWith(prev =>
+                {
+                    showerThoughtService.UpdateThought(thought, updatedThought);
+                });
+                responseData.StatusCode = HttpStatusCode.OK;
+                await responseData.WriteAsJsonAsync(thought);
+                return responseData;
+            }
+            catch
+            {
+                responseData.StatusCode = HttpStatusCode.BadRequest;
+                return responseData;
+            }
+        }
+        [Function("GetThoughtsByContent")]
+        [OpenApiOperation(operationId: "GetThoughtsByContent", tags: new[] { "ShowerThoughts" })]
+        [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The user id ")]
+        [OpenApiParameter(name: "SearchWord", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "The word to search for ")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerThought), Description = "The OK response with the retrieved thoughts.")]
+        public async Task<HttpResponseData> GetThoughtsByContent([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "shower/thoughts/{UserId:Guid}/{SearchWord}")] HttpRequestData req, Guid UserId, string SearchWord)
+        {
+            _logger.LogInformation("Getting thoughts.");
+
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            HttpResponseData responseData = req.CreateResponse();
+            if (await userService.CheckIfUserExistAndActive(UserId))
+            {
+                List<ShowerThought> thoughts = (List<ShowerThought>)await showerThoughtService.GetThoughtsByContent(SearchWord, UserId);
+                await responseData.WriteAsJsonAsync(thoughts);
+                responseData.StatusCode = HttpStatusCode.OK;
+                return responseData;
             }
             else
             {

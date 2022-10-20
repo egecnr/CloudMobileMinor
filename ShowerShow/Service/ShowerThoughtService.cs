@@ -49,5 +49,15 @@ namespace ShowerShow.Service
         {
             return await showerThoughtRepository.GetThoughtByShowerId(showerId);
         }
+
+        public async Task<IEnumerable<ShowerThought>> GetThoughtsByContent(string searchWord, Guid userId)
+        {
+            return await showerThoughtRepository.GetThoughtsByContent(searchWord, userId);
+        }
+
+        public async Task UpdateThought(ShowerThought thought, UpdateShowerThoughtDTO updatedThought)
+        {
+            await showerThoughtRepository.UpdateThought(thought, updatedThought);
+        }
     }
 }

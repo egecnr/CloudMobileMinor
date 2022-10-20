@@ -16,5 +16,7 @@ namespace ShowerShow.Repository.Interface
         public Task<IEnumerable<ShowerThought>> GetShowerThoughtsByDate(DateTime date, Guid userId);
         public Task DeleteShowerThought(ShowerThought thought);
         public Task<ShowerThought> GetShowerThoughtById(Guid id);
+        public Task<IEnumerable<ShowerThought>> GetThoughtsByContent(string searchWord, Guid userId);
+        public Task UpdateThought(ShowerThought thought, UpdateShowerThoughtDTO updatedThought);
     }
 }

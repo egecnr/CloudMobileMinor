@@ -1,0 +1,10 @@
+{
+  "IsEncrypted": false,
+
+  "Values": {
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=storagesawa;AccountKey=d1ltUSixgubje3DH1tP0C9PfOi2owtuuYrkBeho0UFqsFrreMbkw2eewm/OMsYMvpG1VNAvq0Lua+AStIHpbGw==;EndpointSuffix=core.windows.net",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "DBConnection": "AccountEndpoint=https://sawa-db.documents.azure.com:443/;AccountEndpoint=https://sawa-db.documents.azure.com:443/;AccountKey=gggcb28Z24nJAmpz4SRwQRNT9Xyd0wn1riSKAUkvVyaBf4WRALsyx4kgl6POPmi8Ka7JHZfTx06uWD3DHzoqTw==;"
+
+  }
+}
