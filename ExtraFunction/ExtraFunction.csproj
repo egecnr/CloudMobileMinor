@@ -43,7 +43,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Control\" />
+    <Folder Include="Authorization_\" />
     <Folder Include="DAL\" />
   </ItemGroup>
 </Project>
