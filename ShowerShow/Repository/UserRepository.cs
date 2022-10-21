@@ -47,32 +47,9 @@ namespace ShowerShow.Repository
             else               
                 return false;
         }
-        public async Task<IEnumerable<GetUserDTO>> GetAllFriendsOfUser(Guid userId)
-        {
-          /*  await dbContext.SaveChangesAsync();
-            List<UserFriend> allFriends = dbContext.Users.Find(userId).Friends;
-            Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<User, GetUserDTO>()));*/
-
-            List<GetUserDTO> users = new List<GetUserDTO>();
-            /*foreach(UserFriend user in allFriends)
-            {
-                users.Add(mapper.Map<GetUserDTO>(dbContext.Users.Find(user.Id)));
-            }*/
-            return users;
-        }
        
-      /*  public async Task<IEnumerable<GetUserDTO>> GetUserFriendsByName(Guid id, string userName)
-        {
-            List<UserFriend> users = dbContext.Users.FirstOrDefault(x => x.Id == id)?.Friends.ToList().Where(x=>x.UserName.ToLower().StartsWith(userName.ToLower())).ToList();
-            Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<UserFriend, GetUserDTO>()));
-            List<GetUserDTO> usersdto = new List<GetUserDTO>();
-            users.ForEach(delegate (UserFriend user)
-            {
-                usersdto.Add(mapper.Map<GetUserDTO>(user));
-            });
-            return usersdto;
-
-        }*/
+       
+     
         public async Task<bool> CheckIfEmailExist(string email)
         {
             await dbContext.SaveChangesAsync();

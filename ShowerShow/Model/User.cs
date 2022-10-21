@@ -17,7 +17,7 @@ namespace ShowerShow.Models
         public string PasswordHash { get; set; }
         public string Email { get; set; }
         [JsonRequired]
-        public byte[] ProfilePicture { get; set; }
+        public string ProfilePicture { get; set; }
         public List<Achievement> Achievements { get; set; } = new List<Achievement>();
         public bool isAccountActive { get; set; } = true;
     }

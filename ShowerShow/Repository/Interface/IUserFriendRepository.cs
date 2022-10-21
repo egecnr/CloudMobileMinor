@@ -10,8 +10,12 @@ namespace ShowerShow.Repository.Interface
     public interface IUserFriendRepository
     {
         Task<bool> CheckIfUserIsAlreadyFriend(Guid userId, Guid friendId);
+        Task<bool> CheckFriendStatusIsResponseRequired(Guid userId, Guid friendId);
         Task CreateUserFriend(Guid userId, Guid friendId);
-        Task<IEnumerable<GetUserFriendDTO>> GetUserFriendsByName(Guid userId, string userName);
+        Task<GetUserFriendDTO> GetUserFriendsById(Guid userId, Guid friendId);
         Task<IEnumerable<GetUserFriendDTO>> GetAllFriendsOfUser(Guid userId);
+        Task AcceptFriendRequest(Guid userId, Guid friendId);
+        Task ChangeFavoriteStateOfFriend(Guid userId, Guid friendId, bool isFavorite);
+        Task DeleteFriend(Guid userId, Guid friendId);
     }
 }

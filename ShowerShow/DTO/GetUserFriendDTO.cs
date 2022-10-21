@@ -24,10 +24,10 @@ namespace ShowerShow.DTO
         public string FullNameOfFriend { get; set; }
 
         [JsonRequired]
-        public byte[] UserPicture { get; set; }
+        public string UserPicture { get; set; }
 
         [JsonRequired]
-        public FriendStatus status { get; set; } = FriendStatus.Pending; //Its always pending by default
+        public FriendStatus status { get; set; }
 
         [JsonRequired]
         public bool IsFavorite { get; set; }

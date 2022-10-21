@@ -8,6 +8,6 @@ namespace ShowerShow.Model
 {
     public enum FriendStatus
     {
-        Pending,Accepted
+        Pending,Accepted,ResponseRequired
     }
 }

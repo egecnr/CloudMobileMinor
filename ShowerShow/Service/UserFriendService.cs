@@ -17,6 +17,21 @@ namespace ShowerShow.Service
             this.userFriendRepository = userFriendRepository;
         }
 
+        public async Task AcceptFriendRequest(Guid userId, Guid friendId)
+        {
+           await  userFriendRepository.AcceptFriendRequest(userId, friendId);
+        }
+
+        public async Task ChangeFavoriteStateOfFriend(Guid userId, Guid friendId, bool isFavorite)
+        {
+            await userFriendRepository.ChangeFavoriteStateOfFriend(userId, friendId, isFavorite);  
+        }
+
+        public async Task<bool> CheckFriendStatusIsResponseRequired(Guid userId, Guid friendId)
+        {
+            return await userFriendRepository.CheckFriendStatusIsResponseRequired(userId, friendId);
+        }
+
         public async Task<bool> CheckIfUserIsAlreadyFriend(Guid userId, Guid friendId)
         {
             return await userFriendRepository.CheckIfUserIsAlreadyFriend(userId, friendId);
@@ -27,14 +42,19 @@ namespace ShowerShow.Service
             await userFriendRepository.CreateUserFriend(userId, friendId);
         }
 
+        public async Task DeleteFriend(Guid userId, Guid friendId)
+        {
+            await userFriendRepository.DeleteFriend(userId,friendId);
+        }
+
         public async Task<IEnumerable<GetUserFriendDTO>> GetAllFriendsOfUser(Guid userId)
         {
             return await userFriendRepository.GetAllFriendsOfUser(userId);
         }
 
-        public Task<IEnumerable<GetUserFriendDTO>> GetUserFriendsByName(Guid userId, string userName)
+        public async Task<GetUserFriendDTO> GetUserFriendsById(Guid userId, Guid friendId)
         {
-            throw new NotImplementedException();
+            return await userFriendRepository.GetUserFriendsById(userId, friendId);
         }
     }
 }

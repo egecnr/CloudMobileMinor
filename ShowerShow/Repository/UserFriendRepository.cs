@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using ShowerShow.DAL;
 using ShowerShow.DTO;
 using ShowerShow.Model;
 using ShowerShow.Models;
 using ShowerShow.Repository.Interface;
+using ShowerShow.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +25,15 @@ namespace ShowerShow.Repository
         public async Task<bool> CheckIfUserIsAlreadyFriend(Guid userId, Guid friendId)
         {
             await dbContext.SaveChangesAsync();
-            if (dbContext.UserFriends.Where(a=>a.FriendId==friendId).Count(x => x.MainUserId==userId) > 0 || dbContext.UserFriends.Where(a => a.FriendId == userId).Count(x => x.MainUserId == friendId) > 0)
+            if (dbContext.UserFriends.Where(a=>a.FriendId==friendId).Count(x => x.MainUserId==userId) > 0)
+                return true;
+            else
+                return false;
+        }
+        public async Task<bool> CheckFriendStatusIsResponseRequired(Guid userId, Guid friendId)
+        {
+            await dbContext.SaveChangesAsync();
+            if (dbContext.UserFriends.Where(a => a.FriendId == friendId).Where(a=>a.status==FriendStatus.ResponseRequired).Count(x => x.MainUserId == userId) > 0)
                 return true;
             else
                 return false;
@@ -40,9 +50,50 @@ namespace ShowerShow.Repository
                 IsFavorite = false,
                 status = FriendStatus.Pending,
             };
+            UserFriend newUserFriend2 = new UserFriend()
+            {
+                Id = Guid.NewGuid(),
+                MainUserId = friendId,
+                FriendId = userId,
+                IsFavorite = false,
+                status = FriendStatus.ResponseRequired,
+            };
 
             dbContext.UserFriends?.Add(newUserFriend);
+            dbContext.UserFriends?.Add(newUserFriend2);
             await  dbContext.SaveChangesAsync();
+
+        }
+        public async Task AcceptFriendRequest(Guid userId, Guid friendId)
+        {
+            //Whether both users exist or not are already checked
+            UserFriend userFriend = dbContext.UserFriends.Where(f=> f.FriendId==friendId).FirstOrDefault(u=> u.MainUserId==userId);
+            userFriend.status = FriendStatus.Accepted; 
+            UserFriend userFriend2 = dbContext.UserFriends.Where(f=> f.FriendId==userId).FirstOrDefault(u=> u.MainUserId==friendId);
+            userFriend2.status = FriendStatus.Accepted;
+            dbContext.UserFriends.Update(userFriend);
+            dbContext.UserFriends.Update(userFriend2);
+            await dbContext.SaveChangesAsync();
+
+        }
+        public async Task DeleteFriend(Guid userId, Guid friendId)
+        {
+            //Whether both users exist or not are already checked
+            UserFriend userFriend = dbContext.UserFriends.Where(f => f.FriendId == friendId).FirstOrDefault(u => u.MainUserId == userId);
+            UserFriend userFriend2 = dbContext.UserFriends.Where(f => f.FriendId == userId).FirstOrDefault(u => u.MainUserId == friendId);
+            dbContext.UserFriends?.Remove(userFriend);
+            dbContext.UserFriends?.Remove(userFriend2);
+            await dbContext.SaveChangesAsync();
+
+        }
+
+        public async Task ChangeFavoriteStateOfFriend(Guid userId, Guid friendId,bool isFavorite)
+        {
+            //Whether both users exist or not are already checked
+            UserFriend userFriend = dbContext.UserFriends.Where(f => f.FriendId == friendId).FirstOrDefault(u => u.MainUserId == userId);
+            userFriend.IsFavorite = isFavorite;
+            dbContext.UserFriends.Update(userFriend);
+            await dbContext.SaveChangesAsync();
 
         }
 
@@ -75,9 +126,20 @@ namespace ShowerShow.Repository
 
         }
 
-        public Task<IEnumerable<GetUserFriendDTO>> GetUserFriendsByName(Guid userId, string userName)
+        public async Task<GetUserFriendDTO> GetUserFriendsById(Guid userId, Guid friendId)
         {
-            throw new NotImplementedException();
+            UserFriend userFriend = dbContext.UserFriends.Where(f => f.FriendId == friendId).FirstOrDefault(u => u.MainUserId == userId);
+            User friendFullObj = dbContext.Users.FirstOrDefault(u => u.Id == friendId);
+
+            return new GetUserFriendDTO() {
+                MainUserId = userId,
+                FriendId = friendId,
+                IsFavorite=userFriend.IsFavorite,
+                status=userFriend.status,
+                UserNameOfFriend=friendFullObj.UserName,
+                FullNameOfFriend=friendFullObj.Name,
+                UserPicture = friendFullObj.ProfilePicture
+            };
         }
     }
 }

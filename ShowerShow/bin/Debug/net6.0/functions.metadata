@@ -415,6 +415,58 @@
     ]
   },
   {
+    "name": "AcceptFriendRequest",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserFriendController.AcceptFriendRequest",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "put"
+        ],
+        "route": "user/{userId:Guid}/friends/{friendId:Guid}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "FavoriteFriendById",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserFriendController.FavoriteFriendById",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "put"
+        ],
+        "route": "user/{userId:Guid}/friends/{friendId:Guid}/{isFavorite}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
     "name": "GetUserFriends",
     "scriptFile": "ShowerShow.dll",
     "entryPoint": "ShowerShow.Control.UserFriendController.GetUserFriends",
@@ -432,32 +484,6 @@
           "get"
         ],
         "route": "user/{userId:Guid}/friends"
-      },
-      {
-        "name": "$return",
-        "type": "http",
-        "direction": "Out"
-      }
-    ]
-  },
-  {
-    "name": "GetUserFriendsByName",
-    "scriptFile": "ShowerShow.dll",
-    "entryPoint": "ShowerShow.Control.UserFriendController.GetUserFriendsByName",
-    "language": "dotnet-isolated",
-    "properties": {
-      "IsCodeless": false
-    },
-    "bindings": [
-      {
-        "name": "req",
-        "type": "httpTrigger",
-        "direction": "In",
-        "authLevel": "Anonymous",
-        "methods": [
-          "get"
-        ],
-        "route": "user/{userId:Guid}/friends/{userName}"
       },
       {
         "name": "$return",
@@ -509,7 +535,7 @@
         "methods": [
           "post"
         ],
-        "route": "user/{mainUserId:Guid}/{userFriendId:Guid}/friends"
+        "route": "user/{userId:Guid}/friends/{friendId:Guid}"
       },
       {
         "name": "$return",
@@ -535,7 +561,7 @@
         "methods": [
           "delete"
         ],
-        "route": "user/{userId1:Guid}/{userId2:Guid}/friends"
+        "route": "user/{userId:Guid}/friends/{friendId:Guid}"
       },
       {
         "name": "$return",

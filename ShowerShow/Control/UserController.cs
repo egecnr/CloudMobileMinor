@@ -43,20 +43,19 @@ namespace ShowerShow.Controllers
         {
 
             _logger.LogInformation("Creating new user.");
+            HttpResponseData responseData = req.CreateResponse();
 
-                string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 
                 CreateUserDTO userDTO = JsonConvert.DeserializeObject<CreateUserDTO>(requestBody);
             if(await userService.CheckIfEmailExist(userDTO.Email) || await userService.CheckIfUserNameExist(userDTO.UserName))
             {
-                 HttpResponseData responseData = req.CreateResponse();
                  responseData.StatusCode = HttpStatusCode.BadRequest;
                   return responseData;
             }
             else
             {
                 await userService.CreateUser(userDTO);
-                HttpResponseData responseData = req.CreateResponse();
                 responseData.StatusCode = HttpStatusCode.Created;
                 
                 return responseData;
@@ -73,17 +72,16 @@ namespace ShowerShow.Controllers
         public async Task<HttpResponseData> GetUsersByName([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{userName}")] HttpRequestData req, string userName,FunctionContext functionContext)
         {
             _logger.LogInformation($"Fetching users by name {userName}");
+            HttpResponseData responseData = req.CreateResponse();
 
             //TO DO: make this a better function
-            if(AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
             {
-                HttpResponseData responseData = req.CreateResponse();
                 responseData.StatusCode = HttpStatusCode.Unauthorized;
                 return responseData;
             }
 
             if (!userName.IsNullOrWhiteSpace()) {
-                HttpResponseData responseData = req.CreateResponse();
                 IEnumerable<GetUserDTO> users = await userService.GetUsersByName(userName);
                 await responseData.WriteAsJsonAsync(users);
                 responseData.StatusCode = HttpStatusCode.OK;
@@ -91,7 +89,6 @@ namespace ShowerShow.Controllers
             }
             else
             {
-                HttpResponseData responseData = req.CreateResponse();
                 responseData.StatusCode = HttpStatusCode.BadRequest;
                 return responseData;
             }   
@@ -105,24 +102,22 @@ namespace ShowerShow.Controllers
         public async Task<HttpResponseData> GetUser([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{userId:Guid}")] HttpRequestData req, Guid userId,FunctionContext functionContext)
         {        
                 _logger.LogInformation($"Fetching the user by id {userId}");
+            HttpResponseData responseData = req.CreateResponse();
 
             if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
             {
-                HttpResponseData responseData = req.CreateResponse();
                 responseData.StatusCode = HttpStatusCode.Unauthorized;
                 return responseData;
             }
             if (await userService.CheckIfUserExistAndActive(userId))
                 {
                     GetUserDTO userDTO = await userService.GetUserById(userId);
-                    HttpResponseData responseData = req.CreateResponse();
                     await responseData.WriteAsJsonAsync(userDTO);
                     responseData.StatusCode = HttpStatusCode.OK;
                     return responseData;
                 }
                 else
                 {
-                    HttpResponseData responseData = req.CreateResponse();
                     responseData.StatusCode = HttpStatusCode.NotFound;
                     return responseData;
                 }        
@@ -135,23 +130,22 @@ namespace ShowerShow.Controllers
         public async Task<HttpResponseData> DeactivateUser([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "user/{userId:Guid}/{isAccountActive:bool}")] HttpRequestData req, Guid userId,bool isAccountActive, FunctionContext functionContext)
         {
             _logger.LogInformation($"Fetching the user by id {userId}");
+            HttpResponseData responseData = req.CreateResponse();
             if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
             {
-                HttpResponseData responseData = req.CreateResponse();
+                
                 responseData.StatusCode = HttpStatusCode.Unauthorized;
                 return responseData;
             }
             if (await userService.CheckIfUserExist(userId))
             {
                 
-                HttpResponseData responseData = req.CreateResponse();
                 await userService.DeactivateUserAccount(userId,isAccountActive);
                 responseData.StatusCode = HttpStatusCode.OK;
                 return responseData;
             }
             else
             {
-                HttpResponseData responseData = req.CreateResponse();
                 responseData.StatusCode = HttpStatusCode.NotFound;
                 return responseData;
             }
@@ -166,26 +160,24 @@ namespace ShowerShow.Controllers
         public async Task<HttpResponseData> UpdateUser([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "user/{userId:Guid}")] HttpRequestData req, Guid userId, FunctionContext functionContext)
         {
             _logger.LogInformation($"Fetching the user by id {userId}");
+            HttpResponseData responseData = req.CreateResponse();
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             UpdateUserDTO userDTO = JsonConvert.DeserializeObject<UpdateUserDTO>(requestBody);
             if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
             {
-                HttpResponseData responseData = req.CreateResponse();
                 responseData.StatusCode = HttpStatusCode.Unauthorized;
                 return responseData;
             }
             if (await userService.CheckIfUserExistAndActive(userId))
             {
                 if (!(await userService.CheckIfEmailExist(userId,userDTO.Email)) && !(await userService.CheckIfUserNameExist(userId, userDTO.UserName))) {
-                    HttpResponseData responseData = req.CreateResponse();
                     await userService.UpdateUser(userId, userDTO);
                     responseData.StatusCode = HttpStatusCode.Accepted;
                     return responseData;
                 }
                 else
                 {
-                    HttpResponseData responseData = req.CreateResponse();
                     responseData.StatusCode = HttpStatusCode.BadRequest;
                     return responseData;
                 }
@@ -193,7 +185,6 @@ namespace ShowerShow.Controllers
             }
             else
             {
-                HttpResponseData responseData = req.CreateResponse();
                 responseData.StatusCode = HttpStatusCode.NotFound;
                 return responseData;
             }
