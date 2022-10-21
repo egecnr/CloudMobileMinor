@@ -22,10 +22,7 @@ namespace ShowerShow.Service
         {
             await _userPreferencesRepository.CreateUserPreferences(createPreferencesDTO);
         }
-        public async Task<bool> CheckIfUserExistAndActive(Guid userId)
-        {
-            return await _userPreferencesRepository.CheckIfUserExistAndActive(userId);
-        }
+
 
         public async Task<IEnumerable<Preferences>> GetUserPreferencesById(Guid userId)
         {

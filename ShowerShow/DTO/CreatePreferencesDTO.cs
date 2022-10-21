@@ -17,5 +17,7 @@ namespace ShowerShow.DTO
         public AvailableCurrencies Currency;
 
         public AvailableThemes Theme;
+
+        public bool Notification { get; set; }
     }
 }

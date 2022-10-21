@@ -45,19 +45,12 @@ namespace ShowerShow.Repository
             preferences.WaterType = updatePreferencesDTO.WaterType;
             preferences.Currency = updatePreferencesDTO.Currency;
             preferences.Theme = updatePreferencesDTO.Theme;
+            preferences.Notification = updatePreferencesDTO.Notification;
 
             _dbContext.Preferences.Update(preferences);
             await _dbContext.SaveChangesAsync();
 
         }
 
-        public async Task<bool> CheckIfUserExistAndActive(Guid userId)
-        {
-            await _dbContext.SaveChangesAsync();
-            if (_dbContext.Users.Where(a => a.isAccountActive == true).Count(x => x.Id == userId) > 0)
-                return true;
-            else
-                return false;
-        }
     }
 }

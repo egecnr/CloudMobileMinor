@@ -14,6 +14,7 @@ namespace ShowerShow.Models
         public AvailableWaterTypes WaterType { get; set; }
         public AvailableCurrencies Currency { get; set; }
         public AvailableThemes Theme { get; set; }
+        public bool Notification { get; set; }
 
         public Preferences ReturnDefaultPreference(Guid userId) //queuetrigger will call this method when a new user is created in order to have a default value.
         {
@@ -26,6 +27,7 @@ namespace ShowerShow.Models
                 WaterType = AvailableWaterTypes.Liters,
                 Currency = AvailableCurrencies.EUR,
                 Theme = AvailableThemes.Light,
+                Notification = true
 
             };
             return preferences;

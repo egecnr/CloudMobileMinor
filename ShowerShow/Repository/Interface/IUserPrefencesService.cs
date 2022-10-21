@@ -11,7 +11,6 @@ namespace ShowerShow.Repository.Interface
     public interface IUserPrefencesService
     {
         public Task CreateUserPreferences(CreatePreferencesDTO createPreferencesDTO);
-        public Task<bool> CheckIfUserExistAndActive(Guid userId);
 
         public Task<IEnumerable<Preferences>> GetUserPreferencesById(Guid userId);
         public Task UpdatePreferenceById(Guid userId, UpdatePreferencesDTO updatePreferencesDTO);
