@@ -492,5 +492,30 @@
         "direction": "Out"
       }
     ]
+  },
+  {
+    "name": "UploadProfilePicture",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.UserController.UploadProfilePicture",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "post"
+        ]
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
   }
 ]
