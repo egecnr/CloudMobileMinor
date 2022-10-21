@@ -42,8 +42,10 @@ namespace ShowerShow.Repository
             Preferences preferences = _dbContext.Preferences.FirstOrDefault(u => u.UserId == userId);
             preferences.SelectedVoice = updatePreferencesDTO.SelectedVoice;
             preferences.SelectedLanguage = updatePreferencesDTO.SelectedLanguage;
-            Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<Preferences, UpdatePreferencesDTO>()));
-            UpdatePreferencesDTO updatePreferencesDTO1 = mapper.Map<UpdatePreferencesDTO>(preferences);
+            preferences.WaterType = updatePreferencesDTO.WaterType;
+            preferences.Currency = updatePreferencesDTO.Currency;
+            preferences.Theme = updatePreferencesDTO.Theme;
+
             _dbContext.Preferences.Update(preferences);
             await _dbContext.SaveChangesAsync();
 

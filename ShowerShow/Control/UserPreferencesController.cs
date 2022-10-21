@@ -23,10 +23,13 @@ namespace ShowerShow.Control
     {
         private readonly ILogger<UserPreferencesController> _logger;
         private IUserPrefencesService _userPrefencesService;
-        public UserPreferencesController(ILogger<UserPreferencesController> logger, IUserPrefencesService userPrefencesService)
+        private IUserService _userService;
+        public UserPreferencesController(ILogger<UserPreferencesController> logger, IUserPrefencesService userPrefencesService, IUserService userService)
         {
             _logger = logger;
             this._userPrefencesService = userPrefencesService;
+            this._userService = userService;
+
         }
 
         [Function("CreateUserPreferences")]
@@ -41,7 +44,7 @@ namespace ShowerShow.Control
 
             CreatePreferencesDTO createPreferencesDTO = JsonConvert.DeserializeObject<CreatePreferencesDTO>(requestBody);
 
-            if (await _userPrefencesService.CheckIfUserExistAndActive(createPreferencesDTO.UserId))
+            if (await _userService.CheckIfUserExistAndActive(createPreferencesDTO.UserId))
             {
                 HttpResponseData responseData = req.CreateResponse();
                 responseData.StatusCode = HttpStatusCode.BadRequest;
@@ -64,7 +67,7 @@ namespace ShowerShow.Control
         {
             _logger.LogInformation($"Fetching the user preference by id {userId}");
 
-            if (await _userPrefencesService.CheckIfUserExistAndActive(userId))
+            if (await _userService.CheckIfUserExistAndActive(userId))
             {
                 HttpResponseData responseData = req.CreateResponse();
                 responseData.StatusCode = HttpStatusCode.BadRequest;
@@ -92,7 +95,7 @@ namespace ShowerShow.Control
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             UpdatePreferencesDTO updatePreferencesDTO = JsonConvert.DeserializeObject<UpdatePreferencesDTO>(requestBody);
 
-            if (await _userPrefencesService.CheckIfUserExistAndActive(userId))
+            if (await _userService.CheckIfUserExistAndActive(userId))
             {
                 HttpResponseData responseData = req.CreateResponse();
                 responseData.StatusCode = HttpStatusCode.BadRequest;
