@@ -68,6 +68,10 @@
               "target": "Package",
               "version": "[1.10.0, )"
             },
+            "Microsoft.Azure.Functions.Worker.Core": {
+              "target": "Package",
+              "version": "[1.9.0-preview2, )"
+            },
             "Microsoft.Azure.Functions.Worker.Extensions.Http": {
               "target": "Package",
               "version": "[3.0.13, )"
@@ -78,7 +82,7 @@
             },
             "Microsoft.Azure.Functions.Worker.Sdk": {
               "target": "Package",
-              "version": "[1.7.0, )"
+              "version": "[1.8.0-preview2, )"
             },
             "Microsoft.Azure.WebJobs.Extensions.CosmosDB": {
               "target": "Package",
@@ -115,6 +119,10 @@
             "Microsoft.Extensions.Configuration.UserSecrets": {
               "target": "Package",
               "version": "[6.0.1, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.24.0, )"
             }
           },
           "imports": [

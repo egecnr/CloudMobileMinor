@@ -21,14 +21,7 @@ namespace ShowerShow.Repository
         {
             this.dbContext = dbContext;
         }
-        public async Task<bool> CheckIfUserExist(Guid userId)
-        {
-            await dbContext.SaveChangesAsync();
-            if (dbContext.Users.Count(x => x.Id == userId) > 0)
-                return true;
-            else
-                return false;
-        }
+
         public async Task CreateUser(CreateUserDTO user)
         {
             Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<CreateUserDTO, User>()));
@@ -67,7 +60,19 @@ namespace ShowerShow.Repository
             }
             return users;
         }
+       
+        public async Task<IEnumerable<GetUserDTO>> GetUserFriendsByName(Guid id, string userName)
+        {
+            List<UserFriend> users = dbContext.Users.FirstOrDefault(x => x.Id == id)?.Friends.ToList().Where(x=>x.UserName.ToLower().StartsWith(userName.ToLower())).ToList();
+            Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<UserFriend, GetUserDTO>()));
+            List<GetUserDTO> usersdto = new List<GetUserDTO>();
+            users.ForEach(delegate (UserFriend user)
+            {
+                usersdto.Add(mapper.Map<GetUserDTO>(user));
+            });
+            return usersdto;
 
+        }
         public async Task<bool> CheckIfEmailExist(string email)
         {
             await dbContext.SaveChangesAsync();
@@ -86,8 +91,8 @@ namespace ShowerShow.Repository
             //Add each other to each other's friend list.
 
             
-            user1dto.Friends.Add(new UserFriend(user2dto.Id));
-            user2dto.Friends.Add(new UserFriend(user1dto.Id));
+            user1dto.Friends.Add(new UserFriend(user2dto.Id,user2dto.UserName));
+            user2dto.Friends.Add(new UserFriend(user1dto.Id,user1dto.UserName));
             dbContext.Users.Update(user1dto);
             dbContext.Users.Update(user2dto);
             await dbContext.SaveChangesAsync();
@@ -151,25 +156,68 @@ namespace ShowerShow.Repository
                 }
             }
         }
-        private IEnumerable<GetUserDTO> convertGetdtos(List<User> users)
+        private List<GetUserDTO> ConvertGetDtos(List<User> users)
         {
             Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<User, GetUserDTO>()));
             List<GetUserDTO> userdtos = new List<GetUserDTO>();
 
-            foreach (User u in users)
-            {
+            users.ForEach(delegate (User u) {
                 userdtos.Add(mapper.Map<GetUserDTO>(u));
-            }
+            });
             return userdtos;
         }
 
         public async Task<IEnumerable<GetUserDTO>> GetUsersByName(string userName)
         {
 
-            List<User> usersWithName = dbContext.Users.Where(u => u.Name.StartsWith(userName)).ToList();
-            IEnumerable<GetUserDTO> dtos =convertGetdtos(usersWithName);
-            return dtos;
-         
+            List<User> usersWithName = dbContext.Users.Where(u => u.UserName.ToLower().StartsWith(userName.ToLower())).ToList();
+            Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<User, GetUserDTO>()));
+            List<GetUserDTO> dtos = ConvertGetDtos(usersWithName);            
+            return dtos;       
+        }
+
+       
+
+        public async Task<bool> CheckIfUserExist(Guid userId)
+        {
+            await dbContext.SaveChangesAsync();
+            if (dbContext.Users.Count(x => x.Id == userId) > 0)
+                return true;
+            else
+                return false;
+        }
+
+        public async Task<bool> CheckIfUserNameExist(string userName)
+        {
+            await dbContext.SaveChangesAsync();
+            if (dbContext.Users.Count(x => x.UserName.ToLower() == userName.ToLower()) > 0)
+                return true;
+            else
+                return false;
+        }
+
+        public async Task<bool> CheckIfUserNameExist(Guid userId, string wantedUsername)
+        {
+            await dbContext.SaveChangesAsync();
+            User user =  dbContext.Users.FirstOrDefault(u => u.Id == userId);
+            if (user.UserName.ToLower() == wantedUsername.ToLower()) //We want to skip the badrequest if user is inputting the same email.
+                return false;
+            else
+            {
+                return await CheckIfUserNameExist(wantedUsername);
+            }
+        }
+
+        public async Task<bool> CheckIfEmailExist(Guid userId, string wantedEmail)
+        {
+            await dbContext.SaveChangesAsync();
+            User user = dbContext.Users.FirstOrDefault(u => u.Id == userId);
+            if (user.Email == wantedEmail) //We want to skip the badrequest if user is inputting the same email.
+                return false;
+            else
+            {
+                return await CheckIfEmailExist(wantedEmail);
+            }
         }
     }
 }
