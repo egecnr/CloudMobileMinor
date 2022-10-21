@@ -178,51 +178,7 @@ namespace ShowerShow.Controllers
                 return responseData;
             }
         }
-        [Function("UploadProfilePicture")]
-        [OpenApiOperation(operationId: "UploadProfilePicture", tags: new[] { "BlobStorage" })]
-        public static async Task<HttpResponseData> UploadProfilePicture([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequestData req, FunctionContext executionContext)
-        {
-            // get query params
-            //var testvalue = executionContext.BindingContext.BindingData["comp"];
-            // get form-body        
-            string Connection = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
-            string containerName = Environment.GetEnvironmentVariable("ContainerProfilePictures");
-            StreamReader reader = new StreamReader(req.Body);
-            var parsedFormBody = MultipartFormDataParser.ParseAsync(req.Body);
-            var file = parsedFormBody.Result.Files[0];
-            Stream myBlob = reader.BaseStream;
-            CloudStorageAccount account = CloudStorageAccount.Parse(Connection);
-            CloudBlobClient client = account.CreateCloudBlobClient();
-            CloudBlobContainer container = client.GetContainerReference(containerName);
-            CloudBlockBlob blockBlob = container.GetBlockBlobReference(file.FileName);
-            await blockBlob.UploadFromStreamAsync(file.Data);
-/*            using (var stream = GenerateStreamFromString(reader.ReadToEnd()))
-            {
-                byte[] buffer = new byte[file.Data.Length];
-                var blobClient = new BlobContainerClient(Connection, containerName);
-                var blob = blobClient.GetBlobClient(file.FileName);
-                myBlob.Position = 0;
-
-                var blobHttpHeader = new BlobHttpHeaders { ContentType = "image/jpeg" };
-                stream.Position = 0;
-                //await blob.UploadAsync(stream, new BlobUploadOptions { HttpHeaders = blobHttpHeader });
-                
-            };*/
-
-            var response = req.CreateResponse(HttpStatusCode.OK);
-
-            return response;
-        }
-        public static Stream GenerateStreamFromString(string s)
-        {
-            var stream = new MemoryStream();
-            var writer = new StreamWriter(stream);
-            writer.Write(s);
-            writer.Flush();
-            stream.Position = 0;
-            return stream;
-        }
-
+     
     }
 }
 
