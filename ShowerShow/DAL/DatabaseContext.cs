@@ -15,6 +15,7 @@ using ShowerShow.Utils;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 using Microsoft.Extensions.Options;
+using ShowerShow.Model;
 
 namespace ShowerShow.DAL
 {
@@ -26,7 +27,7 @@ namespace ShowerShow.DAL
         public DbSet<ShowerData> ShowerInstances { get; set; } = null!;
         public DbSet<Achievement> Achievements { get; set; } = null!;
         public DbSet<Preferences> Preferences { get; set; } = null!;
-
+        public DbSet<ShowerThought> ShowerThoughts { get; set; } = null!;
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
         }
@@ -35,9 +36,9 @@ namespace ShowerShow.DAL
 
             //secure connection string later
 
-            optionsBuilder.UseCosmos("https://sawa-db.documents.azure.com:443/",
-               "gggcb28Z24nJAmpz4SRwQRNT9Xyd0wn1riSKAUkvVyaBf4WRALsyx4kgl6POPmi8Ka7JHZfTx06uWD3DHzoqTw==",
-               "sawa-db");
+            optionsBuilder.UseCosmos("https://database-sawa.documents.azure.com:443/",
+               "0iV6DDVOqBso4R7ylBYskYk7vPhYtzoQS8kg7ltSdAuTY7xpXLlHtCZAh3au9qDoEOPw4lE91jVApTkQrHLB8g==",
+               "Database - SAWA");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -48,7 +49,7 @@ namespace ShowerShow.DAL
             modelBuilder.Entity<Schedule>().ToContainer("Schedules").HasPartitionKey(c=>c.UserId);
             modelBuilder.Entity<Preferences>().ToContainer("Preferences").HasPartitionKey(c=>c.UserId);
             modelBuilder.Entity<ShowerData>().ToContainer("ShowerData").HasPartitionKey(c=>c.UserId); //This could be a date too ask Frank
-
+            modelBuilder.Entity<ShowerThought>().ToContainer("ShowerThoughts").HasPartitionKey(c => c.UserId);
             modelBuilder.Entity<User>().OwnsMany(u => u.Friends);
             modelBuilder.Entity<User>().OwnsMany(u => u.Achievements);
             modelBuilder.Entity<Schedule>().OwnsMany(s => s.Tags);
