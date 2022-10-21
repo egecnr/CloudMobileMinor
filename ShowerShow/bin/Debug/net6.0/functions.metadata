@@ -104,110 +104,6 @@
     ]
   },
   {
-    "name": "GetUserFriends",
-    "scriptFile": "ShowerShow.dll",
-    "entryPoint": "ShowerShow.Control.UserFriendController.GetUserFriends",
-    "language": "dotnet-isolated",
-    "properties": {
-      "IsCodeless": false
-    },
-    "bindings": [
-      {
-        "name": "req",
-        "type": "httpTrigger",
-        "direction": "In",
-        "authLevel": "Anonymous",
-        "methods": [
-          "get"
-        ],
-        "route": "user/{userId:Guid}/friends"
-      },
-      {
-        "name": "$return",
-        "type": "http",
-        "direction": "Out"
-      }
-    ]
-  },
-  {
-    "name": "GetUserFriendById",
-    "scriptFile": "ShowerShow.dll",
-    "entryPoint": "ShowerShow.Control.UserFriendController.GetUserFriendById",
-    "language": "dotnet-isolated",
-    "properties": {
-      "IsCodeless": false
-    },
-    "bindings": [
-      {
-        "name": "req",
-        "type": "httpTrigger",
-        "direction": "In",
-        "authLevel": "Anonymous",
-        "methods": [
-          "get"
-        ],
-        "route": "user/{userId:Guid}/friends/{friendId:Guid}"
-      },
-      {
-        "name": "$return",
-        "type": "http",
-        "direction": "Out"
-      }
-    ]
-  },
-  {
-    "name": "CreateUserFriend",
-    "scriptFile": "ShowerShow.dll",
-    "entryPoint": "ShowerShow.Control.UserFriendController.CreateUserFriend",
-    "language": "dotnet-isolated",
-    "properties": {
-      "IsCodeless": false
-    },
-    "bindings": [
-      {
-        "name": "req",
-        "type": "httpTrigger",
-        "direction": "In",
-        "authLevel": "Anonymous",
-        "methods": [
-          "post"
-        ],
-        "route": "user/{userId1:Guid}/{userId2:Guid}/friends"
-      },
-      {
-        "name": "$return",
-        "type": "http",
-        "direction": "Out"
-      }
-    ]
-  },
-  {
-    "name": "DeleteUserFriend",
-    "scriptFile": "ShowerShow.dll",
-    "entryPoint": "ShowerShow.Control.UserFriendController.DeleteUserFriend",
-    "language": "dotnet-isolated",
-    "properties": {
-      "IsCodeless": false
-    },
-    "bindings": [
-      {
-        "name": "req",
-        "type": "httpTrigger",
-        "direction": "In",
-        "authLevel": "Anonymous",
-        "methods": [
-          "delete"
-        ],
-        "route": "user/{userId1:Guid}/{userId2:Guid}/friends"
-      },
-      {
-        "name": "$return",
-        "type": "http",
-        "direction": "Out"
-      }
-    ]
-  },
-  {
     "name": "CreateSchedule",
     "scriptFile": "ShowerShow.dll",
     "entryPoint": "ShowerShow.Controllers.ScheduleController.CreateSchedule",
@@ -693,6 +589,161 @@
           "put"
         ],
         "route": "user/{userId:Guid}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "LoginController",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.LoginController.Login",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "post"
+        ]
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "GetUserFriends",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserFriendController.GetUserFriends",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "user/{userId:Guid}/friends"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "GetUserFriendsByName",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserFriendController.GetUserFriendsByName",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "user/{userId:Guid}/friends/{userName}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "GetUserFriendById",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserFriendController.GetUserFriendById",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "user/{userId:Guid}/friends/{friendId:Guid}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "CreateUserFriend",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserFriendController.CreateUserFriend",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "post"
+        ],
+        "route": "user/{userId1:Guid}/{userId2:Guid}/friends"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "DeleteUserFriend",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserFriendController.DeleteUserFriend",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "delete"
+        ],
+        "route": "user/{userId1:Guid}/{userId2:Guid}/friends"
       },
       {
         "name": "$return",
