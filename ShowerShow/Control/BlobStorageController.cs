@@ -112,16 +112,7 @@ namespace ShowerShow.Controllers
                     responseData.StatusCode = HttpStatusCode.BadRequest;
                     return responseData;
                 }
-                byte[] content = null;
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    await blockBlob.DownloadToStreamAsync(ms);
-                    content = ms.ToArray();
-                    responseData.WriteBytes(content);
-                    responseData.Headers.Add("Content-Type", "image/jpeg");
-                    responseData.Headers.Add("Accept-Ranges", $"bytes");
-                    responseData.Headers.Add("Content-Disposition", $"attachment; filename={blockBlob.Name}; filename*=UTF-8'{blockBlob.Name}");
-                }
+                responseData = GetDownloadResponseData(responseData, blockBlob,"image/jpeg").Result;
                 responseData.StatusCode = HttpStatusCode.OK;
                 return responseData;
             }
@@ -191,16 +182,7 @@ namespace ShowerShow.Controllers
                     responseData.StatusCode = HttpStatusCode.BadRequest;
                     return responseData;
                 }
-                byte[] content = null;
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    await blockBlob.DownloadToStreamAsync(ms);
-                    content = ms.ToArray();
-                    responseData.WriteBytes(content);
-                    responseData.Headers.Add("Content-Type", "audio/mpeg");
-                    responseData.Headers.Add("Accept-Ranges", $"bytes");
-                    responseData.Headers.Add("Content-Disposition", $"attachment; filename={blockBlob.Name}; filename*=UTF-8'{blockBlob.Name}");
-                }
+                responseData = GetDownloadResponseData(responseData, blockBlob, "audio/mpeg").Result;
                 responseData.StatusCode = HttpStatusCode.OK;
                 return responseData;
             }
@@ -259,6 +241,20 @@ namespace ShowerShow.Controllers
                 responseData.StatusCode = HttpStatusCode.BadRequest;
                 return responseData;
             }
+        }
+        public async Task<HttpResponseData> GetDownloadResponseData(HttpResponseData responseData, CloudBlockBlob blockBlob,string ContentType)
+        {
+            byte[] content = null;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                await blockBlob.DownloadToStreamAsync(ms);
+                content = ms.ToArray();
+                responseData.WriteBytes(content);
+                responseData.Headers.Add("Content-Type", ContentType);
+                responseData.Headers.Add("Accept-Ranges", $"bytes");
+                responseData.Headers.Add("Content-Disposition", $"attachment; filename={blockBlob.Name}; filename*=UTF-8'{blockBlob.Name}");
+            }
+            return responseData;
         }
     }
 
