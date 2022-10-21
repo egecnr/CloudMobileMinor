@@ -735,7 +735,7 @@
           }
         }
       },
-      "Microsoft.Azure.Functions.Worker.Core/1.8.0": {
+      "Microsoft.Azure.Functions.Worker.Core/1.9.0-preview2": {
         "type": "package",
         "dependencies": {
           "Azure.Core": "1.10.0",
@@ -824,21 +824,21 @@
           }
         }
       },
-      "Microsoft.Azure.Functions.Worker.Sdk/1.7.0": {
+      "Microsoft.Azure.Functions.Worker.Sdk/1.8.0-preview2": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Azure.Functions.Worker.Sdk.Analyzers": "1.1.0",
-          "Microsoft.Azure.Functions.Worker.Sdk.Generators": "1.0.0-preview1"
+          "Microsoft.Azure.Functions.Worker.Sdk.Analyzers": "1.1.1",
+          "Microsoft.Azure.Functions.Worker.Sdk.Generators": "1.0.0-preview2"
         },
         "build": {
           "build/Microsoft.Azure.Functions.Worker.Sdk.props": {},
           "build/Microsoft.Azure.Functions.Worker.Sdk.targets": {}
         }
       },
-      "Microsoft.Azure.Functions.Worker.Sdk.Analyzers/1.1.0": {
+      "Microsoft.Azure.Functions.Worker.Sdk.Analyzers/1.1.1": {
         "type": "package"
       },
-      "Microsoft.Azure.Functions.Worker.Sdk.Generators/1.0.0-preview1": {
+      "Microsoft.Azure.Functions.Worker.Sdk.Generators/1.0.0-preview2": {
         "type": "package",
         "dependencies": {
           "Microsoft.CodeAnalysis.CSharp": "3.11.0"
@@ -1987,6 +1987,19 @@
           }
         }
       },
+      "Microsoft.IdentityModel.Abstractions/6.24.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/Microsoft.IdentityModel.Abstractions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Microsoft.IdentityModel.Abstractions.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.IdentityModel.Clients.ActiveDirectory/3.14.2": {
         "type": "package",
         "dependencies": {
@@ -2007,31 +2020,36 @@
           }
         }
       },
-      "Microsoft.IdentityModel.JsonWebTokens/6.8.0": {
+      "Microsoft.IdentityModel.JsonWebTokens/6.24.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.IdentityModel.Tokens": "6.8.0"
+          "Microsoft.IdentityModel.Tokens": "6.24.0",
+          "System.Text.Encoding": "4.3.0",
+          "System.Text.Json": "4.7.2"
         },
         "compile": {
-          "lib/netstandard2.0/Microsoft.IdentityModel.JsonWebTokens.dll": {
+          "lib/net6.0/Microsoft.IdentityModel.JsonWebTokens.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.IdentityModel.JsonWebTokens.dll": {
+          "lib/net6.0/Microsoft.IdentityModel.JsonWebTokens.dll": {
             "related": ".xml"
           }
         }
       },
-      "Microsoft.IdentityModel.Logging/6.8.0": {
+      "Microsoft.IdentityModel.Logging/6.24.0": {
         "type": "package",
+        "dependencies": {
+          "Microsoft.IdentityModel.Abstractions": "6.24.0"
+        },
         "compile": {
-          "lib/netstandard2.0/Microsoft.IdentityModel.Logging.dll": {
+          "lib/net6.0/Microsoft.IdentityModel.Logging.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.IdentityModel.Logging.dll": {
+          "lib/net6.0/Microsoft.IdentityModel.Logging.dll": {
             "related": ".xml"
           }
         }
@@ -2070,20 +2088,20 @@
           }
         }
       },
-      "Microsoft.IdentityModel.Tokens/6.8.0": {
+      "Microsoft.IdentityModel.Tokens/6.24.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.CSharp": "4.5.0",
-          "Microsoft.IdentityModel.Logging": "6.8.0",
+          "Microsoft.IdentityModel.Logging": "6.24.0",
           "System.Security.Cryptography.Cng": "4.5.0"
         },
         "compile": {
-          "lib/netstandard2.0/Microsoft.IdentityModel.Tokens.dll": {
+          "lib/net6.0/Microsoft.IdentityModel.Tokens.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.IdentityModel.Tokens.dll": {
+          "lib/net6.0/Microsoft.IdentityModel.Tokens.dll": {
             "related": ".xml"
           }
         }
@@ -2919,19 +2937,19 @@
           }
         }
       },
-      "System.IdentityModel.Tokens.Jwt/6.8.0": {
+      "System.IdentityModel.Tokens.Jwt/6.24.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.IdentityModel.JsonWebTokens": "6.8.0",
-          "Microsoft.IdentityModel.Tokens": "6.8.0"
+          "Microsoft.IdentityModel.JsonWebTokens": "6.24.0",
+          "Microsoft.IdentityModel.Tokens": "6.24.0"
         },
         "compile": {
-          "lib/netstandard2.0/System.IdentityModel.Tokens.Jwt.dll": {
+          "lib/net6.0/System.IdentityModel.Tokens.Jwt.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/netstandard2.0/System.IdentityModel.Tokens.Jwt.dll": {
+          "lib/net6.0/System.IdentityModel.Tokens.Jwt.dll": {
             "related": ".xml"
           }
         }
@@ -4487,15 +4505,17 @@
           "Microsoft.AspNetCore.CookiePolicy": "2.2.8",
           "Microsoft.Azure.Cosmos": "3.31.0",
           "Microsoft.Azure.Functions.Worker": "1.10.0",
+          "Microsoft.Azure.Functions.Worker.Core": "1.9.0-preview2",
           "Microsoft.Azure.Functions.Worker.Extensions.Http": "3.0.13",
           "Microsoft.Azure.Functions.Worker.Extensions.OpenApi": "1.4.0",
-          "Microsoft.Azure.Functions.Worker.Sdk": "1.7.0",
+          "Microsoft.Azure.Functions.Worker.Sdk": "1.8.0-preview2",
           "Microsoft.Azure.WebJobs.Extensions.CosmosDB": "3.0.10",
           "Microsoft.Azure.WebJobs.Extensions.OpenApi.Core": "1.4.0",
           "Microsoft.EntityFrameworkCore": "6.0.9",
           "Microsoft.EntityFrameworkCore.Cosmos": "6.0.9",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.9",
-          "Microsoft.Extensions.Configuration.UserSecrets": "6.0.1"
+          "Microsoft.Extensions.Configuration.UserSecrets": "6.0.1",
+          "System.IdentityModel.Tokens.Jwt": "6.24.0"
         },
         "compile": {
           "bin/placeholder/ShowerShow.dll": {}
@@ -5103,10 +5123,10 @@
         "microsoft.azure.functions.worker.nuspec"
       ]
     },
-    "Microsoft.Azure.Functions.Worker.Core/1.8.0": {
-      "sha512": "8awXnik71Og7WAKUQLhPAatm236Icf9XAu0oerNCGjfAVjIF6o5U1M7id9V368ZvCsEXN3Ejq0sGRAEzjt/t6A==",
+    "Microsoft.Azure.Functions.Worker.Core/1.9.0-preview2": {
+      "sha512": "o5daClJpGhOimN1HpMayRRvWpzXeD7PPbhu40Bodc6LBoQKmlrSVO6xwwsD0sYNcTC1P1UADg6L6cpY9OAFKjw==",
       "type": "package",
-      "path": "microsoft.azure.functions.worker.core/1.8.0",
+      "path": "microsoft.azure.functions.worker.core/1.9.0-preview2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -5115,7 +5135,7 @@
         "lib/net5.0/Microsoft.Azure.Functions.Worker.Core.xml",
         "lib/netstandard2.0/Microsoft.Azure.Functions.Worker.Core.dll",
         "lib/netstandard2.0/Microsoft.Azure.Functions.Worker.Core.xml",
-        "microsoft.azure.functions.worker.core.1.8.0.nupkg.sha512",
+        "microsoft.azure.functions.worker.core.1.9.0-preview2.nupkg.sha512",
         "microsoft.azure.functions.worker.core.nuspec"
       ]
     },
@@ -5180,10 +5200,10 @@
         "microsoft.azure.functions.worker.grpc.nuspec"
       ]
     },
-    "Microsoft.Azure.Functions.Worker.Sdk/1.7.0": {
-      "sha512": "kJZEtB4EIB3VeXyUxfilXWE6c49rNnIZvPvPBN6tpTvNHqJQrXm7pgsjwmE3Qw2t2EwhDgVdFDckWNbQQnnS1w==",
+    "Microsoft.Azure.Functions.Worker.Sdk/1.8.0-preview2": {
+      "sha512": "nRz+UXiijXt/985aQM42omrtUEe8mzRsHllsGLaU+9toAdFcGfR0CeZqICgs8Yunm2EV5+cscsIyTuFvqdFZyQ==",
       "type": "package",
-      "path": "microsoft.azure.functions.worker.sdk/1.7.0",
+      "path": "microsoft.azure.functions.worker.sdk/1.8.0-preview2",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
@@ -5194,7 +5214,7 @@
         "build/Microsoft.Azure.Functions.Worker.Sdk.props",
         "build/Microsoft.Azure.Functions.Worker.Sdk.targets",
         "icon.png",
-        "microsoft.azure.functions.worker.sdk.1.7.0.nupkg.sha512",
+        "microsoft.azure.functions.worker.sdk.1.8.0-preview2.nupkg.sha512",
         "microsoft.azure.functions.worker.sdk.nuspec",
         "tools/net472/Humanizer.dll",
         "tools/net472/ICSharpCode.SharpZipLib.dll",
@@ -5282,32 +5302,32 @@
         "tools/worker.config.json"
       ]
     },
-    "Microsoft.Azure.Functions.Worker.Sdk.Analyzers/1.1.0": {
-      "sha512": "J7AZ9iv/UCd4Di0c84h1P/Sa1aQr5uqO0EBUKwE0AZeWJ11dDfKAwxMiAxYOKR+giy31DWBnuFc4GKY3BQYUjg==",
+    "Microsoft.Azure.Functions.Worker.Sdk.Analyzers/1.1.1": {
+      "sha512": "VtOHjpqhLEfgc3O9ufnRcOH5dlSKpmQKihE2rb9fsQ3bqwLRnrzluWzX0xeCqPXLaGUFYx+Nk4mdFWwPDOSyJg==",
       "type": "package",
-      "path": "microsoft.azure.functions.worker.sdk.analyzers/1.1.0",
+      "path": "microsoft.azure.functions.worker.sdk.analyzers/1.1.1",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "analyzers/dotnet/cs/Microsoft.Azure.Functions.Worker.Sdk.Analyzers.dll",
         "icon.png",
-        "microsoft.azure.functions.worker.sdk.analyzers.1.1.0.nupkg.sha512",
+        "microsoft.azure.functions.worker.sdk.analyzers.1.1.1.nupkg.sha512",
         "microsoft.azure.functions.worker.sdk.analyzers.nuspec",
         "tools/install.ps1",
         "tools/uninstall.ps1"
       ]
     },
-    "Microsoft.Azure.Functions.Worker.Sdk.Generators/1.0.0-preview1": {
-      "sha512": "XwJtFvfC0NlqpcNsZzcf8td9Pg4NlstU9+eKTrRxKp0kiNK5EowoixhUIeK/wseI9R0goILZdQ190tkwlojbTw==",
+    "Microsoft.Azure.Functions.Worker.Sdk.Generators/1.0.0-preview2": {
+      "sha512": "JE2GWzNxi0KC45oaLhEyi1ZnEB+cmY5D3dJjSj/nD9lTel+8tXeOQWCtBd8lXvUqmLayimgzteQOAQzImzbMyg==",
       "type": "package",
-      "path": "microsoft.azure.functions.worker.sdk.generators/1.0.0-preview1",
+      "path": "microsoft.azure.functions.worker.sdk.generators/1.0.0-preview2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "analyzers/dotnet/cs/Microsoft.Azure.Functions.Worker.Sdk.Generators.dll",
         "icon.png",
-        "microsoft.azure.functions.worker.sdk.generators.1.0.0-preview1.nupkg.sha512",
+        "microsoft.azure.functions.worker.sdk.generators.1.0.0-preview2.nupkg.sha512",
         "microsoft.azure.functions.worker.sdk.generators.nuspec"
       ]
     },
@@ -6699,6 +6719,27 @@
         "ref/xamarinmac20/Microsoft.Identity.Client.xml"
       ]
     },
+    "Microsoft.IdentityModel.Abstractions/6.24.0": {
+      "sha512": "X6aBK56Ot15qKyG7X37KsPnrwah+Ka55NJWPppWVTDi8xWq7CJgeNw2XyaeHgE1o/mW4THwoabZkBbeG2TPBiw==",
+      "type": "package",
+      "path": "microsoft.identitymodel.abstractions/6.24.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Microsoft.IdentityModel.Abstractions.dll",
+        "lib/net45/Microsoft.IdentityModel.Abstractions.xml",
+        "lib/net461/Microsoft.IdentityModel.Abstractions.dll",
+        "lib/net461/Microsoft.IdentityModel.Abstractions.xml",
+        "lib/net472/Microsoft.IdentityModel.Abstractions.dll",
+        "lib/net472/Microsoft.IdentityModel.Abstractions.xml",
+        "lib/net6.0/Microsoft.IdentityModel.Abstractions.dll",
+        "lib/net6.0/Microsoft.IdentityModel.Abstractions.xml",
+        "lib/netstandard2.0/Microsoft.IdentityModel.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.IdentityModel.Abstractions.xml",
+        "microsoft.identitymodel.abstractions.6.24.0.nupkg.sha512",
+        "microsoft.identitymodel.abstractions.nuspec"
+      ]
+    },
     "Microsoft.IdentityModel.Clients.ActiveDirectory/3.14.2": {
       "sha512": "TNsJJMiRnkeby1ovThVoV9yFsPWjAdluwOA+Nf0LtSsBVVrKQv8Qp4kYOgyNwMVj+pDwbhXISySk+4HyHVWNZQ==",
       "type": "package",
@@ -6731,10 +6772,10 @@
         "microsoft.identitymodel.clients.activedirectory.nuspec"
       ]
     },
-    "Microsoft.IdentityModel.JsonWebTokens/6.8.0": {
-      "sha512": "+7JIww64PkMt7NWFxoe4Y/joeF7TAtA/fQ0b2GFGcagzB59sKkTt/sMZWR6aSZht5YC7SdHi3W6yM1yylRGJCQ==",
+    "Microsoft.IdentityModel.JsonWebTokens/6.24.0": {
+      "sha512": "XDWrkThcxfuWp79AvAtg5f+uRS1BxkIbJnsG/e8VPzOWkYYuDg33emLjp5EWcwXYYIDsHnVZD/00kM/PYFQc/g==",
       "type": "package",
-      "path": "microsoft.identitymodel.jsonwebtokens/6.8.0",
+      "path": "microsoft.identitymodel.jsonwebtokens/6.24.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -6742,16 +6783,20 @@
         "lib/net45/Microsoft.IdentityModel.JsonWebTokens.xml",
         "lib/net461/Microsoft.IdentityModel.JsonWebTokens.dll",
         "lib/net461/Microsoft.IdentityModel.JsonWebTokens.xml",
+        "lib/net472/Microsoft.IdentityModel.JsonWebTokens.dll",
+        "lib/net472/Microsoft.IdentityModel.JsonWebTokens.xml",
+        "lib/net6.0/Microsoft.IdentityModel.JsonWebTokens.dll",
+        "lib/net6.0/Microsoft.IdentityModel.JsonWebTokens.xml",
         "lib/netstandard2.0/Microsoft.IdentityModel.JsonWebTokens.dll",
         "lib/netstandard2.0/Microsoft.IdentityModel.JsonWebTokens.xml",
-        "microsoft.identitymodel.jsonwebtokens.6.8.0.nupkg.sha512",
+        "microsoft.identitymodel.jsonwebtokens.6.24.0.nupkg.sha512",
         "microsoft.identitymodel.jsonwebtokens.nuspec"
       ]
     },
-    "Microsoft.IdentityModel.Logging/6.8.0": {
-      "sha512": "Rfh/p4MaN4gkmhPxwbu8IjrmoDncGfHHPh1sTnc0AcM/Oc39/fzC9doKNWvUAjzFb8LqA6lgZyblTrIsX/wDXg==",
+    "Microsoft.IdentityModel.Logging/6.24.0": {
+      "sha512": "qLYWDOowM/zghmYKXw1yfYKlHOdS41i8t4hVXr9bSI90zHqhyhQh9GwVy8pENzs5wHeytU23DymluC9NtgYv7w==",
       "type": "package",
-      "path": "microsoft.identitymodel.logging/6.8.0",
+      "path": "microsoft.identitymodel.logging/6.24.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -6759,9 +6804,13 @@
         "lib/net45/Microsoft.IdentityModel.Logging.xml",
         "lib/net461/Microsoft.IdentityModel.Logging.dll",
         "lib/net461/Microsoft.IdentityModel.Logging.xml",
+        "lib/net472/Microsoft.IdentityModel.Logging.dll",
+        "lib/net472/Microsoft.IdentityModel.Logging.xml",
+        "lib/net6.0/Microsoft.IdentityModel.Logging.dll",
+        "lib/net6.0/Microsoft.IdentityModel.Logging.xml",
         "lib/netstandard2.0/Microsoft.IdentityModel.Logging.dll",
         "lib/netstandard2.0/Microsoft.IdentityModel.Logging.xml",
-        "microsoft.identitymodel.logging.6.8.0.nupkg.sha512",
+        "microsoft.identitymodel.logging.6.24.0.nupkg.sha512",
         "microsoft.identitymodel.logging.nuspec"
       ]
     },
@@ -6799,10 +6848,10 @@
         "microsoft.identitymodel.protocols.openidconnect.nuspec"
       ]
     },
-    "Microsoft.IdentityModel.Tokens/6.8.0": {
-      "sha512": "gTqzsGcmD13HgtNePPcuVHZ/NXWmyV+InJgalW/FhWpII1D7V1k0obIseGlWMeA4G+tZfeGMfXr0klnWbMR/mQ==",
+    "Microsoft.IdentityModel.Tokens/6.24.0": {
+      "sha512": "ZPqHi86UYuqJXJ7bLnlEctHKkPKT4lGUFbotoCNiXNCSL02emYlcxzGYsRGWWmbFEcYDMi2dcTLLYNzHqWOTsw==",
       "type": "package",
-      "path": "microsoft.identitymodel.tokens/6.8.0",
+      "path": "microsoft.identitymodel.tokens/6.24.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -6810,9 +6859,13 @@
         "lib/net45/Microsoft.IdentityModel.Tokens.xml",
         "lib/net461/Microsoft.IdentityModel.Tokens.dll",
         "lib/net461/Microsoft.IdentityModel.Tokens.xml",
+        "lib/net472/Microsoft.IdentityModel.Tokens.dll",
+        "lib/net472/Microsoft.IdentityModel.Tokens.xml",
+        "lib/net6.0/Microsoft.IdentityModel.Tokens.dll",
+        "lib/net6.0/Microsoft.IdentityModel.Tokens.xml",
         "lib/netstandard2.0/Microsoft.IdentityModel.Tokens.dll",
         "lib/netstandard2.0/Microsoft.IdentityModel.Tokens.xml",
-        "microsoft.identitymodel.tokens.6.8.0.nupkg.sha512",
+        "microsoft.identitymodel.tokens.6.24.0.nupkg.sha512",
         "microsoft.identitymodel.tokens.nuspec"
       ]
     },
@@ -8414,10 +8467,10 @@
         "system.globalization.extensions.nuspec"
       ]
     },
-    "System.IdentityModel.Tokens.Jwt/6.8.0": {
-      "sha512": "5tBCjAub2Bhd5qmcd0WhR5s354e4oLYa//kOWrkX+6/7ZbDDJjMTfwLSOiZ/MMpWdE4DWPLOfTLOq/juj9CKzA==",
+    "System.IdentityModel.Tokens.Jwt/6.24.0": {
+      "sha512": "Qibsj9MPWq8S/C0FgvmsLfIlHLE7ay0MJIaAmK94ivN3VyDdglqReed5qMvdQhSL0BzK6v0Z1wB/sD88zVu6Jw==",
       "type": "package",
-      "path": "system.identitymodel.tokens.jwt/6.8.0",
+      "path": "system.identitymodel.tokens.jwt/6.24.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -8425,9 +8478,13 @@
         "lib/net45/System.IdentityModel.Tokens.Jwt.xml",
         "lib/net461/System.IdentityModel.Tokens.Jwt.dll",
         "lib/net461/System.IdentityModel.Tokens.Jwt.xml",
+        "lib/net472/System.IdentityModel.Tokens.Jwt.dll",
+        "lib/net472/System.IdentityModel.Tokens.Jwt.xml",
+        "lib/net6.0/System.IdentityModel.Tokens.Jwt.dll",
+        "lib/net6.0/System.IdentityModel.Tokens.Jwt.xml",
         "lib/netstandard2.0/System.IdentityModel.Tokens.Jwt.dll",
         "lib/netstandard2.0/System.IdentityModel.Tokens.Jwt.xml",
-        "system.identitymodel.tokens.jwt.6.8.0.nupkg.sha512",
+        "system.identitymodel.tokens.jwt.6.24.0.nupkg.sha512",
         "system.identitymodel.tokens.jwt.nuspec"
       ]
     },
@@ -12196,7 +12253,7 @@
       "Microsoft.Azure.Functions.Worker >= 1.10.0",
       "Microsoft.Azure.Functions.Worker.Extensions.Http >= 3.0.13",
       "Microsoft.Azure.Functions.Worker.Extensions.OpenApi >= 1.4.0",
-      "Microsoft.Azure.Functions.Worker.Sdk >= 1.7.0",
+      "Microsoft.Azure.Functions.Worker.Sdk >= 1.8.0-preview2",
       "Microsoft.Azure.WebJobs.Extensions.CosmosDB >= 3.0.10",
       "Microsoft.Azure.WebJobs.Extensions.OpenApi.Core >= 1.4.0",
       "Microsoft.EntityFrameworkCore >= 6.0.9",
@@ -12295,7 +12352,7 @@
           },
           "Microsoft.Azure.Functions.Worker.Sdk": {
             "target": "Package",
-            "version": "[1.7.0, )"
+            "version": "[1.8.0-preview2, )"
           },
           "Microsoft.Azure.WebJobs.Extensions.CosmosDB": {
             "target": "Package",

@@ -18,6 +18,7 @@ using ShowerShow.Model;
 using ShowerShow.Service;
 using System.Configuration;
 using System.ComponentModel.DataAnnotations;
+using ShowerShow.Authorization;
 
 namespace ShowerShow.Controllers
 {
@@ -35,16 +36,21 @@ namespace ShowerShow.Controllers
         }
         [Function("CreateShowerThought")]
         [OpenApiOperation(operationId: "CreateShowerThought", tags: new[] { "ShowerThoughts" })]
+        [ExampleAuth]
         [OpenApiRequestBody("application/json", typeof(ShowerThoughtDTO), Description = "The shower thought data.")]
         [OpenApiParameter(name: "ShowerId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The ShowerId parameter")]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Query, Required = false, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(ShowerThought), Description = "The OK response with the new thought.")]
-        public async Task<HttpResponseData> CreateShowerThought([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "shower/thoughts/{ShowerId:Guid}")] HttpRequestData req, Guid ShowerId, Guid UserId)
+        public async Task<HttpResponseData> CreateShowerThought([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "shower/thoughts/{ShowerId:Guid}")] HttpRequestData req, Guid ShowerId, Guid UserId,FunctionContext functionContext)
         {
             _logger.LogInformation("Creating new thought.");
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             HttpResponseData responseData = req.CreateResponse();
-
+            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            {
+                responseData.StatusCode = HttpStatusCode.Unauthorized;
+                return responseData;
+            }
             if (await userService.CheckIfUserExistAndActive(UserId))
             {
                // passing both shower id and user id because I dont have a ShowerData class
@@ -62,14 +68,20 @@ namespace ShowerShow.Controllers
             }
         }
         [Function("DeleteShowerThought")]
+        [ExampleAuth]
         [OpenApiOperation(operationId: "DeleteShowerThought", tags: new[] { "ShowerThoughts" })]
         [OpenApiParameter(name: "ThoughtId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The ShowerThought ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerThought), Description = "The OK response with the deleted thought")]
-        public async Task<HttpResponseData> DeleteShowerThought([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "shower/thoughts/{ThoughtId:Guid}")] HttpRequestData req, Guid ThoughtId)
+        public async Task<HttpResponseData> DeleteShowerThought([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "shower/thoughts/{ThoughtId:Guid}")] HttpRequestData req, Guid ThoughtId,FunctionContext functionContext)
         {
             _logger.LogInformation("Deleting thought.");
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             HttpResponseData responseData = req.CreateResponse();
+            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            {
+                responseData.StatusCode = HttpStatusCode.Unauthorized;
+                return responseData;
+            }
             try
             {
                 ShowerThought thought = null;
@@ -96,14 +108,20 @@ namespace ShowerShow.Controllers
         }
         [Function("GetThoughtById")]
         [OpenApiOperation(operationId: "GetThoughtById", tags: new[] { "ShowerThoughts" })]
+        [ExampleAuth]
         [OpenApiParameter(name: "ThoughtId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The thought ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerThought), Description = "The OK response with the retrieved thought")]
-        public async Task<HttpResponseData> GetThoughtById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "shower/thoughts/{ThoughtId:Guid}")] HttpRequestData req, Guid ThoughtId)
+        public async Task<HttpResponseData> GetThoughtById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "shower/thoughts/{ThoughtId:Guid}")] HttpRequestData req, Guid ThoughtId, FunctionContext functionContext)
         {
             _logger.LogInformation("Retrieving schedule.");
 
 
             HttpResponseData responseData = req.CreateResponse();
+            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            {
+                responseData.StatusCode = HttpStatusCode.Unauthorized;
+                return responseData;
+            }
             try
             {
                 ShowerThought thought = await showerThoughtService.GetShowerThoughtById(ThoughtId);
@@ -120,14 +138,20 @@ namespace ShowerShow.Controllers
         }
         [Function("GetThoughtByShowerId")]
         [OpenApiOperation(operationId: "GetThoughtByShowerId", tags: new[] { "ShowerThoughts" })]
+        [ExampleAuth]
         [OpenApiParameter(name: "ShowerId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The shower ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerThought), Description = "The OK response with the retrieved thoughts")]
-        public async Task<HttpResponseData> GetThoughtByShowerId([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "shower/thoughts/{ShowerId:Guid}/s")] HttpRequestData req, Guid ShowerId)
+        public async Task<HttpResponseData> GetThoughtByShowerId([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "shower/thoughts/{ShowerId:Guid}/s")] HttpRequestData req, Guid ShowerId, FunctionContext functionContext)
         {
             _logger.LogInformation("Retrieving schedule.");
 
 
             HttpResponseData responseData = req.CreateResponse();
+            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            {
+                responseData.StatusCode = HttpStatusCode.Unauthorized;
+                return responseData;
+            }
             try
             {
                 ShowerThought thought = await showerThoughtService.GetThoughtByShowerId(ShowerId);
@@ -144,15 +168,21 @@ namespace ShowerShow.Controllers
         }
         [Function("GetThoughtsByUserId")]
         [OpenApiOperation(operationId: "GetThoughtsByUserId", tags: new[] { "ShowerThoughts" })]
+        [ExampleAuth]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The user ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerThought), Description = "The OK response with the retrieved thoughts")]
-        public async Task<HttpResponseData> GetThoughtsByUserId([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "shower/thoughts/{UserId:Guid}/u")] HttpRequestData req, Guid UserId)
+        public async Task<HttpResponseData> GetThoughtsByUserId([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "shower/thoughts/{UserId:Guid}/u")] HttpRequestData req, Guid UserId, FunctionContext functionContext)
         {
             _logger.LogInformation("Retrieving thoughts.");
 
 
             HttpResponseData responseData = req.CreateResponse();
-            if(await userService.CheckIfUserExistAndActive(UserId))
+            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            {
+                responseData.StatusCode = HttpStatusCode.Unauthorized;
+                return responseData;
+            }
+            if (await userService.CheckIfUserExistAndActive(UserId))
             {
                 List<ShowerThought> thoughts = (List<ShowerThought>)await showerThoughtService.GetAllShowerThoughtsForUser(UserId);
                 await responseData.WriteAsJsonAsync(thoughts);
@@ -168,16 +198,22 @@ namespace ShowerShow.Controllers
         }
         [Function("GetThoughtsByDate")]
         [OpenApiOperation(operationId: "GetThoughtsByDate", tags: new[] { "ShowerThoughts" })]
+        [ExampleAuth]
         [OpenApiParameter(name: "Date", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The date parameter")]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The user ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerThought), Description = "The OK response with the retrieved thoughts")]
-        public async Task<HttpResponseData> GetThoughtsByDate([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "shower/thoughts/{UserId:Guid}/date")] HttpRequestData req, Guid UserId, string Date)
+        public async Task<HttpResponseData> GetThoughtsByDate([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "shower/thoughts/{UserId:Guid}/date")] HttpRequestData req, Guid UserId, string Date, FunctionContext functionContext)
         {
             _logger.LogInformation("Retrieving thoughts.");
 
 
             HttpResponseData responseData = req.CreateResponse();
-            if(await userService.CheckIfUserExistAndActive(UserId))
+            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            {
+                responseData.StatusCode = HttpStatusCode.Unauthorized;
+                return responseData;
+            }
+            if (await userService.CheckIfUserExistAndActive(UserId))
             {
                 DateTime dateTime = DateTime.ParseExact(Date, "dd-MM-yyyy",System.Globalization.CultureInfo.InvariantCulture);
                 List<ShowerThought> thoughts = (List<ShowerThought>)await showerThoughtService.GetShowerThoughtsByDate(dateTime, UserId);
@@ -194,16 +230,21 @@ namespace ShowerShow.Controllers
         }
         [Function("UpdateThought")]
         [OpenApiOperation(operationId: "UpdateThought", tags: new[] { "ShowerThoughts" })]
+        [ExampleAuth]
         [OpenApiParameter(name: "ThoughtId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The ThoughtId  ")]
         [OpenApiRequestBody("application/json", typeof(UpdateShowerThoughtDTO), Description = "The shower thought data.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerThought), Description = "The OK response with the updated thought.")]
-        public async Task<HttpResponseData> UpdateThought([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "shower/thoughts/{ThoughtId:Guid}")] HttpRequestData req, Guid ThoughtId)
+        public async Task<HttpResponseData> UpdateThought([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "shower/thoughts/{ThoughtId:Guid}")] HttpRequestData req, Guid ThoughtId, FunctionContext functionContext)
         {
             _logger.LogInformation("Updating.");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             HttpResponseData responseData = req.CreateResponse();
-
+            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            {
+                responseData.StatusCode = HttpStatusCode.Unauthorized;
+                return responseData;
+            }
             try
             {
                 ShowerThought thought = null;
@@ -229,15 +270,20 @@ namespace ShowerShow.Controllers
         }
         [Function("GetThoughtsByContent")]
         [OpenApiOperation(operationId: "GetThoughtsByContent", tags: new[] { "ShowerThoughts" })]
+        [ExampleAuth]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The user id ")]
         [OpenApiParameter(name: "SearchWord", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "The word to search for ")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerThought), Description = "The OK response with the retrieved thoughts.")]
-        public async Task<HttpResponseData> GetThoughtsByContent([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "shower/thoughts/{UserId:Guid}/{SearchWord}")] HttpRequestData req, Guid UserId, string SearchWord)
+        public async Task<HttpResponseData> GetThoughtsByContent([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "shower/thoughts/{UserId:Guid}/{SearchWord}")] HttpRequestData req, Guid UserId, string SearchWord, FunctionContext functionContext)
         {
             _logger.LogInformation("Getting thoughts.");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             HttpResponseData responseData = req.CreateResponse();
+            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            {
+                responseData.StatusCode = HttpStatusCode.Unauthorized;
+                return responseData;
+            }
             if (await userService.CheckIfUserExistAndActive(UserId))
             {
                 List<ShowerThought> thoughts = (List<ShowerThought>)await showerThoughtService.GetThoughtsByContent(SearchWord, UserId);
