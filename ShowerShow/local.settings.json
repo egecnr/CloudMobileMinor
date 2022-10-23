@@ -6,7 +6,12 @@
     "ContainerProfilePictures": "profile-pictures",
     "ContainerDefaultVoices": "default-voices",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-    "DBConnection": "AccountEndpoint=https://sawa-db.documents.azure.com:443/;AccountEndpoint=https://sawa-db.documents.azure.com:443/;AccountKey=gggcb28Z24nJAmpz4SRwQRNT9Xyd0wn1riSKAUkvVyaBf4WRALsyx4kgl6POPmi8Ka7JHZfTx06uWD3DHzoqTw==;"
+    "DBConnection": "AccountEndpoint=https://database-sawa.documents.azure.com:443/;AccountKey=0iV6DDVOqBso4R7ylBYskYk7vPhYtzoQS8kg7ltSdAuTY7xpXLlHtCZAh3au9qDoEOPw4lE91jVApTkQrHLB8g==;"
 
+  },
+  "JwtSettings": {
+    "Key": "azurejwtkeyforexamplethatneedstobelonginordertoworkletsseeifthisworks",
+    "Issuer": "SawaApp.azurewebsites.net",
+    "Audience": "User"
   }
 }

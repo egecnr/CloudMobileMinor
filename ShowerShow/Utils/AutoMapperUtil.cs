@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ShowerShow.Utils
 {
-    internal class AutoMapperUtil
+    public class AutoMapperUtil
     {
         public static Mapper ReturnMapper(MapperConfiguration config)
         {

@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace ShowerShow.Repository
 {
-    internal class ScheduleRepository : IScheduleRepository
+    public class ScheduleRepository : IScheduleRepository
     {
         private DatabaseContext dbContext;
 
