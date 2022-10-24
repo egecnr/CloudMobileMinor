@@ -11,6 +11,6 @@ namespace ShowerShow.Repository.Interface
     public interface IShowerDataRepository
     {
         public Task<ShowerData> GetShowerDataByUserId(Guid userId, Guid showerId);
-        public Task CreateShower(CreateShowerDataDTO shower, Guid userId);
+        public Task CreateShowerDataById(CreateShowerDataDTO shower, Guid userId);
     }
 }

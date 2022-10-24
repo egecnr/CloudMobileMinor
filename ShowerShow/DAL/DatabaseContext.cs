@@ -27,6 +27,7 @@ namespace ShowerShow.DAL
         public DbSet<Schedule> Schedules { get; set; } = null!;
         public DbSet<ShowerData> ShowerInstances { get; set; } = null!;
         public DbSet<TermsAndConditions> TermsAndConditions { get; set; } = null!;
+        public DbSet<Disclaimers> Disclaimers { get; set; } = null!;
         public DbSet<Achievement> Achievements { get; set; } = null!;
         public DbSet<Preferences> Preferences { get; set; } = null!;
 

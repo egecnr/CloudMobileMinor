@@ -32,7 +32,7 @@ namespace ShowerShow.Control
         }
 
         [Function(nameof(GetTermsAndConditions))]
-        [OpenApiOperation(operationId: "getTermsAndCondition", tags: new[] { "Terms and Conditions" })]
+        [OpenApiOperation(operationId: "GetTermsAndCondition", tags: new[] { "Terms and Conditions" })]
         [ExampleAuth]
         [OpenApiParameter(name: "", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerData), Description = "Successfully received terms and conditions")]
@@ -46,7 +46,7 @@ namespace ShowerShow.Control
 
 
         [Function(nameof(UpdateTermsAndCondition))]
-        [OpenApiOperation(operationId: "UpdateTermsAndCondition", tags: new[] { "Terms and Conditions" })]
+        [OpenApiOperation(operationId: "UpdateTermsAndCondition", tags: new[] {"Terms and Conditions"})]
         [ExampleAuth]
         [OpenApiParameter(name: "", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerData), Description = "Successfully updated terms and conditions")]

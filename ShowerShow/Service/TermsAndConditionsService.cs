@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ShowerShow.Service
 {
-    public class TermsAndConditionsService
+    public class TermsAndConditionsService : ItermsAndConditionsService
     {
         private ITermsAndConditionRepository _termsAndConditionRepository;
         public TermsAndConditionsService(ITermsAndConditionRepository termsAndConditionRepository)
@@ -18,6 +18,10 @@ namespace ShowerShow.Service
         public Task<TermsAndConditions> GetTermsAndConditions(TermsAndConditions termsAndConditions)
         {
             return _termsAndConditionRepository.GetTermsAndConditions(termsAndConditions);
+        }
+        public Task<TermsAndConditions> UpdateTermsAndConditions(TermsAndConditions termsAndConditions)
+        {
+            return _termsAndConditionRepository.UpdateTermsAndConditions(termsAndConditions);
         }
     }
 }
