@@ -35,7 +35,7 @@ namespace ShowerShow.Controllers
             this.userService = userService;
         }
         [Function("CreateShowerThought")]
-        [OpenApiOperation(operationId: "CreateShowerThought", tags: new[] { "ShowerThoughts" })]
+        [OpenApiOperation(operationId: "CreateShowerThought", tags: new[] { "Shower Thoughts" })]
         [ExampleAuth]
         [OpenApiRequestBody("application/json", typeof(ShowerThoughtDTO), Description = "The shower thought data.")]
         [OpenApiParameter(name: "ShowerId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The ShowerId parameter")]
@@ -69,7 +69,7 @@ namespace ShowerShow.Controllers
         }
         [Function("DeleteShowerThought")]
         [ExampleAuth]
-        [OpenApiOperation(operationId: "DeleteShowerThought", tags: new[] { "ShowerThoughts" })]
+        [OpenApiOperation(operationId: "DeleteShowerThought", tags: new[] { "Shower Thoughts" })]
         [OpenApiParameter(name: "ThoughtId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The ShowerThought ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerThought), Description = "The OK response with the deleted thought")]
         public async Task<HttpResponseData> DeleteShowerThought([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "shower/thoughts/{ThoughtId:Guid}")] HttpRequestData req, Guid ThoughtId,FunctionContext functionContext)
@@ -107,7 +107,7 @@ namespace ShowerShow.Controllers
             }
         }
         [Function("GetThoughtById")]
-        [OpenApiOperation(operationId: "GetThoughtById", tags: new[] { "ShowerThoughts" })]
+        [OpenApiOperation(operationId: "GetThoughtById", tags: new[] { "Shower Thoughts" })]
         [ExampleAuth]
         [OpenApiParameter(name: "ThoughtId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The thought ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerThought), Description = "The OK response with the retrieved thought")]
@@ -137,7 +137,7 @@ namespace ShowerShow.Controllers
             }
         }
         [Function("GetThoughtByShowerId")]
-        [OpenApiOperation(operationId: "GetThoughtByShowerId", tags: new[] { "ShowerThoughts" })]
+        [OpenApiOperation(operationId: "GetThoughtByShowerId", tags: new[] { "Shower Thoughts" })]
         [ExampleAuth]
         [OpenApiParameter(name: "ShowerId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The shower ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerThought), Description = "The OK response with the retrieved thoughts")]
@@ -167,7 +167,7 @@ namespace ShowerShow.Controllers
             }
         }
         [Function("GetThoughtsByUserId")]
-        [OpenApiOperation(operationId: "GetThoughtsByUserId", tags: new[] { "ShowerThoughts" })]
+        [OpenApiOperation(operationId: "GetThoughtsByUserId", tags: new[] { "Shower Thoughts" })]
         [ExampleAuth]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The user ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerThought), Description = "The OK response with the retrieved thoughts")]
@@ -197,7 +197,7 @@ namespace ShowerShow.Controllers
             }
         }
         [Function("GetThoughtsByDate")]
-        [OpenApiOperation(operationId: "GetThoughtsByDate", tags: new[] { "ShowerThoughts" })]
+        [OpenApiOperation(operationId: "GetThoughtsByDate", tags: new[] { "Shower Thoughts" })]
         [ExampleAuth]
         [OpenApiParameter(name: "Date", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The date parameter")]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The user ID parameter")]
@@ -229,7 +229,7 @@ namespace ShowerShow.Controllers
             }
         }
         [Function("UpdateThought")]
-        [OpenApiOperation(operationId: "UpdateThought", tags: new[] { "ShowerThoughts" })]
+        [OpenApiOperation(operationId: "UpdateThought", tags: new[] { "Shower Thoughts" })]
         [ExampleAuth]
         [OpenApiParameter(name: "ThoughtId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The ThoughtId  ")]
         [OpenApiRequestBody("application/json", typeof(UpdateShowerThoughtDTO), Description = "The shower thought data.")]
@@ -269,7 +269,7 @@ namespace ShowerShow.Controllers
             }
         }
         [Function("GetThoughtsByContent")]
-        [OpenApiOperation(operationId: "GetThoughtsByContent", tags: new[] { "ShowerThoughts" })]
+        [OpenApiOperation(operationId: "GetThoughtsByContent", tags: new[] { "Shower Thoughts" })]
         [ExampleAuth]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The user id ")]
         [OpenApiParameter(name: "SearchWord", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "The word to search for ")]

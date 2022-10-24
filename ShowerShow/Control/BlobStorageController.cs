@@ -60,7 +60,7 @@ namespace ShowerShow.Controllers
         [Function("UploadProfilePicture")] // USE POSTMAN TO TEST
         [ExampleAuth]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
-        [OpenApiOperation(operationId: "UploadProfilePicture", tags: new[] { "BlobStorage" })]
+        [OpenApiOperation(operationId: "UploadProfilePicture", tags: new[] { "Blob Storage" })]
         public async Task<HttpResponseData> UploadProfilePicture([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "user/{UserId:Guid}/profile/uploadpic")] HttpRequestData req, Guid UserId)
         {
             _logger.LogInformation("Uploading to blob.");
@@ -105,7 +105,7 @@ namespace ShowerShow.Controllers
         [Function("GetProfilePictureOfUser")] // USE POSTMAN TO TEST
         [ExampleAuth]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
-        [OpenApiOperation(operationId: "GetProfilePictureOfUser", tags: new[] { "BlobStorage" })]
+        [OpenApiOperation(operationId: "GetProfilePictureOfUser", tags: new[] { "Blob Storage" })]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "image/jpeg", bodyType: typeof(byte[]), Description = "The OK response with the profile picture.")]
         public async Task<HttpResponseData> GetProfilePictureOfUser([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{UserId:Guid}/profile/getpic")] HttpRequestData req, Guid UserId, FunctionContext functionContext)
         {
@@ -157,7 +157,7 @@ namespace ShowerShow.Controllers
         }
         [Function("UploadVoiceSound")] // USE POSTMAN TO TEST
         [ExampleAuth]
-        [OpenApiOperation(operationId: "UploadVoiceSound", tags: new[] { "BlobStorage" })]
+        [OpenApiOperation(operationId: "UploadVoiceSound", tags: new[] { "Blob Storage" })]
         public async Task<HttpResponseData> UploadVoiceSound([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "user/defaultvoices")] HttpRequestData req, FunctionContext functionContext)
         {
             _logger.LogInformation("Uploading to blob.");
@@ -201,7 +201,7 @@ namespace ShowerShow.Controllers
         [Function("GetVoiceSound")] // USE POSTMAN TO TEST
         [ExampleAuth]
         [OpenApiParameter(name: "FileName", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "The file name parameter")]
-        [OpenApiOperation(operationId: "GetVoiceSound", tags: new[] { "BlobStorage" })]
+        [OpenApiOperation(operationId: "GetVoiceSound", tags: new[] { "Blob Storage" })]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "audio/mpeg", bodyType: typeof(byte[]), Description = "The OK response with the voice.")]
         public async Task<HttpResponseData> GetVoiceSound([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/defaultvoices/{FileName}")] HttpRequestData req, string FileName, FunctionContext functionContext)
         {
@@ -238,7 +238,7 @@ namespace ShowerShow.Controllers
         }
         [Function("DeleteUserProfilePicture")]
         [ExampleAuth]
-        [OpenApiOperation(operationId: "DeleteUserProfilePicture", tags: new[] { "BlobStorage" })]
+        [OpenApiOperation(operationId: "DeleteUserProfilePicture", tags: new[] { "Blob Storage" })]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         public async Task<HttpResponseData> DeleteUserProfilePicture([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "user/{UserId:Guid}/profile/deletepic")] HttpRequestData req, Guid UserId, FunctionContext functionContext)
         {
@@ -279,7 +279,7 @@ namespace ShowerShow.Controllers
         }
 
         [Function("GetAllVoices")] // THIS IS NOT WORKING
-        [OpenApiOperation(operationId: "GetAllVoices", tags: new[] { "BlobStorage" })]
+        [OpenApiOperation(operationId: "GetAllVoices", tags: new[] { "Blob Storage" })]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "audio/mpeg", bodyType: typeof(byte[]), Description = "The OK response with the voice.")]
         public async Task<HttpResponseData> GetAllVoices([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/defaultvoices/getall")] HttpRequestData req)
         {
