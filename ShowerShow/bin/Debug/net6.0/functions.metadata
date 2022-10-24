@@ -104,6 +104,317 @@
     ]
   },
   {
+    "name": "LoginController",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.LoginController.Login",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "post"
+        ]
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "GetUserFriends",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserFriendController.GetUserFriends",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "user/{userId:Guid}/friends"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "GetUserFriendsByName",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserFriendController.GetUserFriendsByName",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "user/{userId:Guid}/friends/{userName}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "GetUserFriendById",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserFriendController.GetUserFriendById",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "user/{userId:Guid}/friends/{friendId:Guid}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "CreateUserFriend",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserFriendController.CreateUserFriend",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "post"
+        ],
+        "route": "user/{userId1:Guid}/{userId2:Guid}/friends"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "DeleteUserFriend",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserFriendController.DeleteUserFriend",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "delete"
+        ],
+        "route": "user/{userId1:Guid}/{userId2:Guid}/friends"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "UploadProfilePicture",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.BlobStorageController.UploadProfilePicture",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "post"
+        ],
+        "route": "user/{UserId:Guid}/profile/uploadpic"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "GetProfilePictureOfUser",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.BlobStorageController.GetProfilePictureOfUser",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "user/{UserId:Guid}/profile/getpic"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "UploadVoiceSound",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.BlobStorageController.UploadVoiceSound",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "post"
+        ],
+        "route": "user/defaultvoices"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "GetVoiceSound",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.BlobStorageController.GetVoiceSound",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "user/defaultvoices/{FileName}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "DeleteUserProfilePicture",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.BlobStorageController.DeleteUserProfilePicture",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "delete"
+        ],
+        "route": "user/{UserId:Guid}/profile/deletepic"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "GetAllVoices",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.BlobStorageController.GetAllVoices",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "user/defaultvoices/getall"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
     "name": "CreateSchedule",
     "scriptFile": "ShowerShow.dll",
     "entryPoint": "ShowerShow.Controllers.ScheduleController.CreateSchedule",
@@ -589,161 +900,6 @@
           "put"
         ],
         "route": "user/{userId:Guid}"
-      },
-      {
-        "name": "$return",
-        "type": "http",
-        "direction": "Out"
-      }
-    ]
-  },
-  {
-    "name": "LoginController",
-    "scriptFile": "ShowerShow.dll",
-    "entryPoint": "ShowerShow.Control.LoginController.Login",
-    "language": "dotnet-isolated",
-    "properties": {
-      "IsCodeless": false
-    },
-    "bindings": [
-      {
-        "name": "req",
-        "type": "httpTrigger",
-        "direction": "In",
-        "authLevel": "Anonymous",
-        "methods": [
-          "post"
-        ]
-      },
-      {
-        "name": "$return",
-        "type": "http",
-        "direction": "Out"
-      }
-    ]
-  },
-  {
-    "name": "GetUserFriends",
-    "scriptFile": "ShowerShow.dll",
-    "entryPoint": "ShowerShow.Control.UserFriendController.GetUserFriends",
-    "language": "dotnet-isolated",
-    "properties": {
-      "IsCodeless": false
-    },
-    "bindings": [
-      {
-        "name": "req",
-        "type": "httpTrigger",
-        "direction": "In",
-        "authLevel": "Anonymous",
-        "methods": [
-          "get"
-        ],
-        "route": "user/{userId:Guid}/friends"
-      },
-      {
-        "name": "$return",
-        "type": "http",
-        "direction": "Out"
-      }
-    ]
-  },
-  {
-    "name": "GetUserFriendsByName",
-    "scriptFile": "ShowerShow.dll",
-    "entryPoint": "ShowerShow.Control.UserFriendController.GetUserFriendsByName",
-    "language": "dotnet-isolated",
-    "properties": {
-      "IsCodeless": false
-    },
-    "bindings": [
-      {
-        "name": "req",
-        "type": "httpTrigger",
-        "direction": "In",
-        "authLevel": "Anonymous",
-        "methods": [
-          "get"
-        ],
-        "route": "user/{userId:Guid}/friends/{userName}"
-      },
-      {
-        "name": "$return",
-        "type": "http",
-        "direction": "Out"
-      }
-    ]
-  },
-  {
-    "name": "GetUserFriendById",
-    "scriptFile": "ShowerShow.dll",
-    "entryPoint": "ShowerShow.Control.UserFriendController.GetUserFriendById",
-    "language": "dotnet-isolated",
-    "properties": {
-      "IsCodeless": false
-    },
-    "bindings": [
-      {
-        "name": "req",
-        "type": "httpTrigger",
-        "direction": "In",
-        "authLevel": "Anonymous",
-        "methods": [
-          "get"
-        ],
-        "route": "user/{userId:Guid}/friends/{friendId:Guid}"
-      },
-      {
-        "name": "$return",
-        "type": "http",
-        "direction": "Out"
-      }
-    ]
-  },
-  {
-    "name": "CreateUserFriend",
-    "scriptFile": "ShowerShow.dll",
-    "entryPoint": "ShowerShow.Control.UserFriendController.CreateUserFriend",
-    "language": "dotnet-isolated",
-    "properties": {
-      "IsCodeless": false
-    },
-    "bindings": [
-      {
-        "name": "req",
-        "type": "httpTrigger",
-        "direction": "In",
-        "authLevel": "Anonymous",
-        "methods": [
-          "post"
-        ],
-        "route": "user/{userId1:Guid}/{userId2:Guid}/friends"
-      },
-      {
-        "name": "$return",
-        "type": "http",
-        "direction": "Out"
-      }
-    ]
-  },
-  {
-    "name": "DeleteUserFriend",
-    "scriptFile": "ShowerShow.dll",
-    "entryPoint": "ShowerShow.Control.UserFriendController.DeleteUserFriend",
-    "language": "dotnet-isolated",
-    "properties": {
-      "IsCodeless": false
-    },
-    "bindings": [
-      {
-        "name": "req",
-        "type": "httpTrigger",
-        "direction": "In",
-        "authLevel": "Anonymous",
-        "methods": [
-          "delete"
-        ],
-        "route": "user/{userId1:Guid}/{userId2:Guid}/friends"
       },
       {
         "name": "$return",
