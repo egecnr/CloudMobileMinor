@@ -15,15 +15,10 @@ namespace ShowerShow.Repository.Interface
         public Task<bool> CheckIfUserNameExist(string userName);
         public Task CreateUser(CreateUserDTO user);
         public Task DeactivateUserAccount(Guid userId, bool isAccountActive);
-        public Task CreateUserFriend(Guid user1,Guid user2);
-        public Task DeleteUserFriend(Guid user1, Guid user2);
         public Task<GetUserDTO> GetUserById(Guid Id);
         public Task<bool> CheckIfEmailExist(Guid userId,string wantedEmail);
         public Task<bool> CheckIfUserNameExist(Guid userId,string wantedUsername);
-        public Task<IEnumerable<GetUserDTO>> GetUserFriendsByName(Guid id, string userName);
-        public Task<IEnumerable<GetUserDTO>> GetAllFriendsOfUser(Guid userId);
         public Task<IEnumerable<GetUserDTO>> GetUsersByName(string userName);
-        public Task<bool> CheckIfUserIsAlreadyFriend(Guid userId1, Guid userId2);
         public Task UpdateUser(Guid userId, UpdateUserDTO userDTO);
 
     }

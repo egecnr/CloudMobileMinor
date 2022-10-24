@@ -447,3 +447,21 @@ C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShow\bin\Debug\net6.0\Swashbuckl
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShow\bin\Debug\net6.0\HttpMultipartParser.dll
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShow\bin\Debug\net6.0\Microsoft.IO.RecyclableMemoryStream.dll
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShow\bin\Debug\net6.0\Microsoft.WindowsAzure.Storage.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\Azure.Storage.Blobs.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\Azure.Storage.Common.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\HttpMultipartParser.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\System.Web.Razor.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\Microsoft.Web.Helpers.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\System.Web.Helpers.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\System.Web.WebPages.Deployment.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\System.Web.WebPages.Razor.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\System.Web.WebPages.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\WebMatrix.Data.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\WebMatrix.WebData.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\Microsoft.IO.RecyclableMemoryStream.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\Microsoft.Web.Infrastructure.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\System.IO.Hashing.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\Microsoft.WindowsAzure.Storage.dll
