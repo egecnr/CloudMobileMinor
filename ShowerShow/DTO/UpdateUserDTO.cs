@@ -15,8 +15,6 @@ namespace ShowerShow.DTO
         [JsonRequired]
         public string UserName { get; set; }
         [JsonRequired]
-        public string ProfilePicture { get; set; }
-        [JsonRequired]
         public string PasswordHash { get; set; }
         [JsonRequired]
         public string Email { get; set; }

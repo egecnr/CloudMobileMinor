@@ -112,14 +112,15 @@ namespace ShowerShow.Repository
             for (int i = 0; i < allFriends.Count; i++)
             {
                 getUserFriendDTOs.Add(
-                    new GetUserFriendDTO {
+                    new GetUserFriendDTO
+                    {
                         MainUserId = allFriends[i].MainUserId,
                         FriendId = allFriends[i].FriendId,
-                        IsFavorite= allFriends[i].IsFavorite, 
-                        status= allFriends[i].status,
+                        IsFavorite = allFriends[i].IsFavorite,
+                        status = allFriends[i].status,
                         UserNameOfFriend = userDataRequired[i].UserName,
                         FullNameOfFriend = userDataRequired[i].Name,
-                        UserPicture = userDataRequired[i].ProfilePicture
+                        UserPicture = userDataRequired[i].Id.ToString(),
                     });
             }
             return getUserFriendDTOs;
@@ -138,7 +139,7 @@ namespace ShowerShow.Repository
                 status=userFriend.status,
                 UserNameOfFriend=friendFullObj.UserName,
                 FullNameOfFriend=friendFullObj.Name,
-                UserPicture = friendFullObj.ProfilePicture
+                UserPicture = friendFullObj.Id.ToString()
             };
         }
     }
