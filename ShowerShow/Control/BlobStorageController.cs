@@ -35,6 +35,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using System.IO.Compression;
 using System.Reflection.Metadata;
 using System.Linq;
+using ShowerShow.Authorization;
+using ShowerShow.Model;
+using ShowerShow.Service;
 
 namespace ShowerShow.Controllers
 {
@@ -44,14 +47,18 @@ namespace ShowerShow.Controllers
         private string connection = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
         private CloudStorageAccount account;
 
-        public BlobStorageController(ILogger<BlobStorageController> log)
+        private IUserService userService;
+
+        public BlobStorageController(ILogger<BlobStorageController> log, IUserService userService)
         {
             _logger = log;
             account = CloudStorageAccount.Parse(connection);
+            this.userService = userService;
         }
 
 
         [Function("UploadProfilePicture")] // USE POSTMAN TO TEST
+        [ExampleAuth]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiOperation(operationId: "UploadProfilePicture", tags: new[] { "BlobStorage" })]
         public async Task<HttpResponseData> UploadProfilePicture([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "user/{UserId:Guid}/profile/uploadpic")] HttpRequestData req, Guid UserId)
@@ -62,6 +69,11 @@ namespace ShowerShow.Controllers
             HttpResponseData responseData = req.CreateResponse();
             try
             {
+                if (!await userService.CheckIfUserExistAndActive(UserId))
+                {
+                    responseData.StatusCode = HttpStatusCode.BadRequest;
+                    return responseData;
+                }
                 var parsedFormBody = MultipartFormDataParser.ParseAsync(req.Body);
                 var file = parsedFormBody.Result.Files[0];
 
@@ -91,10 +103,11 @@ namespace ShowerShow.Controllers
 
         }
         [Function("GetProfilePictureOfUser")] // USE POSTMAN TO TEST
+        [ExampleAuth]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiOperation(operationId: "GetProfilePictureOfUser", tags: new[] { "BlobStorage" })]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "image/jpeg", bodyType: typeof(byte[]), Description = "The OK response with the profile picture.")]
-        public async Task<HttpResponseData> GetProfilePictureOfUser([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{UserId:Guid}/profile/getpic")] HttpRequestData req, Guid UserId)
+        public async Task<HttpResponseData> GetProfilePictureOfUser([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{UserId:Guid}/profile/getpic")] HttpRequestData req, Guid UserId, FunctionContext functionContext)
         {
             _logger.LogInformation("Uploading to blob.");
 
@@ -102,6 +115,16 @@ namespace ShowerShow.Controllers
             HttpResponseData responseData = req.CreateResponse();
             try
             {
+                if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+                {
+                    responseData.StatusCode = HttpStatusCode.Unauthorized;
+                    return responseData;
+                }
+                if (!await userService.CheckIfUserExistAndActive(UserId))
+                {
+                    responseData.StatusCode = HttpStatusCode.BadRequest;
+                    return responseData;
+                }
                 CloudBlobClient client = account.CreateCloudBlobClient();
                 CloudBlobContainer container = client.GetContainerReference(containerName);
 
@@ -124,8 +147,9 @@ namespace ShowerShow.Controllers
 
         }
         [Function("UploadVoiceSound")] // USE POSTMAN TO TEST
+        [ExampleAuth]
         [OpenApiOperation(operationId: "UploadVoiceSound", tags: new[] { "BlobStorage" })]
-        public async Task<HttpResponseData> UploadVoiceSound([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "user/defaultvoices")] HttpRequestData req)
+        public async Task<HttpResponseData> UploadVoiceSound([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "user/defaultvoices")] HttpRequestData req, FunctionContext functionContext)
         {
             _logger.LogInformation("Uploading to blob.");
 
@@ -133,6 +157,11 @@ namespace ShowerShow.Controllers
             HttpResponseData responseData = req.CreateResponse();
             try
             {
+                if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+                {
+                    responseData.StatusCode = HttpStatusCode.Unauthorized;
+                    return responseData;
+                }
                 var parsedFormBody = MultipartFormDataParser.ParseAsync(req.Body);
                 var file = parsedFormBody.Result.Files[0];
 
@@ -161,10 +190,11 @@ namespace ShowerShow.Controllers
             }
         }
         [Function("GetVoiceSound")] // USE POSTMAN TO TEST
+        [ExampleAuth]
         [OpenApiParameter(name: "FileName", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "The file name parameter")]
         [OpenApiOperation(operationId: "GetVoiceSound", tags: new[] { "BlobStorage" })]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "audio/mpeg", bodyType: typeof(byte[]), Description = "The OK response with the voice.")]
-        public async Task<HttpResponseData> GetVoiceSound([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/defaultvoices/{FileName}")] HttpRequestData req, string FileName)
+        public async Task<HttpResponseData> GetVoiceSound([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/defaultvoices/{FileName}")] HttpRequestData req, string FileName, FunctionContext functionContext)
         {
             _logger.LogInformation("Downloading from blob.");
 
@@ -172,6 +202,11 @@ namespace ShowerShow.Controllers
             HttpResponseData responseData = req.CreateResponse();
             try
             {
+                if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+                {
+                    responseData.StatusCode = HttpStatusCode.Unauthorized;
+                    return responseData;
+                }
                 CloudBlobClient client = account.CreateCloudBlobClient();
                 CloudBlobContainer container = client.GetContainerReference(containerName);
 
@@ -192,6 +227,48 @@ namespace ShowerShow.Controllers
                 return responseData;
             }
         }
+        [Function("DeleteUserProfilePicture")]
+        [ExampleAuth]
+        [OpenApiOperation(operationId: "DeleteUserProfilePicture", tags: new[] { "BlobStorage" })]
+        [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
+        public async Task<HttpResponseData> DeleteUserProfilePicture([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "user/{UserId:Guid}/profile/deletepic")] HttpRequestData req, Guid UserId, FunctionContext functionContext)
+        {
+            _logger.LogInformation("Deleting user profile picture.");
+            string containerName = Environment.GetEnvironmentVariable("ContainerProfilePictures");
+            HttpResponseData responseData = req.CreateResponse();
+            try
+            {
+                if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+                {
+                    responseData.StatusCode = HttpStatusCode.Unauthorized;
+                    return responseData;
+                }
+                if (!await userService.CheckIfUserExistAndActive(UserId))
+                {
+                    responseData.StatusCode = HttpStatusCode.BadRequest;
+                    return responseData;
+                }
+                CloudBlobClient client = account.CreateCloudBlobClient();
+                CloudBlobContainer container = client.GetContainerReference(containerName);
+
+
+                CloudBlockBlob blockBlob = container.GetBlockBlobReference(UserId.ToString() + ".png");
+                if (!await container.ExistsAsync() || !await blockBlob.ExistsAsync())
+                {
+                    responseData.StatusCode = HttpStatusCode.BadRequest;
+                    return responseData;
+                }
+                await blockBlob.DeleteIfExistsAsync();
+                responseData.StatusCode = HttpStatusCode.OK;
+                return responseData;
+            }
+            catch
+            {
+                responseData.StatusCode = HttpStatusCode.BadRequest;
+                return responseData;
+            }
+        }
+
         [Function("GetAllVoices")] // THIS IS NOT WORKING
         [OpenApiOperation(operationId: "GetAllVoices", tags: new[] { "BlobStorage" })]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "audio/mpeg", bodyType: typeof(byte[]), Description = "The OK response with the voice.")]
