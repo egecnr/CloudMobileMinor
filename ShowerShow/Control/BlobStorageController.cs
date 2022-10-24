@@ -130,12 +130,21 @@ namespace ShowerShow.Controllers
 
 
                 CloudBlockBlob blockBlob = container.GetBlockBlobReference(UserId.ToString() + ".png");
-                if (!await container.ExistsAsync() || !await blockBlob.ExistsAsync())
+                if (!await container.ExistsAsync())
                 {
                     responseData.StatusCode = HttpStatusCode.BadRequest;
                     return responseData;
                 }
-                responseData = GetDownloadResponseData(responseData, blockBlob,"image/jpeg").Result;
+                if (!await blockBlob.ExistsAsync())
+                {
+                    blockBlob = container.GetBlockBlobReference("defaultpicture.png");
+                    if (!await blockBlob?.ExistsAsync())
+                    {
+                        responseData.StatusCode = HttpStatusCode.BadRequest;
+                        return responseData;
+                    }
+                }
+                responseData = GetDownloadResponseData(responseData, blockBlob, "image/jpeg").Result;
                 responseData.StatusCode = HttpStatusCode.OK;
                 return responseData;
             }
@@ -319,7 +328,7 @@ namespace ShowerShow.Controllers
                 return responseData;
             }
         }
-        public async Task<HttpResponseData> GetDownloadResponseData(HttpResponseData responseData, CloudBlockBlob blockBlob,string ContentType)
+        public async Task<HttpResponseData> GetDownloadResponseData(HttpResponseData responseData, CloudBlockBlob blockBlob, string ContentType)
         {
             byte[] content = null;
             using (MemoryStream ms = new MemoryStream())
