@@ -39,7 +39,7 @@ namespace ShowerShow.Repository
             foreach (GetUserFriendDTO friend in friends)
             {
                 litersAmount = 0;
-                showers = GetUserShowers(friend.FriendId, 7); ;
+                showers = GetUserShowers(friend.FriendId, 7);
                 foreach (ShowerData shower in showers)
                     litersAmount += shower.WaterUsage;
 
