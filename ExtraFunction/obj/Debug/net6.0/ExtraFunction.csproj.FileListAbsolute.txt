@@ -313,3 +313,22 @@ C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunction\obj\Debug\net6.0\r
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunction\obj\Debug\net6.0\ExtraFunction.pdb
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunction\obj\Debug\net6.0\ExtraFunction.genruntimeconfig.cache
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunction\obj\Debug\net6.0\ref\ExtraFunction.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\bin\Debug\net6.0\Azure.Storage.Blobs.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\bin\Debug\net6.0\Azure.Storage.Common.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\bin\Debug\net6.0\HttpMultipartParser.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\bin\Debug\net6.0\System.Web.Razor.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\bin\Debug\net6.0\Microsoft.Web.Helpers.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\bin\Debug\net6.0\System.Web.Helpers.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\bin\Debug\net6.0\System.Web.WebPages.Deployment.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\bin\Debug\net6.0\System.Web.WebPages.Razor.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\bin\Debug\net6.0\System.Web.WebPages.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\bin\Debug\net6.0\WebMatrix.Data.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\bin\Debug\net6.0\WebMatrix.WebData.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\bin\Debug\net6.0\Microsoft.IO.RecyclableMemoryStream.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\bin\Debug\net6.0\Microsoft.Web.Infrastructure.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\bin\Debug\net6.0\System.IO.Hashing.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\bin\Debug\net6.0\Microsoft.WindowsAzure.Storage.dll

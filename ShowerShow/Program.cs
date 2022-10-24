@@ -46,6 +46,8 @@ namespace ShowerShow
                         services.AddSingleton<ITokenService, TokenService>();
                         services.AddTransient<IShowerThoughtRepository, ShowerThoughtRepository>();
                         services.AddTransient<IShowerThoughtService, ShowerThoughtService>();
+                        services.AddTransient<IUserStatisticsRepository, UserStatisticsRepository>();
+                        services.AddTransient<IUserStatisticsService, UserStatisticsService>();
                     })
                     .Build();
 
