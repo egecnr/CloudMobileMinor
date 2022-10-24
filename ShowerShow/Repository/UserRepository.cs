@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
 using ShowerShow.DAL;
 using ShowerShow.DTO;
 using ShowerShow.Model;
@@ -24,19 +25,38 @@ namespace ShowerShow.Repository
 
         public async Task CreateUser(CreateUserDTO user)
         {
-            Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<CreateUserDTO, User>()));
-            User fullUser = mapper.Map<User>(user);
-            fullUser.PasswordHash = PasswordHasher.HashPassword(fullUser.PasswordHash);
-            dbContext.Users?.Add(fullUser);
-            await dbContext.SaveChangesAsync();
+            if (await CheckIfEmailExist(user.Email))
+            {
+                throw new Exception("Please pick a unique email address");
+            }
+            else if(await CheckIfUserNameExist(user.UserName))
+            {
+                throw new Exception("Please pick a unique username");
+            }
+            else
+            {
+                Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<CreateUserDTO, User>()));
+                User fullUser = mapper.Map<User>(user);
+                fullUser.PasswordHash = PasswordHasher.HashPassword(fullUser.PasswordHash);
+                dbContext.Users?.Add(fullUser);
+                await dbContext.SaveChangesAsync();
+            }      
         }
         public async Task<GetUserDTO> GetUserById(Guid userId)
         {
-            await dbContext.SaveChangesAsync();
-            User user = dbContext.Users.Where(acc => acc.isAccountActive ==true).FirstOrDefault(u=> u.Id==userId);
-            Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<User, GetUserDTO>()));
-            GetUserDTO userDTO = mapper.Map<GetUserDTO>(user);
-            return userDTO; 
+            if (await CheckIfUserExistAndActive(userId))
+            {
+                await dbContext.SaveChangesAsync();
+                User user = dbContext.Users.Where(acc => acc.isAccountActive == true).FirstOrDefault(u => u.Id == userId);
+                Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<User, GetUserDTO>()));
+                GetUserDTO userDTO = mapper.Map<GetUserDTO>(user);
+                return userDTO;
+            }
+            else
+            {
+                throw new Exception("User does not exist");
+            }
+           
         }
 
         public async Task<bool> CheckIfUserExistAndActive(Guid userId)
@@ -62,22 +82,44 @@ namespace ShowerShow.Repository
 
         public async Task UpdateUser(Guid userId, UpdateUserDTO userDTO)
         {
-            //Whether user exists or his email is duplicated is already checked in the logic or higher levels.
-            await dbContext.SaveChangesAsync();
-            User user = dbContext.Users.FirstOrDefault(x => x.Id == userId);
-            user.Name = userDTO.Name;
-            user.Email = userDTO.Email;
-            user.PasswordHash=PasswordHasher.HashPassword(userDTO.PasswordHash);
-            dbContext.Users.Update(user);
-            await dbContext.SaveChangesAsync();
+            if (!await CheckIfUserExistAndActive(userId))
+            {
+                throw new Exception("User does not exist");
+            }
+            else if (await CheckIfEmailExist(userId,userDTO.Email))
+            {
+                throw new Exception("Email has to be unique");
+            }
+            else if (await CheckIfUserNameExist(userId,userDTO.UserName))
+            {
+                throw new Exception("Username has to be unique");
+            }
+            else
+            {
+                await dbContext.SaveChangesAsync();
+                User user = dbContext.Users.Where(acc => acc.isAccountActive == true).FirstOrDefault(u => u.Id == userId);
+                user.Name = userDTO.Name;
+                user.Email = userDTO.Email;
+                user.PasswordHash = PasswordHasher.HashPassword(userDTO.PasswordHash);
+                dbContext.Users.Update(user);
+                await dbContext.SaveChangesAsync();
+            }   
         }
         public async Task DeactivateUserAccount(Guid userId, bool isAccountActive)
         {
-            await dbContext.SaveChangesAsync();
-            User user = dbContext.Users.FirstOrDefault(x => x.Id == userId);
-            user.isAccountActive = isAccountActive;
-            dbContext.Users.Update(user);
-            await dbContext.SaveChangesAsync();
+            if (await CheckIfUserExist(userId))
+            {
+                await dbContext.SaveChangesAsync();
+                User user = dbContext.Users.FirstOrDefault(x => x.Id == userId);
+                user.isAccountActive = isAccountActive;
+                dbContext.Users.Update(user);
+                await dbContext.SaveChangesAsync();
+            }
+            else
+            {
+                throw new Exception("User does not exist");
+            }
+            
         }
         private List<GetUserDTO> ConvertGetDtos(List<User> users)
         {
@@ -92,11 +134,17 @@ namespace ShowerShow.Repository
 
         public async Task<IEnumerable<GetUserDTO>> GetUsersByName(string userName)
         {
-
-            List<User> usersWithName = dbContext.Users.Where(u => u.UserName.ToLower().StartsWith(userName.ToLower())).ToList();
-            Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<User, GetUserDTO>()));
-            List<GetUserDTO> dtos = ConvertGetDtos(usersWithName);            
-            return dtos;       
+            if (userName.IsNullOrWhiteSpace())
+            {
+                throw new Exception("Please input a username");
+            }
+            else
+            {
+                List<User> usersWithName = dbContext.Users.Where(u=> u.isAccountActive==true).Where(u => u.UserName.ToLower().StartsWith(userName.ToLower())).ToList();
+                Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<User, GetUserDTO>()));
+                List<GetUserDTO> dtos = ConvertGetDtos(usersWithName);
+                return dtos;
+            }          
         }
 
        
