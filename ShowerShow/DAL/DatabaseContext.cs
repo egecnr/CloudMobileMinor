@@ -16,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using System.IO;
 using Microsoft.Extensions.Options;
 using ExtraFunction.Model_;
+using ShowerShow.Model;
 
 namespace ShowerShow.DAL
 {
@@ -25,6 +26,7 @@ namespace ShowerShow.DAL
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Schedule> Schedules { get; set; } = null!;
         public DbSet<ShowerData> ShowerInstances { get; set; } = null!;
+        public DbSet<TermsAndConditions> TermsAndConditions { get; set; } = null!;
         public DbSet<Achievement> Achievements { get; set; } = null!;
         public DbSet<Preferences> Preferences { get; set; } = null!;
 

@@ -42,7 +42,7 @@ namespace ExtraFunction.Repository_
             Achievement achievement = _databaseContext.Users.FirstOrDefault(x => x.Id == userId)?.Achievements.FirstOrDefault(y => y.Title == achievementTitle) ?? null;
             achievement.CurrentValue = currentvalue;
             _databaseContext.Update(achievement);
-            await _databaseContext.SaveChangesAsync();
+            await _databaseContext.SaveChangesAsync();  
         }
 
     }

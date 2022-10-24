@@ -25,14 +25,14 @@ namespace ShowerShow.Control
     public class ShowerDataController
     {
         private readonly ILogger<ShowerController> _logger;
-        private readonly IShowerDataService showerDataService;
-        private readonly IUserService userService;
+        private readonly IShowerDataService _showerDataService;
+        private readonly IUserService _userService;
 
         public ShowerDataController(ILogger<ShowerController> log, IShowerDataService showerDataService, IUserService userService)
         {
             _logger = log;
-            this.showerDataService = showerDataService;
-            this.userService = userService;
+            this._showerDataService = showerDataService;
+            this._userService = userService;
         }
 
         [Function(nameof(GetShowerById))]
@@ -50,9 +50,9 @@ namespace ShowerShow.Control
                 return responseData;
             }
 
-            if(await userService.CheckIfUserExistAndActive(userId))
+            if(await _userService.CheckIfUserExistAndActive(userId))
             {
-                var response = showerDataService.GetShowerDataByUserId(userId, showerId);
+                var response = _showerDataService.GetShowerDataByUserId(userId, showerId);
                 HttpResponseData responseData = req.CreateResponse(HttpStatusCode.OK);
                 await responseData.WriteAsJsonAsync(response);
                 return responseData;
@@ -89,9 +89,9 @@ namespace ShowerShow.Control
 
 
 
-            if (await userService.CheckIfUserExistAndActive(UserId))
+            if (await _userService.CheckIfUserExistAndActive(UserId))
             {
-                await showerDataService.CreateShowerDataById(showerDataDTO, UserId);
+                await _showerDataService.CreateShowerDataById(showerDataDTO, UserId);
                 HttpResponseData responseData = req.CreateResponse();
                 responseData.StatusCode = HttpStatusCode.Created;
 

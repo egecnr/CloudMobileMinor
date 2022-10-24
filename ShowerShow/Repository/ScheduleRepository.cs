@@ -52,7 +52,7 @@ namespace ShowerShow.Repository
         {
             oldSchedule.DaysOfWeek = newSchedule.DaysOfWeek;
             oldSchedule.Tags = newSchedule.Tags;
-            dbContext.Schedules?.Update(oldSchedule);
+            dbContext.Schedules?.Update(oldSchedule);   
 
             await dbContext.SaveChangesAsync();
         }

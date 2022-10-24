@@ -14,10 +14,10 @@ namespace ShowerShow.Repository
 {
     internal class ShowerDataRepository : IShowerDataRepository
     {
-        private DatabaseContext dbContext;
+        private DatabaseContext _dbContext;
         public ShowerDataRepository(DatabaseContext dbContext)
         {
-            this.dbContext = dbContext;
+            this._dbContext = dbContext;    
         }
 
         public async Task CreateShower(CreateShowerDataDTO shower, Guid userId)
@@ -33,14 +33,15 @@ namespace ShowerShow.Repository
             //showerData.GasCost = shower.GasCost;
             //showerData.Date = shower.Date;
             //showerData.ScheduleId = shower.ScheduleId;
-            dbContext.ShowerInstances?.Add(showerData);
-            await dbContext.SaveChangesAsync();
+            _dbContext.ShowerInstances?.Add(showerData);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<ShowerData> GetShowerDataByUserId(Guid userId, Guid showerId)
         {
-            var showerData = dbContext.ShowerInstances.Where(x => x.Id == userId).Where(y => y.Id == showerId).FirstOrDefault();
+            var showerData = _dbContext.ShowerInstances.Where(x => x.Id == userId).Where(y => y.Id == showerId).FirstOrDefault();
             return showerData;
         }
+
     }
 }
