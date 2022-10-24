@@ -14,13 +14,6 @@ namespace ShowerShow.Repository.Interface
 
         public Task<Dictionary<Guid, double>> GetFriendRanking(Guid userId, int limit);
         public Task<UserDashboard> GetUserDashboard(Guid userId, int amountOfDays);
-        public Task<double> GetWaterUsage(Guid userId, int amountOfDays);
-        public Task<double> GetGasUsage(Guid userId, int amountOfDays);
-        public Task<double> GetShowerPrice(Guid userId, int amountOfDays);
-        public Task<double> GetAvgShowerTime(Guid userId, int amountOfDays); //in seconds
-        public Task<double> GetAvgShowerLiters(Guid userId, int amountOfDays);
-        public Task<double> GetAvgShowerGas(Guid userId, int amountOfDays);
-        public Task<double> GetAvgShowerPrice(Guid userId, int amountOfDays);
 
     }
 }
