@@ -25,7 +25,7 @@ namespace ShowerShow.Control
         }
 
         //TO DO: Verify credentials via  a method
-        [Function("LoginController")]
+        [Function("Login")]
         [OpenApiOperation(operationId: "Login", tags: new[] { "Login" }, Summary = "Login for a user",
                       Description = "This method logs in the user, and retrieves a JWT bearer token.")]
         [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(Login), Required = true, Description = "The user credentials")]
