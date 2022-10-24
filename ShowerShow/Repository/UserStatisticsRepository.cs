@@ -60,7 +60,7 @@ namespace ShowerShow.Repository
         {
             DateTime minimumDate = await Task.FromResult(DateTime.Now.AddDays(-amountOfDays));
             List<ShowerData> showers = dbContext.ShowerInstances.Where(s => s.UserId == userId).Where(d => d.Date > minimumDate).ToList();
-            double litersAmount = 0, gasAmount = 0, totalPrice = 0, avgShowerLiters = 0, avgGasUsage = 0, avgShowerTime = 0, avgShowerPrice = 0;
+            double litersAmount = 0, gasAmount = 0, totalPrice = 0, avgShowerLiters = 0, avgGasUsage = 0, avgShowerTime = 0, avgShowerPrice = 0, totalOvertime = 0;
 
             foreach (ShowerData shower in showers)
             {
@@ -71,6 +71,7 @@ namespace ShowerShow.Repository
                 avgShowerLiters += shower.WaterUsage;
                 avgGasUsage += shower.GasUsage;
                 avgShowerPrice += shower.WaterCost + shower.GasCost;
+                totalOvertime += shower.Overtime;
 
             }
             return new UserDashboard()
@@ -79,10 +80,12 @@ namespace ShowerShow.Repository
                 TotalWaterUsage = litersAmount,
                 TotalGasUsage = gasAmount,
                 TotalPrice = totalPrice,
+                TotalOvertime = totalOvertime,
                 AvgShowerTime = avgShowerTime / showers.Count,
                 AvgShowerLiters = avgShowerLiters / showers.Count,
                 AvgShowerGas = avgGasUsage / showers.Count,
                 AvgShowerPrice = avgShowerPrice / showers.Count,
+                AvgShowerOvertime = totalOvertime / showers.Count
             };
         }
     }

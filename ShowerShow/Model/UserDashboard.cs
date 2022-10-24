@@ -12,9 +12,11 @@ namespace ShowerShow.Model
         public double TotalWaterUsage { get; set; }
         public double TotalGasUsage { get; set; }
         public double TotalPrice { get; set; }
+        public double TotalOvertime { get; set; }
         public double AvgShowerTime { get; set; }
         public double AvgShowerLiters { get; set; }
         public double AvgShowerGas { get; set; }
         public double AvgShowerPrice { get; set; }
+        public double AvgShowerOvertime { get; set; }
     }
 }
