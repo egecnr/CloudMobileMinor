@@ -27,9 +27,8 @@ namespace ShowerShow.Repository
         {
             List<GetUserFriendDTO> friends = (List<GetUserFriendDTO>)await userFriendRepository.GetAllFriendsOfUser(userId);
             Dictionary<Guid, double> ranking = new Dictionary<Guid, double>();
-            DateTime minimumDate = await Task.FromResult(DateTime.Now.AddDays(-7));
-
-            List<ShowerData> showers = dbContext.ShowerInstances.Where(s => s.UserId == userId).Where(d => d.Date > minimumDate).ToList();
+            List<ShowerData> showers = GetUserShowers(userId, 7);
+            
             double litersAmount = 0;
             foreach (ShowerData shower in showers)
                 litersAmount += shower.WaterUsage;
@@ -39,7 +38,7 @@ namespace ShowerShow.Repository
             foreach (GetUserFriendDTO friend in friends)
             {
                 litersAmount = 0;
-                showers = dbContext.ShowerInstances.Where(s => s.UserId == friend.FriendId).Where(d => d.Date > minimumDate).ToList();
+                showers = GetUserShowers(friend.FriendId, 7); ;
                 foreach (ShowerData shower in showers)
                     litersAmount += shower.WaterUsage;
 
@@ -58,8 +57,8 @@ namespace ShowerShow.Repository
         }
         public async Task<UserDashboard> GetUserDashboard(Guid userId, int amountOfDays)
         {
-            DateTime minimumDate = await Task.FromResult(DateTime.Now.AddDays(-amountOfDays));
-            List<ShowerData> showers = dbContext.ShowerInstances.Where(s => s.UserId == userId).Where(d => d.Date > minimumDate).ToList();
+            await dbContext.SaveChangesAsync();
+            List<ShowerData> showers = GetUserShowers(userId, amountOfDays);
             double litersAmount = 0, gasAmount = 0, totalPrice = 0, avgShowerLiters = 0, avgGasUsage = 0, avgShowerTime = 0, avgShowerPrice = 0, totalOvertime = 0;
 
             foreach (ShowerData shower in showers)
@@ -87,6 +86,11 @@ namespace ShowerShow.Repository
                 AvgShowerPrice = avgShowerPrice / showers.Count,
                 AvgShowerOvertime = totalOvertime / showers.Count
             };
+        }
+        public List<ShowerData> GetUserShowers(Guid userId, int amountOfDays)
+        {
+            DateTime minimumDate = DateTime.Now.AddDays(-amountOfDays);
+            return dbContext.ShowerInstances.Where(s => s.UserId == userId).Where(d => d.Date > minimumDate).ToList();
         }
     }
 }
