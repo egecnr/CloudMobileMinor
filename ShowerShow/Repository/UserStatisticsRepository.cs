@@ -32,6 +32,7 @@ namespace ShowerShow.Repository
             double litersAmount = 0;
             foreach (ShowerData shower in showers)
                 litersAmount += shower.WaterUsage;
+
             ranking.Add(userId, litersAmount);
 
 
@@ -89,7 +90,7 @@ namespace ShowerShow.Repository
         }
         public List<ShowerData> GetUserShowers(Guid userId, int amountOfDays)
         {
-            DateTime minimumDate = DateTime.Now.AddDays(-amountOfDays);
+            DateTime minimumDate = DateTime.Now.AddDays(-amountOfDays); //remove amount of days
             return dbContext.ShowerInstances.Where(s => s.UserId == userId).Where(d => d.Date > minimumDate).ToList();
         }
     }
