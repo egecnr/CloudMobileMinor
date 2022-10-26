@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Storage.Queues;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
 using ShowerShow.DAL;
 using ShowerShow.DTO;
@@ -9,7 +10,9 @@ using ShowerShow.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ShowerShow.Repository
@@ -22,25 +25,37 @@ namespace ShowerShow.Repository
         {
             this.dbContext = dbContext;
         }
-
-        public async Task CreateUser(CreateUserDTO user)
+        //Move this to the service layer later on
+        public async Task AddUserToQueue(CreateUserDTO userDTO)
         {
-            if (await CheckIfEmailExist(user.Email))
+            if (await CheckIfEmailExist(userDTO.Email))
             {
                 throw new Exception("Please pick a unique email address");
             }
-            else if(await CheckIfUserNameExist(user.UserName))
+            else if(await CheckIfUserNameExist(userDTO.UserName))
             {
                 throw new Exception("Please pick a unique username");
             }
             else
             {
-                Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<CreateUserDTO, User>()));
-                User fullUser = mapper.Map<User>(user);
-                fullUser.PasswordHash = PasswordHasher.HashPassword(fullUser.PasswordHash);
-                dbContext.Users?.Add(fullUser);
-                await dbContext.SaveChangesAsync();
+                string qName = Environment.GetEnvironmentVariable("CreateUserQueue");
+                string connString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
+                QueueClientOptions clientOpt = new QueueClientOptions() { MessageEncoding = QueueMessageEncoding.Base64 };
+
+                QueueClient qClient = new QueueClient(connString, qName, clientOpt);
+                var jsonOpt = new JsonSerializerOptions() { WriteIndented = true };
+                string userJson = JsonSerializer.Serialize<CreateUserDTO>(userDTO, jsonOpt);
+                await qClient.SendMessageAsync(userJson);
+              
             }      
+        }
+        public async Task CreateUser(CreateUserDTO userDTO)
+        {
+            Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<CreateUserDTO, User>()));
+            User fullUser = mapper.Map<User>(userDTO);
+            fullUser.PasswordHash = PasswordHasher.HashPassword(fullUser.PasswordHash);
+            dbContext.Users?.Add(fullUser);
+            await dbContext.SaveChangesAsync();
         }
         public async Task<GetUserDTO> GetUserById(Guid userId)
         {
@@ -171,7 +186,7 @@ namespace ShowerShow.Repository
         {
             await dbContext.SaveChangesAsync();
             User user =  dbContext.Users.FirstOrDefault(u => u.Id == userId);
-            if (user.UserName.ToLower() == wantedUsername.ToLower()) //We want to skip the badrequest if user is inputting the same email.
+            if (user.UserName.ToLower() == wantedUsername.ToLower()) //We want to skip the badrequest if userDTO is inputting the same email.
                 return false;
             else
             {
@@ -183,7 +198,7 @@ namespace ShowerShow.Repository
         {
             await dbContext.SaveChangesAsync();
             User user = dbContext.Users.FirstOrDefault(u => u.Id == userId);
-            if (user.Email == wantedEmail) //We want to skip the badrequest if user is inputting the same email.
+            if (user.Email == wantedEmail) //We want to skip the badrequest if userDTO is inputting the same email.
                 return false;
             else
             {

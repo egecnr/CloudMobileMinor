@@ -21,9 +21,9 @@ namespace ShowerShow.Service
             this.userRepository = userRepository;
         }
      
-        public async Task CreateUser(CreateUserDTO user)
+        public async Task AddUserToQueue(CreateUserDTO user)
         {
-            await userRepository.CreateUser(user);
+            await userRepository.AddUserToQueue(user);
         }
         public async Task<GetUserDTO> GetUserById(Guid Id)
         {
@@ -70,6 +70,11 @@ namespace ShowerShow.Service
         public async Task<bool> CheckIfUserNameExist(Guid userId, string wantedUsername)
         {
             return await userRepository.CheckIfUserNameExist(userId, wantedUsername);
+        }
+
+        public async Task CreateUser(CreateUserDTO userDTO)
+        {
+            await userRepository.CreateUser(userDTO);
         }
     }
 }

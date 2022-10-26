@@ -24,7 +24,7 @@ namespace ShowerShow.Queue
         }
 
         [Function("CreateUserQueueTrigger")]
-        public async Task RunAsync([QueueTrigger("create-user-queue", Connection = "AzureWebJobsStorage")] string myQueueItem,FunctionContext context)
+        public async Task RunAsync([QueueTrigger("create-user-queue", Connection = "AzureWebJobsStorage")] string myQueueItem)
         {
             
             try
@@ -32,9 +32,9 @@ namespace ShowerShow.Queue
                 CreateUserDTO createUserDTO = JsonSerializer.Deserialize<CreateUserDTO>(myQueueItem);
                 await userService.CreateUser(createUserDTO);
             }
-            catch
+            catch(Exception e)
             {
-               
+                _logger.LogError(e.Message);
             }
         }
     }

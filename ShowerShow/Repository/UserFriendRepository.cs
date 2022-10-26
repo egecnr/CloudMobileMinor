@@ -51,7 +51,31 @@ namespace ShowerShow.Repository
 
         public async Task CreateUserFriend(Guid userId, Guid friendId)
         {
-            //Whether both users exist or not are already checked
+            User userFriend = dbContext.Users.FirstOrDefault(f => f.Id == friendId);
+            UserFriend newUserFriend = new UserFriend()
+            {
+                Id = Guid.NewGuid(),
+                MainUserId = userId,
+                FriendId = friendId,
+                IsFavorite = false,
+                status = FriendStatus.Pending,
+            };
+            UserFriend newUserFriend2 = new UserFriend()
+            {
+                Id = Guid.NewGuid(),
+                MainUserId = friendId,
+                FriendId = userId,
+                IsFavorite = false,
+                status = FriendStatus.ResponseRequired,
+            };
+
+            dbContext.UserFriends?.Add(newUserFriend);
+            dbContext.UserFriends?.Add(newUserFriend2);
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task AddFriendToQueue(Guid userId, Guid friendId)
+        {
             if (!await CheckIfBothUsersExist(userId, friendId))
             {
                 throw new Exception("User don't exist.");
@@ -60,33 +84,13 @@ namespace ShowerShow.Repository
             {
                 throw new Exception("User can not add itself as a friend");
             }
-            else if (await CheckIfUserIsAlreadyFriend(userId,friendId))
+            else if (await CheckIfUserIsAlreadyFriend(userId, friendId))
             {
                 throw new Exception("Users are already friends or request already sent");
             }
             else
             {
-                User userFriend = dbContext.Users.FirstOrDefault(f => f.Id == friendId);
-                UserFriend newUserFriend = new UserFriend()
-                {
-                    Id = Guid.NewGuid(),
-                    MainUserId = userId,
-                    FriendId = friendId,
-                    IsFavorite = false,
-                    status = FriendStatus.Pending,
-                };
-                UserFriend newUserFriend2 = new UserFriend()
-                {
-                    Id = Guid.NewGuid(),
-                    MainUserId = friendId,
-                    FriendId = userId,
-                    IsFavorite = false,
-                    status = FriendStatus.ResponseRequired,
-                };
-
-                dbContext.UserFriends?.Add(newUserFriend);
-                dbContext.UserFriends?.Add(newUserFriend2);
-                await dbContext.SaveChangesAsync();
+               
 
             }
         }
@@ -217,5 +221,7 @@ namespace ShowerShow.Repository
                 };
             }
         }
+
+      
     }
 }

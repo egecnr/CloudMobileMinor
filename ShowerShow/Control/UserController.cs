@@ -40,8 +40,8 @@ namespace ShowerShow.Controllers
             this.userService = userService;
         }
 
-        [Function("CreateUser")]
-        [OpenApiOperation(operationId: "CreateUser", tags: new[] { "Users " },Summary ="Create a user account",Description ="This endpoint creates a user account")]
+        [Function("AddUserToQueue")]
+        [OpenApiOperation(operationId: "AddUserToQueue", tags: new[] { "Users " },Summary ="Create a user account",Description ="This endpoint creates a user account")]
         [OpenApiRequestBody("application/json", typeof(CreateUserDTO),Description = "The user data.")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(CreateUserDTO), Description = "The OK response with the new user.")]
         public async Task<HttpResponseData> CreateUser([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "user/register")] HttpRequestData req)
@@ -51,28 +51,7 @@ namespace ShowerShow.Controllers
             {
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 CreateUserDTO userDTO = JsonConvert.DeserializeObject<CreateUserDTO>(requestBody);
-                if (await userService.CheckIfEmailExist(userDTO.Email) || await userService.CheckIfUserNameExist(userDTO.UserName))
-                {
-                    responseData.StatusCode = HttpStatusCode.BadRequest;
-                    responseData.Headers.Add("Reason", "Please pick a unique email and username.");
-                }
-                else
-                {
-                    string qName = Environment.GetEnvironmentVariable("CreateUserQueue");
-                    string connString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
-                    QueueClientOptions clientOpt = new QueueClientOptions() { MessageEncoding = QueueMessageEncoding.Base64 };
-
-                    QueueClient qClient = new QueueClient(connString, qName, clientOpt);
-                    var jsonOpt = new JsonSerializerOptions() { WriteIndented = true };
-                    string userJson = JsonSerializer.Serialize<CreateUserDTO>(userDTO, jsonOpt);
-                    await qClient.SendMessageAsync(userJson);
-                    responseData.StatusCode = HttpStatusCode.Created;
-                    responseData.Headers.Add("Result", "User created");
-
-
-                }
-
-
+                await userService.AddUserToQueue(userDTO);
             }
             catch (Exception e)
             {
