@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShowerShow.Model
+namespace ExtraFunction.Model
 {
     public partial class Disclaimers
     {

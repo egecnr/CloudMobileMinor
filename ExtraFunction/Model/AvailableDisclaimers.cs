@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ShowerShow.Model
+namespace ExtraFunction.Model
 {
     public partial class Disclaimers
     {

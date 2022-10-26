@@ -5,11 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using ExtraFunction.Model_;
-using ShowerShow.DAL;
-using User = ShowerShow.Models.User;
-using ShowerShow.Model;
-//if I use ShowerShow.DAL I have access to DB context, all good. But then users gets fucked? then I can't have a user class in this solution so Idk what to do
+using ExtraFunction.Model;
+using ExtraFunction.DAL;
 
 namespace ExtraFunction.Repository_
 {

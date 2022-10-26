@@ -1,4 +1,5 @@
-﻿using ShowerShow.Model;
+﻿using ExtraFunction.Model;
+using ExtraFunction.Repository_.Interface;
 using ShowerShow.Repository;
 using ShowerShow.Repository.Interface;
 using System;
@@ -18,9 +19,9 @@ namespace ShowerShow.Service
             this._disclaimerRepository = disclaimerRepository;
         }
 
-        public Task<Disclaimers> GetDisclaimres(Disclaimers disclaimers)
+        public Task<Disclaimers> GetDisclaimers(Disclaimers disclaimers)
         {
-            return _disclaimerRepository.GetDisclaimres(disclaimers);
+            return _disclaimerRepository.GetDisclaimers(disclaimers);
         }
         public Task<Disclaimers> UpdateDisclaimers(Disclaimers disclaimers)
         {

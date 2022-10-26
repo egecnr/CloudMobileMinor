@@ -1,4 +1,4 @@
-﻿using ExtraFunction.Model_;
+﻿using ExtraFunction.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

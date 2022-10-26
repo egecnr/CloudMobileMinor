@@ -1,15 +1,15 @@
-﻿using ShowerShow.Model;
+﻿using ExtraFunction.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShowerShow.Repository.Interface
+namespace ExtraFunction.Repository_.Interface
 {
-    public class IDisclaimersService
+    public interface IDisclaimersService
     {
-        public Task<Disclaimers> GetDisclaimres(Disclaimers disclaimers);
+        public Task<Disclaimers> GetDisclaimers(Disclaimers disclaimers);
         public Task<Disclaimers> UpdateDisclaimers(Disclaimers disclaimers);
     }
 }

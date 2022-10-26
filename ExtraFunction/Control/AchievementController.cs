@@ -1,20 +1,18 @@
-﻿using ExtraFunction.Model_;
-using ExtraFunction.Repository_.Interface;
+﻿using ExtraFunction.Repository_.Interface;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using ShowerShow.Authorization;
-using ShowerShow.DTO;
 using ShowerShow.Repository.Interface;
-using ShowerShow.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using ExtraFunction.Model;
+using ExtraFunction.Authorization;
 
 
 namespace ExtraFunction.Control

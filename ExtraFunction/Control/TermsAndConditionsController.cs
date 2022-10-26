@@ -5,9 +5,6 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using ShowerShow.Authorization;
-using ShowerShow.Controllers;
-using ShowerShow.Models;
 using ShowerShow.Repository.Interface;
 using System;
 using System.Collections.Generic;
@@ -16,16 +13,18 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using ShowerShow.Service;
-using ShowerShow.Model;
+using ExtraFunction.Repository_.Interface;
+using ExtraFunction.Authorization;
+using ExtraFunction.Model;
 
-namespace ShowerShow.Control
+namespace ExtraFunction.Control
 {
     public class TermsAndConditionsController
     {
-        private readonly ILogger<ShowerController> _logger;
+        private readonly ILogger<TermsAndConditionsController> _logger;
         private readonly ITermsAndConditionRepository _termsAndConditionRepository;
 
-        public TermsAndConditionsController(ILogger<ShowerController> log, ITermsAndConditionRepository termsAndConditionRepository)
+        public TermsAndConditionsController(ILogger<TermsAndConditionsController> log, ITermsAndConditionRepository termsAndConditionRepository)
         {
             _logger = log;
             this._termsAndConditionRepository = termsAndConditionRepository;
@@ -35,7 +34,7 @@ namespace ShowerShow.Control
         [OpenApiOperation(operationId: "GetTermsAndCondition", tags: new[] { "Terms and Conditions" })]
         [ExampleAuth]
         [OpenApiParameter(name: "", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerData), Description = "Successfully received terms and conditions")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(TermsAndConditions), Description = "Successfully received terms and conditions")]
         public async Task<HttpResponseData> GetTermsAndConditions([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "")] HttpRequestData req, TermsAndConditions termsAndConditions,FunctionContext functionContext)
         {
             var response = _termsAndConditionRepository.GetTermsAndConditions(termsAndConditions);
@@ -49,7 +48,7 @@ namespace ShowerShow.Control
         [OpenApiOperation(operationId: "UpdateTermsAndCondition", tags: new[] {"Terms and Conditions"})]
         [ExampleAuth]
         [OpenApiParameter(name: "", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerData), Description = "Successfully updated terms and conditions")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(TermsAndConditions), Description = "Successfully updated terms and conditions")]
         public async Task<HttpResponseData> UpdateTermsAndCondition([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "")] HttpRequestData req, TermsAndConditions termsAndConditions,FunctionContext functionContext)
         {
 

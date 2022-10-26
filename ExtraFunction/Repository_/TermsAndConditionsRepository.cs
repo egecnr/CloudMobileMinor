@@ -1,16 +1,16 @@
-﻿using ExtraFunction.Model_;
+﻿using ExtraFunction.DAL;
+using ExtraFunction.Model;
+using ExtraFunction.Repository_.Interface;
 using Microsoft.EntityFrameworkCore;
-using ShowerShow.DAL;
-using ShowerShow.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShowerShow.Repository
+namespace ExtraFunction.Repository_
 {
-    internal class TermsAndConditionsRepository
+    internal class TermsAndConditionsRepository : ITermsAndConditionRepository
     {
         private DatabaseContext _dbContext;
 

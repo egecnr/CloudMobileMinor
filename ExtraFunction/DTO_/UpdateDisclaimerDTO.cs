@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShowerShow.DTO
+namespace ExtraFunction.DTO_
 {
     internal class UpdateDisclaimerDTO
     {
-        public enum AvailableDisclaimers { get; set; }
+        public enum AvailableDisclaimers { get, set }
     }
 }

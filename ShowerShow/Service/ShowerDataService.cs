@@ -20,7 +20,7 @@ namespace ShowerShow.Service
 
         public Task CreateShowerDataById(CreateShowerDataDTO shower, Guid userId)
         {
-            return _showerDataRepository.CreateShower(shower, userId);
+            return _showerDataRepository.CreateShowerDataById(shower, userId);
 
         }
 

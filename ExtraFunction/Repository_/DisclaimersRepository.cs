@@ -1,14 +1,15 @@
-﻿using ShowerShow.DAL;
-using ShowerShow.Model;
+﻿using ExtraFunction.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ExtraFunction.Model;
+using ExtraFunction.Repository_.Interface;
 
-namespace ShowerShow.Repository
+namespace ExtraFunction.Repository_
 {
-    public class DisclaimersRepository
+    public class DisclaimersRepository : IDisclaimersRepository
     {
         private DatabaseContext _dbContext;
 
@@ -17,11 +18,11 @@ namespace ShowerShow.Repository
             this._dbContext = dbContext;
         }
 
-        public async Task<Disclaimers> GetDisclaimres(Disclaimers disclaimers)
+        public async Task<Disclaimers> GetDisclaimers(Disclaimers disclaimers)
         {
-            var Disclaimers = _dbContext.Disclaimers.FirstOrDefault(disclaimers);
+            var disc = _dbContext.Disclaimers.FirstOrDefault(disclaimers);
 
-            return Disclaimers;
+            return disc;
         }
         public async Task<Disclaimers> UpdateDisclaimers(Disclaimers disclaimers)
         {

@@ -1,14 +1,11 @@
 ﻿using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Functions.Worker.Extensions.OpenApi.Extensions;
 using Microsoft.Extensions.Hosting;
-using ShowerShow.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ShowerShow.Models;
-using User = ShowerShow.Models.User;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -16,10 +13,14 @@ using ShowerShow.Service;
 using ShowerShow.Repository.Interface;
 using ShowerShow.Repository;
 using Microsoft.Extensions.Configuration;
-using ShowerShow.Authorization;
 using ExtraFunction.Repository_.Interface;
 using ExtraFunction.Repository_;
 using ExtraFunction.Service_;
+using ExtraFunction.DAL;
+using ExtraFunction.Service;
+using ExtraFunction.Repository.Interface;
+using ExtraFunction.Authorization;
+using ExtraFunction.Repository;
 
 namespace ExtraFunction
 {

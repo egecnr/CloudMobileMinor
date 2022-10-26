@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShowerShow.DTO
+namespace ExtraFunction.DTO_
 {
     public class UpdateTermsAndConditionsDTO
     {

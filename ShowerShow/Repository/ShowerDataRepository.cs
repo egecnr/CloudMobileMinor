@@ -20,7 +20,7 @@ namespace ShowerShow.Repository
             this._dbContext = dbContext;    
         }
 
-        public async Task CreateShower(CreateShowerDataDTO shower, Guid userId)
+        public async Task CreateShowerDataById(CreateShowerDataDTO shower, Guid userId)
         {
             Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<CreateShowerDataDTO, ShowerData>()));
             ShowerData showerData = mapper.Map<ShowerData>(shower);

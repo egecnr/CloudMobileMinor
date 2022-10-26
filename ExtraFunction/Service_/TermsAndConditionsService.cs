@@ -1,9 +1,5 @@
-﻿using ShowerShow.Model;
-using ShowerShow.Repository.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using ExtraFunction.Model;
+using ExtraFunction.Repository_.Interface;
 using System.Threading.Tasks;
 
 namespace ShowerShow.Service

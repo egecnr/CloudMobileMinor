@@ -1,4 +1,4 @@
-﻿using ExtraFunction.Model_;
+﻿using ExtraFunction.Model;
 using ExtraFunction.Repository_.Interface;
 using Microsoft.EntityFrameworkCore;
 using ShowerShow.Repository.Interface;
