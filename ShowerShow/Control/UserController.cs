@@ -50,17 +50,29 @@ namespace ShowerShow.Controllers
             try
             {
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-
                 CreateUserDTO userDTO = JsonConvert.DeserializeObject<CreateUserDTO>(requestBody);
-                string qName = Environment.GetEnvironmentVariable("CreateUserQueue");
-                string connString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
-                QueueClientOptions clientOpt = new QueueClientOptions() { MessageEncoding = QueueMessageEncoding.Base64};
+                if (await userService.CheckIfEmailExist(userDTO.Email) || await userService.CheckIfUserNameExist(userDTO.UserName))
+                {
+                    responseData.StatusCode = HttpStatusCode.BadRequest;
+                    responseData.Headers.Add("Reason", "Please pick a unique email and username.");
+                }
+                else
+                {
+                    string qName = Environment.GetEnvironmentVariable("CreateUserQueue");
+                    string connString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
+                    QueueClientOptions clientOpt = new QueueClientOptions() { MessageEncoding = QueueMessageEncoding.Base64 };
 
-                QueueClient qClient = new QueueClient(connString, qName, clientOpt);
-                var jsonOpt = new JsonSerializerOptions() { WriteIndented = true };
-                string userJson = JsonSerializer.Serialize<CreateUserDTO>(userDTO, jsonOpt);
-                await qClient.SendMessageAsync(userJson);
-                responseData.StatusCode = HttpStatusCode.Created;
+                    QueueClient qClient = new QueueClient(connString, qName, clientOpt);
+                    var jsonOpt = new JsonSerializerOptions() { WriteIndented = true };
+                    string userJson = JsonSerializer.Serialize<CreateUserDTO>(userDTO, jsonOpt);
+                    await qClient.SendMessageAsync(userJson);
+                    responseData.StatusCode = HttpStatusCode.Created;
+                    responseData.Headers.Add("Result", "User created");
+
+
+                }
+
+
             }
             catch (Exception e)
             {
