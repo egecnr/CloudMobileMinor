@@ -10,10 +10,10 @@ namespace ShowerShow.Repository.Interface
 {
     public interface IUserPreferencesRepository
     {
-        public Task CreateUserPreferences(CreatePreferencesDTO createPreferencesDTO);
-        public Task<IEnumerable<Preferences>> GetUserPreferenceById(Guid userId);
+        public Task CreateUserPreferences(Guid userId);
+        public Task<PreferencesDTO> GetUserPreferenceById(Guid userId);
 
-        public Task UpdatePreferenceById(Guid userId, UpdatePreferencesDTO updatePreferencesDTO);
+        public Task UpdatePreferenceById(Guid userId, PreferencesDTO updatePreferencesDTO);
 
     }
 }

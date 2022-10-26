@@ -146,3 +146,11 @@ C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\obj\Debug\net6.0\refint\
 C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\obj\Debug\net6.0\ExtraFunction.pdb
 C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\obj\Debug\net6.0\ExtraFunction.genruntimeconfig.cache
 C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunction\obj\Debug\net6.0\ref\ExtraFunction.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunction\obj\Debug\net6.0\ExtraFunction.csproj.AssemblyReference.cache
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunction\obj\Debug\net6.0\ExtraFunction.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunction\obj\Debug\net6.0\ExtraFunction.AssemblyInfoInputs.cache
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunction\obj\Debug\net6.0\ExtraFunction.AssemblyInfo.cs
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunction\obj\Debug\net6.0\ExtraFunction.csproj.CoreCompileInputs.cache
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunction\obj\Debug\net6.0\ExtraFunction.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunction\obj\Debug\net6.0\refint\ExtraFunction.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunction\obj\Debug\net6.0\ExtraFunction.pdb

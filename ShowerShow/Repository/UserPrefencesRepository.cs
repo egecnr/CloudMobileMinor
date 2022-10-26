@@ -30,13 +30,18 @@ namespace ShowerShow.Repository
             _dbContext.Preferences.Add(userPreferences);
             await _dbContext.SaveChangesAsync();
         }
-        public async Task<IEnumerable<Preferences>> GetUserPreferenceById(Guid userId)
+
+
+
+        public async Task<PreferencesDTO> GetUserPreferenceById(Guid userId)
         {
             await _dbContext.SaveChangesAsync();
-            return _dbContext.Preferences.Where(x => x.UserId == userId);
-
+            Preferences p = _dbContext.Preferences.FirstOrDefault(x=>x.UserId==userId);
+            Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<Preferences, PreferencesDTO>()));
+            PreferencesDTO pdto = mapper.Map<PreferencesDTO>(p);
+            return pdto;
         }
-        public async Task UpdatePreferenceById(Guid userId, UpdatePreferencesDTO updatePreferencesDTO)
+        public async Task UpdatePreferenceById(Guid userId, PreferencesDTO updatePreferencesDTO)
         {
             await _dbContext.SaveChangesAsync();
             Preferences preferences = _dbContext.Preferences.FirstOrDefault(u => u.UserId == userId);

@@ -18,18 +18,18 @@ namespace ShowerShow.Service
         {
             this._userPreferencesRepository = userPreferencesRepository;
         }
-        public async Task CreateUserPreferences(CreatePreferencesDTO createPreferencesDTO)
+        public async Task CreateUserPreferences(Guid userId)
         {
-            await _userPreferencesRepository.CreateUserPreferences(createPreferencesDTO);
+            await _userPreferencesRepository.CreateUserPreferences(userId);
         }
 
 
-        public async Task<IEnumerable<Preferences>> GetUserPreferencesById(Guid userId)
+        public async Task<PreferencesDTO> GetUserPreferencesById(Guid userId)
         {
             return await _userPreferencesRepository.GetUserPreferenceById(userId);
         }
 
-        public async Task UpdatePreferenceById(Guid userId, UpdatePreferencesDTO updatePreferencesDTO)
+        public async Task UpdatePreferenceById(Guid userId, PreferencesDTO updatePreferencesDTO)
         {
             await _userPreferencesRepository.UpdatePreferenceById(userId, updatePreferencesDTO);
         }

@@ -9,7 +9,7 @@ namespace ShowerShow.Models
         public Guid Id { get; set; } = Guid.NewGuid();
         [JsonRequired]
         public Guid UserId { get; set; }
-        public AvailableVoices SelectedVoice { get; set; } = AvailableVoices.Default_Male;
+        public string SelectedVoice { get; set; } 
         public AvailableLanguages SelectedLanguage { get; set; } = AvailableLanguages.English;
         public AvailableWaterTypes WaterType { get; set; }
         public AvailableCurrencies Currency { get; set; }
@@ -23,7 +23,7 @@ namespace ShowerShow.Models
                 Id = Guid.NewGuid(),
                 UserId = userId,
                 SelectedLanguage = AvailableLanguages.English,
-                SelectedVoice = AvailableVoices.Default_Male,
+                SelectedVoice = "default_male",
                 WaterType = AvailableWaterTypes.Liters,
                 Currency = AvailableCurrencies.EUR,
                 Theme = AvailableThemes.Light,

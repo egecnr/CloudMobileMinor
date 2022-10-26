@@ -4,6 +4,7 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using ShowerShow.Authorization;
 using ShowerShow.Controllers;
 using ShowerShow.DTO;
 using ShowerShow.Models;
@@ -31,84 +32,64 @@ namespace ShowerShow.Control
             this._userService = userService;
 
         }
-
-        [Function("CreateUserPreferences")]
-        [OpenApiOperation(operationId: "CreatePreferences", tags: new[] { "Preferences" })]
-        [OpenApiRequestBody("application/json", typeof(CreatePreferencesDTO), Description = "Id of the requested user ")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(CreatePreferencesDTO), Description = "Successfully created the Preferences")]
-        public async Task <HttpResponseData> CreateUserPreferences([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "user/{userId}/preferences")] HttpRequestData req)
-        {
-            _logger.LogInformation("Create a preference for one user");
-
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-
-            CreatePreferencesDTO createPreferencesDTO = JsonConvert.DeserializeObject<CreatePreferencesDTO>(requestBody);
-
-            if (await _userService.CheckIfUserExistAndActive(createPreferencesDTO.UserId))
-            {
-                HttpResponseData responseData = req.CreateResponse();
-                responseData.StatusCode = HttpStatusCode.BadRequest;
-                return responseData;
-            }
-            else
-            {
-                await _userPrefencesService.CreateUserPreferences(createPreferencesDTO);
-                HttpResponseData responseData = req.CreateResponse();
-                responseData.StatusCode = HttpStatusCode.Created;
-
-                return responseData;
-            }
-        }
         [Function("GetUserPreferenceById")]
         [OpenApiOperation(operationId: "GetAllPreferences", tags: new[] { "Preferences" })]
+        [ExampleAuth]
         [OpenApiParameter(name: "userId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The user ID parameter")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(List<Preferences>), Description = "Successfully retrieved the Preferences")]
-        public async Task<HttpResponseData> GetUserPreferenceById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{userId:Guid}/preferences")] HttpRequestData req, Guid userId)
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(PreferencesDTO), Description = "Successfully retrieved the Preferences")]
+        public async Task<HttpResponseData> GetUserPreferenceById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{userId:Guid}/preferences")] HttpRequestData req, Guid userId, FunctionContext functionContext)
         {
             _logger.LogInformation($"Fetching the user preference by id {userId}");
+            HttpResponseData responseData = req.CreateResponse();
 
+            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            {
+                responseData.StatusCode = HttpStatusCode.Unauthorized;
+                return responseData;
+            }
             if (await _userService.CheckIfUserExistAndActive(userId))
             {
-                HttpResponseData responseData = req.CreateResponse();
-                responseData.StatusCode = HttpStatusCode.BadRequest;
-                return responseData;
+                var preferences = await _userPrefencesService.GetUserPreferencesById(userId);
+                await responseData.WriteAsJsonAsync(preferences);
+                responseData.StatusCode = HttpStatusCode.OK;
             }
             else
             {
-                var preferences = await _userPrefencesService.GetUserPreferencesById(userId);
-                HttpResponseData responseData = req.CreateResponse();
-                await responseData.WriteAsJsonAsync(preferences);
-                responseData.StatusCode = HttpStatusCode.OK;
-
-                return responseData;
+                responseData.StatusCode = HttpStatusCode.BadRequest;
             }
+            return responseData;
+
         }
         [Function("UpdatePreferenceById")]
         [OpenApiOperation(operationId: "UpdatePreferences", tags: new[] { "Preferences" })]
+        [ExampleAuth]
         [OpenApiParameter(name: "userId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "Id of the requested user ")]
-        [OpenApiRequestBody("application/json", typeof(UpdatePreferencesDTO), Description = "The user data to update.")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(UpdatePreferencesDTO), Description = "The OK response with the updated user preference")]
-        public async Task<HttpResponseData> UpdatePreferenceById([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "user/{userId:Guid}/preferences")] HttpRequestData req, Guid userId)
+        [OpenApiRequestBody("application/json", typeof(PreferencesDTO), Description = "The user data to update.")]
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(PreferencesDTO), Description = "The OK response with the updated user preference")]
+        public async Task<HttpResponseData> UpdatePreferenceById([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "user/{userId:Guid}/preferences")] HttpRequestData req, Guid userId,FunctionContext functionContext)
         {
             _logger.LogInformation($"Fetching the user by id {userId}");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            UpdatePreferencesDTO updatePreferencesDTO = JsonConvert.DeserializeObject<UpdatePreferencesDTO>(requestBody);
+            PreferencesDTO updatePreferencesDTO = JsonConvert.DeserializeObject<PreferencesDTO>(requestBody);
 
+            HttpResponseData responseData = req.CreateResponse();
+
+            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            {
+                responseData.StatusCode = HttpStatusCode.Unauthorized;
+                return responseData;
+            }
             if (await _userService.CheckIfUserExistAndActive(userId))
             {
-                HttpResponseData responseData = req.CreateResponse();
-                responseData.StatusCode = HttpStatusCode.BadRequest;
-                return responseData;
+                await _userPrefencesService.UpdatePreferenceById(userId, updatePreferencesDTO);
+                responseData.StatusCode = HttpStatusCode.OK;  
             }
             else
             {
-                HttpResponseData responseData = req.CreateResponse();
-                await _userPrefencesService.UpdatePreferenceById(userId, updatePreferencesDTO);
-                responseData.StatusCode = HttpStatusCode.OK;
-
-                return responseData;
+                responseData.StatusCode = HttpStatusCode.BadRequest;               
             }
+            return responseData;
 
 
 
