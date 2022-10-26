@@ -107,12 +107,12 @@ namespace ExtraFunction.Control
         public async Task<HttpResponseData> UpdateAchievementById([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "user/{UserId}/achievement/{achievementTitle}")] HttpRequestData req, Guid UserId, string achievementTitle, int currentValue, FunctionContext functionContext)
         {
             _logger.LogInformation("Updating achievement by id");
-            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
-            {
-                HttpResponseData responseData = req.CreateResponse();
-                responseData.StatusCode = HttpStatusCode.Unauthorized;
-                return responseData;
-            }
+            //if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            //{
+            //    HttpResponseData responseData = req.CreateResponse();
+            //    responseData.StatusCode = HttpStatusCode.Unauthorized;
+            //    return responseData;
+            //}
 
             if (await _userRepository.CheckIfUserExistAndActive(UserId))
             {
