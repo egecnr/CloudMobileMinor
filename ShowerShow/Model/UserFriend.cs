@@ -7,14 +7,18 @@ namespace ShowerShow.Model
 {
     public class UserFriend
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; }= Guid.NewGuid();
+
         [JsonRequired]
-        public string UserName { get; set; }
-        public UserFriend() { }
-        public UserFriend(Guid id,string userName)
-        {
-            Id = id;
-            UserName = userName;
-        }
+        public Guid MainUserId { get; set; }
+
+        [JsonRequired]
+        public Guid FriendId { get; set; }
+
+        [JsonRequired]
+        public FriendStatus status { get; set; } = FriendStatus.Pending; //Its always pending by default
+
+        [JsonRequired]
+        public bool IsFavorite { get; set; }
     }
 }
