@@ -285,6 +285,58 @@
     ]
   },
   {
+    "name": "GetUserPreferenceById",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserPreferencesController.GetUserPreferenceById",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "user/{userId:Guid}/preferences"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "UpdatePreferenceById",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserPreferencesController.UpdatePreferenceById",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "put"
+        ],
+        "route": "user/{userId:Guid}/preferences"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
     "name": "UploadProfilePicture",
     "scriptFile": "ShowerShow.dll",
     "entryPoint": "ShowerShow.Controllers.BlobStorageController.UploadProfilePicture",
