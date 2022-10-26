@@ -23,10 +23,10 @@ namespace ShowerShow.Repository
         }
 
 
-        public async Task CreateUserPreferences(CreatePreferencesDTO createPreferencesDTO)
+        public async Task CreateUserPreferences(Guid userId)
         {
-            Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap < CreatePreferencesDTO, Preferences>())) ;
-            Preferences userPreferences = mapper.Map<Preferences>(createPreferencesDTO);
+
+            Preferences userPreferences = Preferences.ReturnDefaultPreference(userId);
             _dbContext.Preferences.Add(userPreferences);
             await _dbContext.SaveChangesAsync();
         }

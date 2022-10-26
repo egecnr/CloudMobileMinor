@@ -16,7 +16,7 @@ namespace ShowerShow.Models
         public AvailableThemes Theme { get; set; }
         public bool Notification { get; set; }
 
-        public Preferences ReturnDefaultPreference(Guid userId) //queuetrigger will call this method when a new user is created in order to have a default value.
+        public static Preferences ReturnDefaultPreference(Guid userId) //queuetrigger will call this method when a new user is created in order to have a default value.
         {
             Preferences preferences = new Preferences()
             {
