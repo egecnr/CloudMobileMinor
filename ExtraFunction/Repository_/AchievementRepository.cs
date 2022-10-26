@@ -31,6 +31,7 @@ namespace ExtraFunction.Repository_
             await _databaseContext.SaveChangesAsync();
             return _databaseContext.Users.FirstOrDefault(x => x.Id == userId)?.Achievements.ToList() ?? null;
 
+
         }
 
         public async Task UpdateAchievementById(string achievementTitle, Guid userId, int currentvalue)

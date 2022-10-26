@@ -24,7 +24,7 @@ namespace ExtraFunction.Control
         }
 
         [Function(nameof(GetDisclaimers))]
-        [OpenApiOperation(operationId: "GetDisclaimers", tags: new[] { "Terms and Conditions" })]
+        [OpenApiOperation(operationId: "GetDisclaimers", tags: new[] { "Disclaimers" })]
         [ExampleAuth]
         [OpenApiParameter(name: "", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Disclaimers), Description = "Successfully received disclaimeres")]
@@ -37,7 +37,7 @@ namespace ExtraFunction.Control
         }
 
         [Function(nameof(UpdateDisclaimers))]
-        [OpenApiOperation(operationId: "UpdateDisclaimers", tags: new[] { "Terms and Conditions" })]
+        [OpenApiOperation(operationId: "UpdateDisclaimers", tags: new[] { "Disclaimers" })]
         [ExampleAuth]
         [OpenApiParameter(name: "", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Disclaimers), Description = "Successfully received disclaimeres")]

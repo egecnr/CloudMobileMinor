@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShowerShow.Repository.Interface
+namespace ExtraFunction.Repository_.Interface
 {
     public interface IUserRepository
     {

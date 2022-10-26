@@ -1,17 +1,6 @@
 ﻿using Microsoft.Azure.Cosmos;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Microsoft.Extensions.Configuration;
-using System.IO;
-using Microsoft.Extensions.Options;
 using ExtraFunction.Model;
-using ExtraFunction.Utils;
 using User = ExtraFunction.Model.User;
 
 namespace ExtraFunction.DAL
@@ -22,7 +11,6 @@ namespace ExtraFunction.DAL
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<TermsAndConditions> TermsAndConditions { get; set; } = null!;
         public DbSet<Disclaimers> Disclaimers { get; set; } = null!;
-        public DbSet<Achievement> Achievements { get; set; } = null!;
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {

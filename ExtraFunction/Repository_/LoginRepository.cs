@@ -2,7 +2,7 @@
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
 using ExtraFunction.DAL;
 using ExtraFunction.Model;
-using ExtraFunction.Repository.Interface;
+using ExtraFunction.Repository_.Interface;
 using ExtraFunction.Utils;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExtraFunction.Repository
+namespace ExtraFunction.Repository_
 {
     public class LoginRepository : ILoginRepository
     {

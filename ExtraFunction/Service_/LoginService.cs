@@ -1,11 +1,10 @@
-﻿using ShowerShow.Repository.Interface;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ExtraFunction.Model;
-using ExtraFunction.Repository.Interface;
+using ExtraFunction.Repository_.Interface;
 
 namespace ExtraFunction.Service
 {

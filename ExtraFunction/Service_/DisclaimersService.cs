@@ -1,14 +1,11 @@
 ﻿using ExtraFunction.Model;
 using ExtraFunction.Repository_.Interface;
-using ShowerShow.Repository;
-using ShowerShow.Repository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-namespace ShowerShow.Service
+namespace ExtraFunction.Service
 {
     public class DisclaimersService : IDisclaimersService
     {

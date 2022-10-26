@@ -2,7 +2,7 @@
 using Microsoft.Azure.Functions.Worker.Middleware;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using ShowerShow.Repository.Interface;
+using ExtraFunction.Repository_.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,6 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using ExtraFunction.Model;
-using ExtraFunction.Repository.Interface;
 namespace ExtraFunction.Authorization
 {
     public class JWTMiddleware : IFunctionsWorkerMiddleware

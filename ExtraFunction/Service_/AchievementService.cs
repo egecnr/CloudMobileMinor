@@ -1,7 +1,6 @@
 ﻿using ExtraFunction.Model;
 using ExtraFunction.Repository_.Interface;
 using Microsoft.EntityFrameworkCore;
-using ShowerShow.Repository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;

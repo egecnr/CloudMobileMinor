@@ -1,6 +1,6 @@
 ﻿using ExtraFunction.Authorization;
 using ExtraFunction.Model;
-using ExtraFunction.Repository.Interface;
+using ExtraFunction.Repository_.Interface;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;

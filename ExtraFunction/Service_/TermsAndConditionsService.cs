@@ -2,7 +2,7 @@
 using ExtraFunction.Repository_.Interface;
 using System.Threading.Tasks;
 
-namespace ShowerShow.Service
+namespace ExtraFunction.Service
 {
     public class TermsAndConditionsService : ItermsAndConditionsService
     {

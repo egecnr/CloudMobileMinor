@@ -6,7 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExtraFunction.Repository.Interface
+namespace ExtraFunction.Repository_.Interface
 {
     public interface ITokenService
     {

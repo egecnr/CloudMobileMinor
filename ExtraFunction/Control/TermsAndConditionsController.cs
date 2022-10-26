@@ -5,15 +5,13 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using ShowerShow.Repository.Interface;
+using ExtraFunction.Repository_.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using ShowerShow.Service;
-using ExtraFunction.Repository_.Interface;
 using ExtraFunction.Authorization;
 using ExtraFunction.Model;
 

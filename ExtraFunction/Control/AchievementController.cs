@@ -1,10 +1,8 @@
-﻿using ExtraFunction.Repository_.Interface;
-using Microsoft.Azure.Functions.Worker;
+﻿using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using ShowerShow.Repository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ExtraFunction.Model;
 using ExtraFunction.Authorization;
-
+using ExtraFunction.Repository_.Interface;
 
 namespace ExtraFunction.Control
 {
@@ -23,10 +21,10 @@ namespace ExtraFunction.Control
         private readonly IAchievementService _achievementService;
         private readonly IUserRepository _userRepository;
 
-        public AchievementController(ILogger<AchievementController> logger, IAchievementService service, IUserRepository userRepository)
+        public AchievementController(ILogger<AchievementController> logger, IAchievementService achievementService, IUserRepository userRepository)
         {
             _logger = logger;
-            _achievementService = service;
+            _achievementService = achievementService;
             _userRepository = userRepository;
         }
 
@@ -38,6 +36,7 @@ namespace ExtraFunction.Control
         public async Task<HttpResponseData> GetAchievementsById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{UserId:Guid}/achievements")] HttpRequestData req, Guid UserId, FunctionContext functionContext)
         {
             _logger.LogInformation("Getting achievement by Id");
+
             if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
             {
                 HttpResponseData responseData = req.CreateResponse();

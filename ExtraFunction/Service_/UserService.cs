@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using ExtraFunction.DTO_;
-using ShowerShow.Repository.Interface;
+using ExtraFunction.Repository_.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
