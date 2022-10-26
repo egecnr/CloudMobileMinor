@@ -23,6 +23,9 @@ using ShowerShow.Authorization;
 using System.Security.Claims;
 using ShowerShow.Service;
 using Microsoft.AspNetCore.Components.Forms;
+using System.Text.Json;
+using Azure.Storage.Queues;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace ShowerShow.Controllers
 {
@@ -49,7 +52,14 @@ namespace ShowerShow.Controllers
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 
                 CreateUserDTO userDTO = JsonConvert.DeserializeObject<CreateUserDTO>(requestBody);
-                await userService.CreateUser(userDTO);
+                string qName = Environment.GetEnvironmentVariable("CreateUserQueue");
+                string connString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
+                QueueClientOptions clientOpt = new QueueClientOptions() { MessageEncoding = QueueMessageEncoding.Base64};
+
+                QueueClient qClient = new QueueClient(connString, qName, clientOpt);
+                var jsonOpt = new JsonSerializerOptions() { WriteIndented = true };
+                string userJson = JsonSerializer.Serialize<CreateUserDTO>(userDTO, jsonOpt);
+                await qClient.SendMessageAsync(userJson);
                 responseData.StatusCode = HttpStatusCode.Created;
             }
             catch (Exception e)

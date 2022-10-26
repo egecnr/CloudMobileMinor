@@ -313,3 +313,5 @@ C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunction\obj\Debug\net6.0\r
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunction\obj\Debug\net6.0\ExtraFunction.pdb
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunction\obj\Debug\net6.0\ExtraFunction.genruntimeconfig.cache
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunction\obj\Debug\net6.0\ref\ExtraFunction.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunction\bin\Debug\net6.0\Azure.Storage.Queues.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunction\bin\Debug\net6.0\Microsoft.Azure.Functions.Worker.Extensions.Storage.dll

@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -36,9 +37,9 @@ namespace ShowerShow.Control
             Login login = JsonConvert.DeserializeObject<Login>(await new StreamReader(req.Body).ReadToEndAsync());
             if (await loginService.CheckIfCredentialsCorrect(login.Username, login.Password))
             {
-                LoginResult result = await tokenService.CreateToken(login);
-
+                LoginResult result = await tokenService.CreateToken(login);          
                 HttpResponseData response = req.CreateResponse(HttpStatusCode.OK);
+
                 await response.WriteAsJsonAsync(result);
                 return response;
             }
