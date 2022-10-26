@@ -9,7 +9,7 @@ namespace ExtraFunction.Model
     public partial class Disclaimers
     {
         public Guid Id { get; set; }
-        public AvailableDisclaimers availableDisclaimers { get; set; }
+        public AvailableDisclaimers availableDisclaimers { get; set; } //Change this to simple strings
     }
 
 }

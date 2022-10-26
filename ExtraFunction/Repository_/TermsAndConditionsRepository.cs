@@ -21,7 +21,7 @@ namespace ExtraFunction.Repository_
 
         public async Task<TermsAndConditions> GetTermsAndConditions(TermsAndConditions termsAndConditions)
         {
-            var TermsAndConditions = _dbContext.TermsAndConditions.FirstOrDefault(termsAndConditions);
+            var TermsAndConditions = _dbContext.TermsAndConditions.FirstOrDefault(termsAndConditions);//Check if you need this as a parameter
 
             return TermsAndConditions;
         }

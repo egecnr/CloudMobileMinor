@@ -39,6 +39,8 @@ namespace ExtraFunction.DAL
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         { 
             modelBuilder.Entity<User>().ToContainer("Users").HasPartitionKey(c => c.Id);          
+            modelBuilder.Entity<User>().ToContainer("TermsAndConditions").HasPartitionKey(c => c.Id);          
+            modelBuilder.Entity<User>().ToContainer("Disclaimers").HasPartitionKey(c => c.Id);          
             modelBuilder.Entity<User>().OwnsMany(u => u.Friends);
             modelBuilder.Entity<User>().OwnsMany(u => u.Achievements);
         }

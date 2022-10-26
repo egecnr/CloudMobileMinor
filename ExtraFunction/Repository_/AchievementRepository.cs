@@ -35,7 +35,7 @@ namespace ExtraFunction.Repository_
 
         public async Task UpdateAchievementById(string achievementTitle, Guid userId, int currentvalue)
         {
-
+            //get user instead, update the achievement current value locally and update the user instead of only achievement.
             Achievement achievement = _databaseContext.Users.FirstOrDefault(x => x.Id == userId)?.Achievements.FirstOrDefault(y => y.Title == achievementTitle) ?? null;
             achievement.CurrentValue = currentvalue;
             _databaseContext.Update(achievement);
