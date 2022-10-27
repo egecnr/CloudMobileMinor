@@ -114,9 +114,8 @@ namespace ExtraFunction.Control
 
             if (await _userRepository.CheckIfUserExistAndActive(UserId))
             {
-                var res = _achievementService.UpdateAchievementById(achievementTitle, UserId, CurrentValue);
+                 await _achievementService.UpdateAchievementById(achievementTitle, UserId, CurrentValue);
                 HttpResponseData response = req.CreateResponse(HttpStatusCode.OK);
-                await response.WriteAsJsonAsync(res);
                 return response;
             }
             else

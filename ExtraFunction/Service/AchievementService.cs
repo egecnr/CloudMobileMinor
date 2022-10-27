@@ -33,9 +33,9 @@ namespace ExtraFunction.Service_
             return _achievementRepository.GetAchievementsById(userId);
         }
 
-        public Task UpdateAchievementById(string achievementTitle, Guid userId, int currentValue)
+        public async Task UpdateAchievementById(string achievementTitle, Guid userId, int currentValue)
         {
-            return _achievementRepository.UpdateAchievementByIdAndTitle(achievementTitle, userId, currentValue);
+            await _achievementRepository.UpdateAchievementByIdAndTitle(achievementTitle, userId, currentValue);
         }
 
     }
