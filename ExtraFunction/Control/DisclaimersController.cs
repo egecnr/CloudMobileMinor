@@ -25,9 +25,8 @@ namespace ExtraFunction.Control
 
         [Function(nameof(GetDisclaimers))]
         [OpenApiOperation(operationId: "GetDisclaimers", tags: new[] { "Disclaimers" })]
-        [ExampleAuth]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Disclaimers), Description = "Successfully received disclaimers")]
-        public async Task<HttpResponseData> GetDisclaimers([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "Disclaimers")] HttpRequestData req, FunctionContext functionContext) //route is emtpy
+        public async Task<HttpResponseData> GetDisclaimers([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "Disclaimers")] HttpRequestData req) //route is emtpy
         {
             Disclaimers response = await _disclaimersRepository.GetDisclaimers();
             HttpResponseData responseData = req.CreateResponse(HttpStatusCode.OK);
