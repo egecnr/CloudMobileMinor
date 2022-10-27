@@ -35,7 +35,6 @@ namespace ShowerShow.Repository
 
             ranking.Add(userId, litersAmount);
 
-
             foreach (GetUserFriendDTO friend in friends)
             {
                 litersAmount = 0;

@@ -87,6 +87,24 @@
           }
         }
       },
+      "Azure.Storage.Queues/12.12.0": {
+        "type": "package",
+        "dependencies": {
+          "Azure.Storage.Common": "12.13.0",
+          "System.Memory.Data": "1.0.2",
+          "System.Text.Json": "4.7.2"
+        },
+        "compile": {
+          "lib/netstandard2.1/Azure.Storage.Queues.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.1/Azure.Storage.Queues.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "AzureFunctions.Extensions.DependencyInjection/1.1.3": {
         "type": "package",
         "dependencies": {
@@ -941,6 +959,18 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+      },
+      "Microsoft.Azure.Functions.Worker.Extensions.Storage/4.0.4": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Azure.Functions.Worker.Extensions.Abstractions": "1.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Azure.Functions.Worker.Extensions.Storage.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Azure.Functions.Worker.Extensions.Storage.dll": {}
+        }
       },
       "Microsoft.Azure.Functions.Worker.Grpc/1.6.0": {
         "type": "package",
@@ -4768,6 +4798,7 @@
           "AutoMapper": "12.0.0",
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "12.0.0",
           "Azure.Storage.Blobs": "12.14.1",
+          "Azure.Storage.Queues": "12.12.0",
           "AzureFunctions.Extensions.DependencyInjection": "1.1.3",
           "HttpMultipartParser": "5.0.0",
           "Microsoft.AspNet.WebHelpers": "3.2.9",
@@ -4778,6 +4809,7 @@
           "Microsoft.Azure.Functions.Worker.Core": "1.9.0-preview2",
           "Microsoft.Azure.Functions.Worker.Extensions.Http": "3.0.13",
           "Microsoft.Azure.Functions.Worker.Extensions.OpenApi": "1.4.0",
+          "Microsoft.Azure.Functions.Worker.Extensions.Storage": "4.0.4",
           "Microsoft.Azure.Functions.Worker.Sdk": "1.8.0-preview2",
           "Microsoft.Azure.WebJobs.Extensions.CosmosDB": "3.0.10",
           "Microsoft.Azure.WebJobs.Extensions.OpenApi.Core": "1.4.0",
@@ -4882,6 +4914,24 @@
         "azureicon.png",
         "lib/netstandard2.0/Azure.Storage.Common.dll",
         "lib/netstandard2.0/Azure.Storage.Common.xml"
+      ]
+    },
+    "Azure.Storage.Queues/12.12.0": {
+      "sha512": "PwrfymLYFmmOt6A0vMiDVhBV7RoOAKftzzvrbSM3W9cJKpkxAg57AhM7/wbNb3P8Uq0B73lBurkFiFzWK9PXHg==",
+      "type": "package",
+      "path": "azure.storage.queues/12.12.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "CHANGELOG.md",
+        "README.md",
+        "azure.storage.queues.12.12.0.nupkg.sha512",
+        "azure.storage.queues.nuspec",
+        "azureicon.png",
+        "lib/netstandard2.0/Azure.Storage.Queues.dll",
+        "lib/netstandard2.0/Azure.Storage.Queues.xml",
+        "lib/netstandard2.1/Azure.Storage.Queues.dll",
+        "lib/netstandard2.1/Azure.Storage.Queues.xml"
       ]
     },
     "AzureFunctions.Extensions.DependencyInjection/1.1.3": {
@@ -5587,6 +5637,19 @@
         "lib/net6.0/Microsoft.Azure.Functions.Worker.Extensions.OpenApi.xml",
         "microsoft.azure.functions.worker.extensions.openapi.1.4.0.nupkg.sha512",
         "microsoft.azure.functions.worker.extensions.openapi.nuspec"
+      ]
+    },
+    "Microsoft.Azure.Functions.Worker.Extensions.Storage/4.0.4": {
+      "sha512": "lg/sBDVPkXI0l1kHYbvyF1eA+gwaM3p/WgjX1nwVMyAkJpniDCNa6Rv/nxJwLvdWFzFLOuUp7ns0sxF1AjNuhg==",
+      "type": "package",
+      "path": "microsoft.azure.functions.worker.extensions.storage/4.0.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "icon.png",
+        "lib/netstandard2.0/Microsoft.Azure.Functions.Worker.Extensions.Storage.dll",
+        "microsoft.azure.functions.worker.extensions.storage.4.0.4.nupkg.sha512",
+        "microsoft.azure.functions.worker.extensions.storage.nuspec"
       ]
     },
     "Microsoft.Azure.Functions.Worker.Grpc/1.6.0": {
@@ -13212,6 +13275,12 @@
     }
   },
   "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\Cosmin\\source\\repos\\FunctionApp1\\ExtraFunction\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    },
     {
       "code": "NU1701",
       "level": "Warning",

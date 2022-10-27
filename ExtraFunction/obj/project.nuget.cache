@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "0bvo/wGCz50VZsDiuZ0+b7eggkWABG3QvVUKQrlM+xpUvqHHmI18mOfF6Qc8z8hEzXIhnRGDLZtO4ue72Yy7Ww==",
+  "dgSpecHash": "6zxT4puCfIASIyDfHkXrh5EBFyanaGy2rvfaoBvBiype8eoSDwBCZ06+xP8RTURhHLRW5PF5udB5rMoYY5Zf/g==",
   "success": true,
   "projectFilePath": "C:\\Users\\Cosmin\\source\\repos\\FunctionApp1\\ExtraFunction\\ExtraFunction.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,7 @@
     "C:\\Users\\Cosmin\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\Cosmin\\.nuget\\packages\\azure.storage.blobs\\12.14.1\\azure.storage.blobs.12.14.1.nupkg.sha512",
     "C:\\Users\\Cosmin\\.nuget\\packages\\azure.storage.common\\12.13.0\\azure.storage.common.12.13.0.nupkg.sha512",
+    "C:\\Users\\Cosmin\\.nuget\\packages\\azure.storage.queues\\12.12.0\\azure.storage.queues.12.12.0.nupkg.sha512",
     "C:\\Users\\Cosmin\\.nuget\\packages\\azurefunctions.extensions.dependencyinjection\\1.1.3\\azurefunctions.extensions.dependencyinjection.1.1.3.nupkg.sha512",
     "C:\\Users\\Cosmin\\.nuget\\packages\\google.protobuf\\3.21.7\\google.protobuf.3.21.7.nupkg.sha512",
     "C:\\Users\\Cosmin\\.nuget\\packages\\grpc.core.api\\2.49.0\\grpc.core.api.2.49.0.nupkg.sha512",
@@ -53,6 +54,7 @@
     "C:\\Users\\Cosmin\\.nuget\\packages\\microsoft.azure.functions.worker.extensions.abstractions\\1.0.0\\microsoft.azure.functions.worker.extensions.abstractions.1.0.0.nupkg.sha512",
     "C:\\Users\\Cosmin\\.nuget\\packages\\microsoft.azure.functions.worker.extensions.http\\3.0.13\\microsoft.azure.functions.worker.extensions.http.3.0.13.nupkg.sha512",
     "C:\\Users\\Cosmin\\.nuget\\packages\\microsoft.azure.functions.worker.extensions.openapi\\1.4.0\\microsoft.azure.functions.worker.extensions.openapi.1.4.0.nupkg.sha512",
+    "C:\\Users\\Cosmin\\.nuget\\packages\\microsoft.azure.functions.worker.extensions.storage\\4.0.4\\microsoft.azure.functions.worker.extensions.storage.4.0.4.nupkg.sha512",
     "C:\\Users\\Cosmin\\.nuget\\packages\\microsoft.azure.functions.worker.grpc\\1.6.0\\microsoft.azure.functions.worker.grpc.1.6.0.nupkg.sha512",
     "C:\\Users\\Cosmin\\.nuget\\packages\\microsoft.azure.functions.worker.sdk\\1.8.0-preview2\\microsoft.azure.functions.worker.sdk.1.8.0-preview2.nupkg.sha512",
     "C:\\Users\\Cosmin\\.nuget\\packages\\microsoft.azure.functions.worker.sdk.analyzers\\1.1.1\\microsoft.azure.functions.worker.sdk.analyzers.1.1.1.nupkg.sha512",
@@ -260,6 +262,12 @@
     "C:\\Users\\Cosmin\\.nuget\\packages\\yamldotnet\\11.2.1\\yamldotnet.11.2.1.nupkg.sha512"
   ],
   "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file C:\\Users\\Cosmin\\source\\repos\\FunctionApp1\\ExtraFunction\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    },
     {
       "code": "NU1701",
       "level": "Warning",

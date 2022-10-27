@@ -7,7 +7,8 @@ namespace ShowerShow.Repository.Interface
 {
     public interface IUserService
     {
-        public Task CreateUser(CreateUserDTO user);
+        public Task AddUserToQueue(CreateUserDTO user);
+        public Task CreateUser(CreateUserDTO userDTO);
         public Task<bool> CheckIfEmailExist(string email);
         public Task<GetUserDTO> GetUserById(Guid Id);
         public Task<bool> CheckIfUserNameExist(string userName);

@@ -104,7 +104,26 @@
     ]
   },
   {
-    "name": "LoginController",
+    "name": "CreateUserQueueTrigger",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Queue.CreateUserQueueTrigger.RunAsync",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "myQueueItem",
+        "type": "queueTrigger",
+        "direction": "In",
+        "dataType": "String",
+        "queueName": "create-user-queue",
+        "connection": "AzureWebJobsStorage"
+      }
+    ]
+  },
+  {
+    "name": "Login",
     "scriptFile": "ShowerShow.dll",
     "entryPoint": "ShowerShow.Control.LoginController.Login",
     "language": "dotnet-isolated",
@@ -276,6 +295,58 @@
           "delete"
         ],
         "route": "user/{userId:Guid}/friends/{friendId:Guid}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "GetUserPreferenceById",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserPreferencesController.GetUserPreferenceById",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "user/{userId:Guid}/preferences"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "UpdatePreferenceById",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.UserPreferencesController.UpdatePreferenceById",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "put"
+        ],
+        "route": "user/{userId:Guid}/preferences"
       },
       {
         "name": "$return",
