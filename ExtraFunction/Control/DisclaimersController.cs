@@ -26,28 +26,28 @@ namespace ExtraFunction.Control
         [Function(nameof(GetDisclaimers))]
         [OpenApiOperation(operationId: "GetDisclaimers", tags: new[] { "Disclaimers" })]
         [ExampleAuth]
-        [OpenApiParameter(name: "", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Disclaimers), Description = "Successfully received disclaimeres")]
-        public async Task<HttpResponseData> GetDisclaimers([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "")] HttpRequestData req, Disclaimers disclaimers, FunctionContext functionContext)
+        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Disclaimers), Description = "Successfully received disclaimers")]
+        public async Task<HttpResponseData> GetDisclaimers([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "Disclaimers")] HttpRequestData req, FunctionContext functionContext) //route is emtpy
         {
-            var response = _disclaimersRepository.GetDisclaimers(disclaimers);
+            Disclaimers response = await _disclaimersRepository.GetDisclaimers();
             HttpResponseData responseData = req.CreateResponse(HttpStatusCode.OK);
+
             await responseData.WriteAsJsonAsync(response);
             return responseData;
         }
 
-        [Function(nameof(UpdateDisclaimers))]
-        [OpenApiOperation(operationId: "UpdateDisclaimers", tags: new[] { "Disclaimers" })]
-        [ExampleAuth]
-        [OpenApiParameter(name: "", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Disclaimers), Description = "Successfully received disclaimeres")]
-        public async Task<HttpResponseData> UpdateDisclaimers([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "")] HttpRequestData req, Disclaimers disclaimers, FunctionContext functionContext)
-        {
-            var response = _disclaimersRepository.GetDisclaimers(disclaimers);
-            HttpResponseData responseData = req.CreateResponse(HttpStatusCode.OK);
-            await responseData.WriteAsJsonAsync(response);
-            return responseData;
-        }
+        //[Function(nameof(UpdateDisclaimers))]
+        //[OpenApiOperation(operationId: "UpdateDisclaimers", tags: new[] { "Disclaimers" })]
+        //[ExampleAuth]
+        //[OpenApiParameter(name: "", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "")]
+        //[OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Disclaimers), Description = "Successfully received disclaimeres")]
+        //public async Task<HttpResponseData> UpdateDisclaimers([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "")] HttpRequestData req, Disclaimers disclaimers, FunctionContext functionContext)
+        //{
+        //    var response = _disclaimersRepository.GetDisclaimers(disclaimers);
+        //    HttpResponseData responseData = req.CreateResponse(HttpStatusCode.OK);
+        //    await responseData.WriteAsJsonAsync(response);
+        //    return responseData;
+        //}
 
 
     }

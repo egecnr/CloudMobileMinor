@@ -31,31 +31,30 @@ namespace ExtraFunction.Control
         [Function(nameof(GetTermsAndConditions))]
         [OpenApiOperation(operationId: "GetTermsAndCondition", tags: new[] { "Terms and Conditions" })]
         [ExampleAuth]
-        [OpenApiParameter(name: "", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(TermsAndConditions), Description = "Successfully received terms and conditions")]
-        public async Task<HttpResponseData> GetTermsAndConditions([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "")] HttpRequestData req, TermsAndConditions termsAndConditions,FunctionContext functionContext)
+        public async Task<HttpResponseData> GetTermsAndConditions([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "TermsAndCondition")] HttpRequestData req, TermsAndConditions termsAndConditions,FunctionContext functionContext)
         {
-            var response = _termsAndConditionRepository.GetTermsAndConditions(termsAndConditions);
+            TermsAndConditions response = await _termsAndConditionRepository.GetTermsAndConditions();
             HttpResponseData responseData = req.CreateResponse(HttpStatusCode.OK);
             await responseData.WriteAsJsonAsync(response);
             return responseData;
         }
 
 
-        [Function(nameof(UpdateTermsAndCondition))]
-        [OpenApiOperation(operationId: "UpdateTermsAndCondition", tags: new[] {"Terms and Conditions"})]
-        [ExampleAuth]
-        [OpenApiParameter(name: "", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "")]
-        [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(TermsAndConditions), Description = "Successfully updated terms and conditions")]
-        public async Task<HttpResponseData> UpdateTermsAndCondition([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "")] HttpRequestData req, TermsAndConditions termsAndConditions,FunctionContext functionContext)
-        {
+        //[Function(nameof(UpdateTermsAndCondition))]
+        //[OpenApiOperation(operationId: "UpdateTermsAndCondition", tags: new[] {"Terms and Conditions"})]
+        //[ExampleAuth]
+        //[OpenApiParameter(name: "", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "")]
+        //[OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(TermsAndConditions), Description = "Successfully updated terms and conditions")]
+        //public async Task<HttpResponseData> UpdateTermsAndCondition([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "")] HttpRequestData req, TermsAndConditions termsAndConditions,FunctionContext functionContext)
+        //{
 
-            var response = _termsAndConditionRepository.UpdateTermsAndConditions(termsAndConditions);
-            HttpResponseData responseData = req.CreateResponse(HttpStatusCode.OK);
-            await responseData.WriteAsJsonAsync(response);
-            return responseData;
+        //    var response = _termsAndConditionRepository.UpdateTermsAndConditions(termsAndConditions);
+        //    HttpResponseData responseData = req.CreateResponse(HttpStatusCode.OK);
+        //    await responseData.WriteAsJsonAsync(response);
+        //    return responseData;
 
-        }
+        //}
 
 
     }

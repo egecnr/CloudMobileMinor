@@ -17,12 +17,10 @@ namespace ExtraFunction.Repository_
         {
             this._dbContext = dbContext;
         }
-
-        public async Task<Disclaimers> GetDisclaimers(Disclaimers disclaimers)
-        {
-            var disc = _dbContext.Disclaimers.FirstOrDefault(disclaimers);
-
-            return disc;
+        public async Task<Disclaimers> GetDisclaimers()
+        {         
+            Disclaimers disclaimers = _dbContext.Disclaimers.First();
+            return disclaimers;
         }
         public async Task<Disclaimers> UpdateDisclaimers(Disclaimers disclaimers)
         {

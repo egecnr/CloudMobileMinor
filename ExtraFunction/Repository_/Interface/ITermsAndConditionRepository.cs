@@ -9,7 +9,7 @@ namespace ExtraFunction.Repository_.Interface
 {
     public interface ITermsAndConditionRepository
     {
-        public Task<TermsAndConditions> GetTermsAndConditions(TermsAndConditions termsAndConditions);
+        public Task<TermsAndConditions> GetTermsAndConditions();
         public Task<TermsAndConditions> UpdateTermsAndConditions(TermsAndConditions termsAndConditions);
     }
 }

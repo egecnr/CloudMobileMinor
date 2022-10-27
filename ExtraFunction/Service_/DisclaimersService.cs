@@ -15,15 +15,16 @@ namespace ExtraFunction.Service
         {
             this._disclaimerRepository = disclaimerRepository;
         }
-
-        public Task<Disclaimers> GetDisclaimers(Disclaimers disclaimers)
+        public Task<Disclaimers> GetDisclaimers()
         {
-            return _disclaimerRepository.GetDisclaimers(disclaimers);
+            return _disclaimerRepository.GetDisclaimers();
         }
         public Task<Disclaimers> UpdateDisclaimers(Disclaimers disclaimers)
         {
             return _disclaimerRepository.UpdateDisclaimers(disclaimers);
         }
+
+        
 
     }
 }

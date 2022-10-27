@@ -11,9 +11,9 @@ namespace ExtraFunction.Service
         {
             this._termsAndConditionRepository = termsAndConditionRepository;
         }
-        public Task<TermsAndConditions> GetTermsAndConditions(TermsAndConditions termsAndConditions)
+        public Task<TermsAndConditions> GetTermsAndConditions()
         {
-            return _termsAndConditionRepository.GetTermsAndConditions(termsAndConditions);
+            return _termsAndConditionRepository.GetTermsAndConditions();
         }
         public Task<TermsAndConditions> UpdateTermsAndConditions(TermsAndConditions termsAndConditions)
         {

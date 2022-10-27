@@ -38,6 +38,12 @@ namespace ExtraFunction
                         services.AddSingleton<ITokenService, TokenService>();
                         services.AddTransient<IAchievementRepository, AchievementRepository>();
                         services.AddTransient<IAchievementService, AchievementService>();
+                        services.AddTransient<IDisclaimersService, DisclaimersService>();
+                        services.AddTransient<IDisclaimersRepository, DisclaimersRepository>();
+                        services.AddTransient<ItermsAndConditionsService, TermsAndConditionsService>();
+                        services.AddTransient<ITermsAndConditionRepository, TermsAndConditionsRepository>();
+
+
                     })
                     .Build();
             await host.RunAsync();

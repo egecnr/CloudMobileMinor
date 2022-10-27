@@ -9,7 +9,7 @@ namespace ExtraFunction.Repository_.Interface
 {
     public interface IDisclaimersService
     {
-        public Task<Disclaimers> GetDisclaimers(Disclaimers disclaimers);
+        public Task<Disclaimers> GetDisclaimers();
         public Task<Disclaimers> UpdateDisclaimers(Disclaimers disclaimers);
     }
 }
