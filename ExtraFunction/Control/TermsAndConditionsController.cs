@@ -30,9 +30,8 @@ namespace ExtraFunction.Control
 
         [Function(nameof(GetTermsAndConditions))]
         [OpenApiOperation(operationId: "GetTermsAndCondition", tags: new[] { "Terms and Conditions" })]
-        [ExampleAuth]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(TermsAndConditions), Description = "Successfully received terms and conditions")]
-        public async Task<HttpResponseData> GetTermsAndConditions([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "TermsAndCondition")] HttpRequestData req, TermsAndConditions termsAndConditions,FunctionContext functionContext)
+        public async Task<HttpResponseData> GetTermsAndConditions([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "TermsAndCondition")] HttpRequestData req)
         {
             TermsAndConditions response = await _termsAndConditionRepository.GetTermsAndConditions();
             HttpResponseData responseData = req.CreateResponse(HttpStatusCode.OK);
