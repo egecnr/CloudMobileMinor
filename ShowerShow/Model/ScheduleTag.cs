@@ -16,7 +16,7 @@ namespace ShowerShow.Models
         public WaterTemperature waterTemperature { get; set; }
 
         [JsonRequired]
-        public bool IsWaterOn { get; set; }
+        public bool IsWaterOn { get; set; } 
 
 
     }

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using ExtraFunction.Model_;
+using Newtonsoft.Json;
 using ShowerShow.Model;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace ShowerShow.Models
         [JsonRequired]
         public string PasswordHash { get; set; }
         public string Email { get; set; }
-        public List<Achievement> Achievements { get; set; } = new List<Achievement>();
+        public List<Achievement> Achievements { get; set; }
         public bool isAccountActive { get; set; } = true;
     }
 }

@@ -167,8 +167,8 @@
 =======
   "dgSpecHash": "2Zt6CiMeDiTLMdd/C9Lrj9fh22q3L5LaU+HmZqd9+6OKGm8QmYzZn+kq2m9ibXLC5ZzJsMmB5xT+UwR4HnJ3JA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Cosmin\\source\\repos\\FunctionApp1\\Function2\\Function2.csproj",
   "expectedPackageFiles": [
+  "projectFilePath": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\Function2\\Function2.csproj",
     "C:\\Users\\Cosmin\\.nuget\\packages\\microsoft.aspnet.webapi.client\\5.2.4\\microsoft.aspnet.webapi.client.5.2.4.nupkg.sha512",
     "C:\\Users\\Cosmin\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.1.0\\microsoft.aspnetcore.authentication.abstractions.2.1.0.nupkg.sha512",
     "C:\\Users\\Cosmin\\.nuget\\packages\\microsoft.aspnetcore.authentication.core\\2.1.0\\microsoft.aspnetcore.authentication.core.2.1.0.nupkg.sha512",

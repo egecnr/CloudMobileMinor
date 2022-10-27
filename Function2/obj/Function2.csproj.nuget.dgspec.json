@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Cosmin\\source\\repos\\FunctionApp1\\Function2\\Function2.csproj": {}
+    "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\Function2\\Function2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Cosmin\\source\\repos\\FunctionApp1\\Function2\\Function2.csproj": {
+    "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\Function2\\Function2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Cosmin\\source\\repos\\FunctionApp1\\Function2\\Function2.csproj",
+        "projectUniqueName": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\Function2\\Function2.csproj",
         "projectName": "Function2",
-        "projectPath": "C:\\Users\\Cosmin\\source\\repos\\FunctionApp1\\Function2\\Function2.csproj",
-        "packagesPath": "C:\\Users\\Cosmin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Cosmin\\source\\repos\\FunctionApp1\\Function2\\obj\\",
+        "projectPath": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\Function2\\Function2.csproj",
+        "packagesPath": "C:\\Users\\fabio\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\Function2\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Cosmin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\fabio\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,7 +22,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

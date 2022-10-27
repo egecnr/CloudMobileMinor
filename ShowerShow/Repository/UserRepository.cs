@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Azure.Storage.Queues;
+using ExtraFunction.Model_;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
 using ShowerShow.DAL;
 using ShowerShow.DTO;
@@ -56,6 +57,7 @@ namespace ShowerShow.Repository
             Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<CreateUserDTO, User>()));
             User fullUser = mapper.Map<User>(userDTO);
             fullUser.PasswordHash = PasswordHasher.HashPassword(fullUser.PasswordHash);
+            fullUser.Achievements = Achievement.InitializedAchievements();
             dbContext.Users?.Add(fullUser);
             dbContext.Preferences?.Add(Preferences.ReturnDefaultPreference(fullUser.Id));
             await dbContext.SaveChangesAsync();

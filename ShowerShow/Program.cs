@@ -51,6 +51,8 @@ namespace ShowerShow
                         services.AddTransient<IUserPrefencesService, UserPreferencesService>();
                         services.AddTransient<IScheduleRepository, ScheduleRepository>();
                         services.AddTransient<IScheduleService, ScheduleService>();
+                        services.AddTransient<IShowerDataRepository, ShowerDataRepository>();
+                        services.AddTransient<IShowerDataService, ShowerDataService>();
 
                         services.AddTransient<IUserStatisticsRepository, UserStatisticsRepository>();
                         services.AddTransient<IUserStatisticsService, UserStatisticsService>();

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ShowerShow.DTO
 {
-    internal class CreateShowerDataDTO
+    public class CreateShowerDataDTO
     {
 
         [JsonRequired]

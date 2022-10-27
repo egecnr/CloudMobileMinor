@@ -26,7 +26,6 @@ namespace ShowerShow.DAL
         public DbSet<UserFriend> UserFriends { get; set; } = null!;
         public DbSet<Schedule> Schedules { get; set; } = null!;
         public DbSet<ShowerData> ShowerInstances { get; set; } = null!;
-        public DbSet<Achievement> Achievements { get; set; } = null!;
         public DbSet<Preferences> Preferences { get; set; } = null!;
         public DbSet<ShowerThought> ShowerThoughts { get; set; } = null!;
         

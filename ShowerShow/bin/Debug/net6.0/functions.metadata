@@ -104,6 +104,25 @@
     ]
   },
   {
+    "name": "CreateShowerDataQueueTrigger",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Queue.CreateShowerDataQueueTrigger.Run",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "myQueueItem",
+        "type": "queueTrigger",
+        "direction": "In",
+        "dataType": "String",
+        "queueName": "create-shower-data",
+        "connection": "AzureWebJobsStorage"
+      }
+    ]
+  },
+  {
     "name": "CreateUserFriendQueueTrigger",
     "scriptFile": "ShowerShow.dll",
     "entryPoint": "ShowerShow.Queue.CreateUserFriendQueueTrigger.Run",
@@ -158,6 +177,58 @@
         "methods": [
           "post"
         ]
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "GetShowerById",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.ShowerDataController.GetShowerById",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "user/{userId:Guid}/showerdata/{showerId:Guid}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "CreateShowerDataById",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Control.ShowerDataController.CreateShowerDataById",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "post"
+        ],
+        "route": "user/{UserId:Guid}/showerdata"
       },
       {
         "name": "$return",
@@ -652,32 +723,6 @@
           "put"
         ],
         "route": "schedule/{ScheduleId:Guid}"
-      },
-      {
-        "name": "$return",
-        "type": "http",
-        "direction": "Out"
-      }
-    ]
-  },
-  {
-    "name": "CreateShower",
-    "scriptFile": "ShowerShow.dll",
-    "entryPoint": "ShowerShow.Controllers.ShowerController.CreateShower",
-    "language": "dotnet-isolated",
-    "properties": {
-      "IsCodeless": false
-    },
-    "bindings": [
-      {
-        "name": "req",
-        "type": "httpTrigger",
-        "direction": "In",
-        "authLevel": "Anonymous",
-        "methods": [
-          "post"
-        ],
-        "route": "showerdata/{UserId:Guid}"
       },
       {
         "name": "$return",
