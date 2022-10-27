@@ -10,7 +10,7 @@ namespace ExtraFunction.Repository_.Interface
     public interface IAchievementRepository
     {
         Task<List<Achievement>> GetAchievementsById(Guid userId); //getting a list of achievement
-        Task<Achievement> GetAchievementByTitle(string achievementTitle, Guid userId); //getting a single achievement
-        Task UpdateAchievementById(string achievementTitle, Guid userId, int currentvalue);
+        Task<Achievement> GetAchievementByIdAndTitle(string achievementTitle, Guid userId); //getting a single achievement
+        Task UpdateAchievementByIdAndTitle(string achievementTitle, Guid userId, int currentvalue);
     }
 }

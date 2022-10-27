@@ -22,9 +22,9 @@ namespace ExtraFunction.Service_
 
 
 
-        public Task<Achievement> GetAchievementByTitle(string achievementTitle, Guid userId)
+        public Task<Achievement> GetAchievementByIdAndTitle(string achievementTitle, Guid userId)
         {
-            return _achievementRepository.GetAchievementByTitle(achievementTitle, userId);
+            return _achievementRepository.GetAchievementByIdAndTitle(achievementTitle, userId);
         }
 
 
@@ -35,7 +35,7 @@ namespace ExtraFunction.Service_
 
         public Task UpdateAchievementById(string achievementTitle, Guid userId, int currentValue)
         {
-            return _achievementRepository.UpdateAchievementById(achievementTitle, userId, currentValue);
+            return _achievementRepository.UpdateAchievementByIdAndTitle(achievementTitle, userId, currentValue);
         }
 
     }

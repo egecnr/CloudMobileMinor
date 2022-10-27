@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ExtraFunction.Model;
 using ExtraFunction.DAL;
+using System.Configuration;
 
 namespace ExtraFunction.Repository_
 {
@@ -19,10 +20,22 @@ namespace ExtraFunction.Repository_
             _databaseContext = databasecontext;
         }
 
-        public async Task<Achievement> GetAchievementByTitle(string achievementTitle, Guid userId)
+        public async Task<Achievement> GetAchievementByIdAndTitle(string achievementTitle, Guid userId)
         {
+            // solution? make this a list and return it. change query
+
+            //return this.context.Users.Where(x => x.UserId == userId).Select(x => x.Score).FirstOrDefault();
+
             await _databaseContext.SaveChangesAsync();
-            return _databaseContext.Users.FirstOrDefault(x => x.Id == userId)?.Achievements.FirstOrDefault(y => y.Title == achievementTitle) ?? null; //a long line, just like my tralala
+
+            //return _databaseContext.Users.Where(x => x.Id == userId).Select(z => z.Achievements.FirstOrDefault(c => c.Title == achievementTitle)).FirstOrDefault();
+
+
+            //var user = _databaseContext.Users.FirstOrDefault(x => x.Id == userId);
+           //var achievement = user.Achievements.FirstOrDefault(y => y.Title == achievementTitle);
+
+            return _databaseContext.Users.FirstOrDefault(x => x.Id == userId)?.Achievements.FirstOrDefault(y => y.Title == achievementTitle) ?? null;  //a long line, just like my tralala
+
 
         }
 
@@ -34,13 +47,17 @@ namespace ExtraFunction.Repository_
 
         }
 
-        public async Task UpdateAchievementById(string achievementTitle, Guid userId, int currentvalue)
+        public async Task UpdateAchievementByIdAndTitle(string achievementTitle, Guid userId, int currentvalue)
         {
             //get user instead, update the achievement current value locally and update the user instead of only achievement.
+
+            var user = _databaseContext.Users.FirstOrDefault(x => x.Id == userId);
+           // user.Achievements.ForEach(delegate (Achievement) { })
+
             Achievement achievement = _databaseContext.Users.FirstOrDefault(x => x.Id == userId)?.Achievements.FirstOrDefault(y => y.Title == achievementTitle) ?? null;
             achievement.CurrentValue = currentvalue;
             _databaseContext.Update(achievement);
-            await _databaseContext.SaveChangesAsync();  
+            await _databaseContext.SaveChangesAsync();
         }
 
     }
