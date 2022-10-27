@@ -29,6 +29,7 @@ namespace ShowerShow.DAL
         public DbSet<Achievement> Achievements { get; set; } = null!;
         public DbSet<Preferences> Preferences { get; set; } = null!;
         public DbSet<ShowerThought> ShowerThoughts { get; set; } = null!;
+        
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
         }

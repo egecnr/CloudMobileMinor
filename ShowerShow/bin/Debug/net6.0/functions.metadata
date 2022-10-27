@@ -1023,5 +1023,57 @@
         "direction": "Out"
       }
     ]
+  },
+  {
+    "name": "GetFriendsRanking",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.UserStatisticsController.GetFriendsRanking",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "user/{UserId:Guid}/friendRanking/{limit}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "GetUserDashboard",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.UserStatisticsController.GetUserDashboard",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "user/{UserId:Guid}/dashboard/{Days}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
   }
 ]
