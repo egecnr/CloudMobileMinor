@@ -6,6 +6,7 @@
     "ContainerProfilePictures": "profile-pictures",
     "ContainerDefaultVoices": "default-voices",
     "CreateUserQueue": "create-user-queue",
+    "UserFriendQueue": "create-user-friend-queue",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
     "DBConnection": "AccountEndpoint=https://database-sawa.documents.azure.com:443/;AccountKey=0iV6DDVOqBso4R7ylBYskYk7vPhYtzoQS8kg7ltSdAuTY7xpXLlHtCZAh3au9qDoEOPw4lE91jVApTkQrHLB8g==;"
 

@@ -76,6 +76,7 @@ namespace ShowerShow.Service
                 SecurityToken ValidatedToken;
                 ClaimsPrincipal Principal = Handler.ValidateToken(Value, ValidationParameters, out ValidatedToken);
 
+
                 return await Task.FromResult(Principal);
             }
             catch (Exception e)

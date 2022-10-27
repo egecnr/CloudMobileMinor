@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Functions.Worker;
+﻿using Microsoft.Azure.Cosmos.Linq;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Middleware;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -26,9 +27,14 @@ namespace ShowerShow.Authorization
 
         public async Task Invoke(FunctionContext Context, FunctionExecutionDelegate Next)
         {
-            string HeadersString = (string)Context.BindingContext.BindingData["Headers"];
+            string headerString;
+            Dictionary<string, string> Headers = new Dictionary<string, string>();
+            if (Context.BindingContext.BindingData.TryGetValue("Headers", out object? headerValues))
+            {
+                headerString = headerValues.ToString();
+                Headers = JsonConvert.DeserializeObject<Dictionary<string, string>>(headerString);
+            }
 
-            Dictionary<string, string> Headers = JsonConvert.DeserializeObject<Dictionary<string, string>>(HeadersString);
 
             if (Headers.TryGetValue("Authorization", out string AuthorizationHeader))
             {

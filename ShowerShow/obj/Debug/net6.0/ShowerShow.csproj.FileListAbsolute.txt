@@ -465,3 +465,5 @@ C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\Swas
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\System.IO.Hashing.dll
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\Microsoft.WindowsAzure.Storage.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\Azure.Storage.Queues.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShow\bin\Debug\net6.0\Microsoft.Azure.Functions.Worker.Extensions.Storage.dll

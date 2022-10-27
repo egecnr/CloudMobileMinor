@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -25,7 +26,7 @@ namespace ShowerShow.Control
         }
 
         //TO DO: Verify credentials via  a method
-        [Function("LoginController")]
+        [Function("Login")]
         [OpenApiOperation(operationId: "Login", tags: new[] { "Login" }, Summary = "Login for a user",
                       Description = "This method logs in the user, and retrieves a JWT bearer token.")]
         [OpenApiRequestBody(contentType: "application/json", bodyType: typeof(Login), Required = true, Description = "The user credentials")]
@@ -36,9 +37,9 @@ namespace ShowerShow.Control
             Login login = JsonConvert.DeserializeObject<Login>(await new StreamReader(req.Body).ReadToEndAsync());
             if (await loginService.CheckIfCredentialsCorrect(login.Username, login.Password))
             {
-                LoginResult result = await tokenService.CreateToken(login);
-
+                LoginResult result = await tokenService.CreateToken(login);          
                 HttpResponseData response = req.CreateResponse(HttpStatusCode.OK);
+
                 await response.WriteAsJsonAsync(result);
                 return response;
             }

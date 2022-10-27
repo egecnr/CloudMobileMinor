@@ -104,7 +104,45 @@
     ]
   },
   {
-    "name": "LoginController",
+    "name": "CreateUserFriendQueueTrigger",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Queue.CreateUserFriendQueueTrigger.Run",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "myQueueItem",
+        "type": "queueTrigger",
+        "direction": "In",
+        "dataType": "String",
+        "queueName": "create-user-friend-queue",
+        "connection": "AzureWebJobsStorage"
+      }
+    ]
+  },
+  {
+    "name": "CreateUserQueueTrigger",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Queue.CreateUserQueueTrigger.RunAsync",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "myQueueItem",
+        "type": "queueTrigger",
+        "direction": "In",
+        "dataType": "String",
+        "queueName": "create-user-queue",
+        "connection": "AzureWebJobsStorage"
+      }
+    ]
+  },
+  {
+    "name": "Login",
     "scriptFile": "ShowerShow.dll",
     "entryPoint": "ShowerShow.Control.LoginController.Login",
     "language": "dotnet-isolated",
@@ -857,7 +895,7 @@
     ]
   },
   {
-    "name": "CreateUser",
+    "name": "AddUserToQueue",
     "scriptFile": "ShowerShow.dll",
     "entryPoint": "ShowerShow.Controllers.UserController.CreateUser",
     "language": "dotnet-isolated",
