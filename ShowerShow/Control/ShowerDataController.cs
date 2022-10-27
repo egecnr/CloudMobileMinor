@@ -24,11 +24,11 @@ namespace ShowerShow.Control
 {
     public class ShowerDataController
     {
-        private readonly ILogger<ShowerController> _logger;
+        private readonly ILogger<ShowerDataController> _logger;
         private readonly IShowerDataService _showerDataService;
         private readonly IUserService _userService;
 
-        public ShowerDataController(ILogger<ShowerController> log, IShowerDataService showerDataService, IUserService userService)
+        public ShowerDataController(ILogger<ShowerDataController> log, IShowerDataService showerDataService, IUserService userService)
         {
             _logger = log;
             this._showerDataService = showerDataService;
@@ -38,10 +38,10 @@ namespace ShowerShow.Control
         [Function(nameof(GetShowerById))]
         [OpenApiOperation(operationId: "getShowerById", tags: new[] { "Shower data" })]
         [ExampleAuth]
-        [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The user id parameter")]
-        [OpenApiParameter(name: "ShowerId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "id of the requested shower")]
+        [OpenApiParameter(name: "userId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The user id parameter")]
+        [OpenApiParameter(name: "showerId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "id of the requested shower")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerData), Description = "Successfully received the shower data.")]
-        public async Task<HttpResponseData> GetShowerById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{UserId}/showerdata/{showerId}")] HttpRequestData req, Guid userId, Guid showerId, FunctionContext functionContext)
+        public async Task<HttpResponseData> GetShowerById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{userId:Guid}/showerdata/{showerId:Guid}")] HttpRequestData req, Guid userId, Guid showerId, FunctionContext functionContext)
         {
             if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
             {
@@ -50,7 +50,7 @@ namespace ShowerShow.Control
                 return responseData;
             }
 
-            if(await _userService.CheckIfUserExistAndActive(userId))
+            if(await _userService.CheckIfUserExistAndActive(userId)) //add a if showerdataid exist method herepls. Also move this logic to service ty.
             {
                 var response = _showerDataService.GetShowerDataByUserId(userId, showerId);
                 HttpResponseData responseData = req.CreateResponse(HttpStatusCode.OK);
@@ -70,7 +70,7 @@ namespace ShowerShow.Control
 
 
         [Function(nameof(CreateShowerDataById))]
-        [OpenApiOperation(operationId: "CreateShowerDataById", tags: new[] { "Shower data" })]
+        [OpenApiOperation(operationId: "CreateShowerData", tags: new[] { "Shower data" })]
         [ExampleAuth]
         [OpenApiRequestBody("application/json", typeof(CreateShowerDataDTO), Description = "Created the shower data object")]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
@@ -89,9 +89,9 @@ namespace ShowerShow.Control
 
 
 
-            if (await _userService.CheckIfUserExistAndActive(UserId))
+            if (await _userService.CheckIfUserExistAndActive(UserId)) //add a if showerdataid exist method here pls. Also move this logic to service ty.
             {
-                await _showerDataService.CreateShowerDataById(showerDataDTO, UserId);
+                await _showerDataService.AddShowerToQueue(showerDataDTO, UserId);
                 HttpResponseData responseData = req.CreateResponse();
                 responseData.StatusCode = HttpStatusCode.Created;
 

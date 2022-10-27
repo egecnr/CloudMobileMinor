@@ -29,7 +29,7 @@ namespace ExtraFunction.Repository_
         public async Task<List<Achievement>> GetAchievementsById(Guid userId)
         {
             await _databaseContext.SaveChangesAsync();
-            List<Achievement> ach = _databaseContext.Users.AsNoTracking().FirstOrDefault(x => x.Id == userId).Achievements.ToList();
+            List<Achievement> ach = _databaseContext.Users.FirstOrDefault(x => x.Id == userId).Achievements;
             return ach;
         }
 

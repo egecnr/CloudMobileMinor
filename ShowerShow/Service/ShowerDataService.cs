@@ -18,9 +18,14 @@ namespace ShowerShow.Service
             this._showerDataRepository = _showerDataRepository;
         }
 
-        public Task CreateShowerDataById(CreateShowerDataDTO shower, Guid userId)
+        public async Task AddShowerToQueue(CreateShowerDataDTO shower, Guid userId)
         {
-            return _showerDataRepository.CreateShowerDataById(shower, userId);
+            await _showerDataRepository.AddShowerToQueue(shower, userId);
+        }
+
+        public Task CreateShowerData(ShowerData shower)
+        {
+            return _showerDataRepository.CreateShowerData(shower);
 
         }
 

@@ -1,0 +1,5 @@
+C:\Users\Cosmin\source\repos\FunctionApp1\AchievementsLibrary\obj\Debug\net6.0\AchievementsLibrary.csproj.AssemblyReference.cache
+C:\Users\Cosmin\source\repos\FunctionApp1\AchievementsLibrary\obj\Debug\net6.0\AchievementsLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Cosmin\source\repos\FunctionApp1\AchievementsLibrary\obj\Debug\net6.0\AchievementsLibrary.AssemblyInfoInputs.cache
+C:\Users\Cosmin\source\repos\FunctionApp1\AchievementsLibrary\obj\Debug\net6.0\AchievementsLibrary.AssemblyInfo.cs
+C:\Users\Cosmin\source\repos\FunctionApp1\AchievementsLibrary\obj\Debug\net6.0\AchievementsLibrary.csproj.CoreCompileInputs.cache

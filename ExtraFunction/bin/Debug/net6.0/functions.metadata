@@ -1,0 +1,236 @@
+[
+  {
+    "name": "GetAchievementsById",
+    "scriptFile": "ExtraFunction.dll",
+    "entryPoint": "ExtraFunction.Control.AchievementController.GetAchievementsById",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "user/{UserId:Guid}/achievements"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "GetAchievementByIdAndTitle",
+    "scriptFile": "ExtraFunction.dll",
+    "entryPoint": "ExtraFunction.Control.AchievementController.GetAchievementByIdAndTitle",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "user/{UserId}/achievement/{achievementTitle}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "UpdateAchievementById",
+    "scriptFile": "ExtraFunction.dll",
+    "entryPoint": "ExtraFunction.Control.AchievementController.UpdateAchievementById",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "put"
+        ],
+        "route": "user/{UserId}/achievement/{achievementTitle}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "GetDisclaimers",
+    "scriptFile": "ExtraFunction.dll",
+    "entryPoint": "ExtraFunction.Control.DisclaimersController.GetDisclaimers",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "Disclaimers"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "GetTermsAndConditions",
+    "scriptFile": "ExtraFunction.dll",
+    "entryPoint": "ExtraFunction.Control.TermsAndConditionsController.GetTermsAndConditions",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "TermsAndCondition"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "RenderSwaggerDocument",
+    "scriptFile": "Microsoft.Azure.Functions.Worker.Extensions.OpenApi.dll",
+    "entryPoint": "Microsoft.Azure.Functions.Worker.Extensions.OpenApi.DefaultOpenApiHttpTrigger.RenderSwaggerDocument",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "GET"
+        ],
+        "route": "swagger.{extension}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "RenderOpenApiDocument",
+    "scriptFile": "Microsoft.Azure.Functions.Worker.Extensions.OpenApi.dll",
+    "entryPoint": "Microsoft.Azure.Functions.Worker.Extensions.OpenApi.DefaultOpenApiHttpTrigger.RenderOpenApiDocument",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "GET"
+        ],
+        "route": "openapi/{version}.{extension}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "RenderSwaggerUI",
+    "scriptFile": "Microsoft.Azure.Functions.Worker.Extensions.OpenApi.dll",
+    "entryPoint": "Microsoft.Azure.Functions.Worker.Extensions.OpenApi.DefaultOpenApiHttpTrigger.RenderSwaggerUI",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "GET"
+        ],
+        "route": "swagger/ui"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "RenderOAuth2Redirect",
+    "scriptFile": "Microsoft.Azure.Functions.Worker.Extensions.OpenApi.dll",
+    "entryPoint": "Microsoft.Azure.Functions.Worker.Extensions.OpenApi.DefaultOpenApiHttpTrigger.RenderOAuth2Redirect",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "GET"
+        ],
+        "route": "oauth2-redirect.html"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  }
+]

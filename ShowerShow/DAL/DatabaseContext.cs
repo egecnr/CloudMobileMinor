@@ -23,10 +23,12 @@ namespace ShowerShow.DAL
     {
 
         public DbSet<User> Users { get; set; } = null!;
+        public DbSet<UserFriend> UserFriends { get; set; } = null!;
         public DbSet<Schedule> Schedules { get; set; } = null!;
         public DbSet<ShowerData> ShowerInstances { get; set; } = null!;
         public DbSet<Preferences> Preferences { get; set; } = null!;
-
+        public DbSet<ShowerThought> ShowerThoughts { get; set; } = null!;
+        
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
         }
@@ -35,21 +37,23 @@ namespace ShowerShow.DAL
 
             //secure connection string later
 
-            optionsBuilder.UseCosmos("https://sawa-db-fabio.documents.azure.com:443/",
-                            "tfGJUagGE3YBw3vCrDhreFiJn0RT0EfnS5NESBJ0ypja5MxfOgRoBFvVUiMoWgurdPzZ1kWcZ1topQrOy5Et7Q==",
-                            "sawa-db-fabio");
+            optionsBuilder.UseCosmos("https://sawa-db.documents.azure.com:443/",
+                "gggcb28Z24nJAmpz4SRwQRNT9Xyd0wn1riSKAUkvVyaBf4WRALsyx4kgl6POPmi8Ka7JHZfTx06uWD3DHzoqTw==",
+                "sawa-db");
         }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var converter = new EnumCollectionJsonValueConverter<DayOfWeek>();
-         
-            modelBuilder.Entity<User>().ToContainer("Users").HasPartitionKey(c => c.Id);
-            
-            modelBuilder.Entity<Schedule>().ToContainer("Schedules").HasPartitionKey(c=>c.UserId);
-            modelBuilder.Entity<Preferences>().ToContainer("Preferences").HasPartitionKey(c=>c.UserId);
-            modelBuilder.Entity<ShowerData>().ToContainer("ShowerData").HasPartitionKey(c=>c.UserId); //This could be a date too ask Frank
 
-            modelBuilder.Entity<User>().OwnsMany(u => u.Friends);
+            modelBuilder.Entity<User>().ToContainer("Users").HasPartitionKey(c => c.Id);
+            modelBuilder.Entity<UserFriend>().ToContainer("UserFriends").HasPartitionKey(c => c.MainUserId);
+
+            modelBuilder.Entity<Schedule>().ToContainer("Schedules").HasPartitionKey(c => c.UserId);
+            modelBuilder.Entity<Preferences>().ToContainer("Preferences").HasPartitionKey(c => c.UserId);
+            modelBuilder.Entity<ShowerData>().ToContainer("ShowerData").HasPartitionKey(c => c.UserId); //This could be a date too ask Frank
+            modelBuilder.Entity<ShowerThought>().ToContainer("ShowerThoughts").HasPartitionKey(c => c.UserId);
             modelBuilder.Entity<User>().OwnsMany(u => u.Achievements);
             modelBuilder.Entity<Schedule>().OwnsMany(s => s.Tags);
             modelBuilder

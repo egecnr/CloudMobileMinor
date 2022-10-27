@@ -21,6 +21,7 @@ namespace ShowerShow.Models
         [JsonRequired]
         public double GasUsage { get; set; }
         public double GasCost { get; set; }
+        public double Overtime { get; set; }
         [JsonRequired]
         public DateTime Date { get; set; }
         
