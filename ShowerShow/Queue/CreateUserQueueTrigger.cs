@@ -16,11 +16,13 @@ namespace ShowerShow.Queue
     {
         private readonly ILogger _logger;
         private  IUserService userService;
+       
 
         public CreateUserQueueTrigger(ILoggerFactory loggerFactory,IUserService userService)
         {
             _logger = loggerFactory.CreateLogger<CreateUserQueueTrigger>();
             this.userService = userService;
+           
         }
 
         [Function("CreateUserQueueTrigger")]

@@ -41,6 +41,8 @@ namespace ShowerShow.DAL
                 "gggcb28Z24nJAmpz4SRwQRNT9Xyd0wn1riSKAUkvVyaBf4WRALsyx4kgl6POPmi8Ka7JHZfTx06uWD3DHzoqTw==",
                 "sawa-db");
         }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var converter = new EnumCollectionJsonValueConverter<DayOfWeek>();

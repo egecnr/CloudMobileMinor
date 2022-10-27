@@ -52,6 +52,8 @@ namespace ShowerShow.Controllers
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 CreateUserDTO userDTO = JsonConvert.DeserializeObject<CreateUserDTO>(requestBody);
                 await userService.AddUserToQueue(userDTO);
+                responseData.StatusCode = HttpStatusCode.Created;
+                responseData.Headers.Add("Result", "User has been created");
             }
             catch (Exception e)
             {

@@ -20,10 +20,12 @@ namespace ShowerShow.Repository
     public class UserRepository:IUserRepository
     {
         private DatabaseContext dbContext;
+        private IUserPrefencesService userPrefencesService;
 
-        public UserRepository(DatabaseContext dbContext)
+        public UserRepository(DatabaseContext dbContext, IUserPrefencesService userPrefencesService)
         {
             this.dbContext = dbContext;
+            this.userPrefencesService = userPrefencesService;
         }
         //Move this to the service layer later on
         public async Task AddUserToQueue(CreateUserDTO userDTO)
@@ -55,6 +57,7 @@ namespace ShowerShow.Repository
             User fullUser = mapper.Map<User>(userDTO);
             fullUser.PasswordHash = PasswordHasher.HashPassword(fullUser.PasswordHash);
             dbContext.Users?.Add(fullUser);
+            dbContext.Preferences?.Add(Preferences.ReturnDefaultPreference(fullUser.Id));
             await dbContext.SaveChangesAsync();
         }
         public async Task<GetUserDTO> GetUserById(Guid userId)

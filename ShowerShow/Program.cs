@@ -34,9 +34,10 @@ namespace ShowerShow
                     {
                         services.AddControllers();
                         services.AddDbContext<DatabaseContext>(options =>
+
                                    options.UseCosmos("https://sawa-db.documents.azure.com:443/",
-                "gggcb28Z24nJAmpz4SRwQRNT9Xyd0wn1riSKAUkvVyaBf4WRALsyx4kgl6POPmi8Ka7JHZfTx06uWD3DHzoqTw==",
-                "sawa-db"));
+                        "gggcb28Z24nJAmpz4SRwQRNT9Xyd0wn1riSKAUkvVyaBf4WRALsyx4kgl6POPmi8Ka7JHZfTx06uWD3DHzoqTw==",
+                        "sawa-db"));
                         services.AddTransient<IUserService, UserService>();
                         services.AddTransient<IUserRepository, UserRepository>(); 
                         services.AddTransient<IUserFriendService, UserFriendService>();
@@ -46,6 +47,11 @@ namespace ShowerShow
                         services.AddSingleton<ITokenService, TokenService>();
                         services.AddTransient<IShowerThoughtRepository, ShowerThoughtRepository>();
                         services.AddTransient<IShowerThoughtService, ShowerThoughtService>();
+                        services.AddTransient<IUserPreferencesRepository, UserPrefencesRepository>();
+                        services.AddTransient<IUserPrefencesService, UserPreferencesService>();
+                        services.AddTransient<IScheduleRepository, ScheduleRepository>();
+                        services.AddTransient<IScheduleService, ScheduleService>();
+
                     })
                     .Build();
 
