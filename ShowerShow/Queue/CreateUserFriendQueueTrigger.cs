@@ -1,6 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Text.Json;
+using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
+using ShowerShow.DTO;
 using ShowerShow.Repository.Interface;
 
 namespace ShowerShow.Queue
@@ -17,9 +21,10 @@ namespace ShowerShow.Queue
         }
 
         [Function("CreateUserFriendQueueTrigger")]
-        public void Run([QueueTrigger("create-user-friend-queue", Connection = "AzureWebJobsStorage")] string myQueueItem)
+        public async Task Run([QueueTrigger("create-user-friend-queue", Connection = "AzureWebJobsStorage")] string myQueueItem)
         {
-            _logger.LogInformation($"C# Queue trigger function processed: {myQueueItem}");
+            List<Guid> guids = JsonSerializer.Deserialize<List<Guid>>(myQueueItem);
+            await userFriendService.CreateUserFriend(guids[0], guids[1]);
         }
     }
 }

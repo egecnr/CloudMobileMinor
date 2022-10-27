@@ -156,7 +156,7 @@ namespace ShowerShow.Control
                 return responseData;
             }
         }
-        //done
+
         [Function("CreateUserFriend")]
         [ExampleAuth]
         [OpenApiOperation(operationId: "CreateUserFriend", tags: new[] { "User Friends" }, Summary = "Create friend request", Description = "This endpoint sends a friend request")]
@@ -173,7 +173,7 @@ namespace ShowerShow.Control
                     responseData.StatusCode = HttpStatusCode.Unauthorized;
                     return responseData;
                 }
-                await userFriendService.CreateUserFriend(userId, friendId);
+                await userFriendService.AddFriendToQueue(userId, friendId);
                 responseData.Headers.Add("Result", "Successfully created a friend");
                 responseData.StatusCode = HttpStatusCode.Created;
                 return responseData;

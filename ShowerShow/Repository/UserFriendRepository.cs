@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Azure.Storage.Queues;
 using Microsoft.EntityFrameworkCore;
 using ShowerShow.DAL;
 using ShowerShow.DTO;
@@ -13,6 +14,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ShowerShow.Repository
@@ -90,8 +92,15 @@ namespace ShowerShow.Repository
             }
             else
             {
-               
+                string qName = Environment.GetEnvironmentVariable("UserFriendQueue");
+                string connString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
+                QueueClientOptions clientOpt = new QueueClientOptions() { MessageEncoding = QueueMessageEncoding.Base64 };
 
+                QueueClient qClient = new QueueClient(connString, qName, clientOpt);
+                var jsonOpt = new JsonSerializerOptions() { WriteIndented = true };
+                List<Guid> guids = new List<Guid>() { userId,friendId};    
+                string userJson = JsonSerializer.Serialize<List<Guid>>(guids, jsonOpt);
+                await qClient.SendMessageAsync(userJson);
             }
         }
         public async Task AcceptFriendRequest(Guid userId, Guid friendId)

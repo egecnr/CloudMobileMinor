@@ -22,6 +22,11 @@ namespace ShowerShow.Service
            await  userFriendRepository.AcceptFriendRequest(userId, friendId);
         }
 
+        public async Task AddFriendToQueue(Guid userId, Guid friendId)
+        {
+           await userFriendRepository.AddFriendToQueue(userId, friendId);
+        }
+
         public async Task ChangeFavoriteStateOfFriend(Guid userId, Guid friendId, bool isFavorite)
         {
             await userFriendRepository.ChangeFavoriteStateOfFriend(userId, friendId, isFavorite);  
