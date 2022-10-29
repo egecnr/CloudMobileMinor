@@ -1,9 +1,6 @@
 ﻿using Microsoft.Azure.Functions.Worker.Http;
-using ShowerShow.DTO;
-using ShowerShow.Models;
 using ShowerShow.Repository.Interface;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
