@@ -11,6 +11,6 @@ namespace ExtraFunction.Repository_.Interface
     {
         Task<List<Achievement>> GetAchievementsById(Guid userId); //getting a list of achievement
         Task<Achievement> GetAchievementByIdAndTitle(string achievementTitle, Guid userId); //getting a single achievement
-        Task UpdateAchievementById(string achievementTitle, Guid userId, int currentValue);
+        Task UpdateAchievementByIdAndTitle(string achievementTitle, Guid userId, int currentValue);
     }
 }

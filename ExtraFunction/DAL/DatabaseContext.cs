@@ -20,9 +20,9 @@ namespace ExtraFunction.DAL
 
             //secure connection string later
 
-            optionsBuilder.UseCosmos("https://sawa-db.documents.azure.com:443/",
-                        "gggcb28Z24nJAmpz4SRwQRNT9Xyd0wn1riSKAUkvVyaBf4WRALsyx4kgl6POPmi8Ka7JHZfTx06uWD3DHzoqTw==",
-                        "sawa-db");
+            optionsBuilder.UseCosmos("https://sawa-db-fabio.documents.azure.com:443/",
+                            "tfGJUagGE3YBw3vCrDhreFiJn0RT0EfnS5NESBJ0ypja5MxfOgRoBFvVUiMoWgurdPzZ1kWcZ1topQrOy5Et7Q==",
+                            "sawa-db-fabio");
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
