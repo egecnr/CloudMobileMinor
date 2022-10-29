@@ -1,49 +1,26 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System;
-using User = ShowerShow.Models.User;
-using CreateUserDTO = ShowerShow.DTO.CreateUserDTO;
-using AutoMapper;
 using ShowerShow.Repository.Interface;
-using ShowerShow.DTO;
-using ShowerShow.Models;
 using System.Collections.Generic;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using ShowerShow.Utils;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Extensions;
 using HttpMultipartParser;
-using Azure.Storage.Blobs;
-using Microsoft.Azure.Cosmos.Serialization.HybridRow.RecordIO;
-using Microsoft.Azure.Functions.Worker.Extensions.OpenApi.Extensions;
-using Microsoft.AspNetCore.Http;
-using System.Net.Http.Headers;
-using Azure.Storage.Blobs.Models;
-using Microsoft.Net.Http.Headers;
-using Azure.Core;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage;
-using System.Drawing;
-using Microsoft.EntityFrameworkCore.Migrations;
-using System.IO.Compression;
-using System.Reflection.Metadata;
 using System.Linq;
 using ShowerShow.Authorization;
-using ShowerShow.Model;
-using ShowerShow.Service;
 
 namespace ShowerShow.Controllers
 {
     public class BlobStorageController
     {
         private readonly ILogger<BlobStorageController> _logger;
+        // get env connection string
         private string connection = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
         private CloudStorageAccount account;
 

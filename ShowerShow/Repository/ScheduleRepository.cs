@@ -26,15 +26,18 @@ namespace ShowerShow.Repository
 
         public async Task AddScheduleToQueue(CreateScheduleDTO schedule, Guid userId)
         {
-
+            // get env variables 
             string qName = Environment.GetEnvironmentVariable("CreateScheduleQueue");
             string connString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
             QueueClientOptions clientOpt = new QueueClientOptions() { MessageEncoding = QueueMessageEncoding.Base64 };
 
             QueueClient qClient = new QueueClient(connString, qName, clientOpt);
+           
+            //map DTO to normal Schedule
             Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<CreateScheduleDTO, Schedule>()));
             Schedule newSchedule = mapper.Map<Schedule>(schedule);
             newSchedule.UserId = userId;
+          
             var jsonOpt = new JsonSerializerOptions() { WriteIndented = true };
             string userJson = JsonSerializer.Serialize(newSchedule, jsonOpt);
             await qClient.SendMessageAsync(userJson);
@@ -61,17 +64,17 @@ namespace ShowerShow.Repository
             //this is to give priority to tasks
             Task getId = Task.Run(() =>
             {
-                schedule = GetScheduleById(scheduleId).Result;
+                schedule = GetScheduleById(scheduleId).Result; // get schedule
             });
             await getId.ContinueWith(prev =>
             {
-                dbContext.Schedules?.Remove(schedule);
+                dbContext.Schedules?.Remove(schedule); // delete schedule
 
             });
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<bool> DoesScheduleExist(Guid scheduleId)
+        public async Task<bool> DoesScheduleExist(Guid scheduleId) //check if schedule with id exists
         {
             await dbContext.SaveChangesAsync();
             return dbContext.Schedules.FirstOrDefault(x => x.Id == scheduleId) != null;
@@ -104,7 +107,8 @@ namespace ShowerShow.Repository
             //this is to give priority to tasks
             Task getId = Task.Run(() =>
             {
-                schedule = GetScheduleById(scheduleId).Result;
+                //set the new schedule
+                schedule = GetScheduleById(scheduleId).Result; 
                 schedule.DaysOfWeek = newSchedule.DaysOfWeek;
                 schedule.Tags = newSchedule.Tags;
             });
