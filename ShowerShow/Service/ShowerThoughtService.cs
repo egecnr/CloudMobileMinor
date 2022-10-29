@@ -25,9 +25,9 @@ namespace ShowerShow.Service
             await showerThoughtRepository.CreateShowerThought(thought, showerId,userId);
         }
 
-        public async Task DeleteShowerThought(ShowerThought thought)
+        public async Task DeleteShowerThought(Guid thoughtId)
         {
-            await showerThoughtRepository.DeleteShowerThought(thought);
+            await showerThoughtRepository.DeleteShowerThought(thoughtId);
         }
 
         public async Task<IEnumerable<ShowerThought>> GetAllShowerThoughtsForUser(Guid userId, int limit)
@@ -55,9 +55,9 @@ namespace ShowerShow.Service
             return await showerThoughtRepository.GetThoughtsByContent(searchWord, userId);
         }
 
-        public async Task UpdateThought(ShowerThought thought, UpdateShowerThoughtDTO updatedThought)
+        public async Task<ShowerThought> UpdateThought(Guid thoughtId, UpdateShowerThoughtDTO updatedThought)
         {
-            await showerThoughtRepository.UpdateThought(thought, updatedThought);
+            return await showerThoughtRepository.UpdateThought(thoughtId, updatedThought);
         }
     }
 }
