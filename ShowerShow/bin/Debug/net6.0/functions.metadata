@@ -104,6 +104,25 @@
     ]
   },
   {
+    "name": "CreateScheduleQueueTrigger",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Queue.CreateScheduleQueueTrigger.RunAsync",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "myQueueItem",
+        "type": "queueTrigger",
+        "direction": "In",
+        "dataType": "String",
+        "queueName": "create-schedule-queue",
+        "connection": "AzureWebJobsStorage"
+      }
+    ]
+  },
+  {
     "name": "CreateShowerDataQueueTrigger",
     "scriptFile": "ShowerShow.dll",
     "entryPoint": "ShowerShow.Queue.CreateShowerDataQueueTrigger.Run",

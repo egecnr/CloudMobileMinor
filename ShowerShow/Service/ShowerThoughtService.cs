@@ -30,9 +30,9 @@ namespace ShowerShow.Service
             await showerThoughtRepository.DeleteShowerThought(thought);
         }
 
-        public async Task<IEnumerable<ShowerThought>> GetAllShowerThoughtsForUser(Guid userId)
+        public async Task<IEnumerable<ShowerThought>> GetAllShowerThoughtsForUser(Guid userId, int limit)
         {
-           return await showerThoughtRepository.GetAllShowerThoughtsForUser(userId);
+           return await showerThoughtRepository.GetAllShowerThoughtsForUser(userId,limit);
         }
 
         public async Task<ShowerThought> GetShowerThoughtById(Guid id)

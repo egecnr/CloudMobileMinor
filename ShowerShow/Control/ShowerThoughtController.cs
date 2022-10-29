@@ -170,8 +170,10 @@ namespace ShowerShow.Controllers
         [OpenApiOperation(operationId: "GetThoughtsByUserId", tags: new[] { "Shower Thoughts" })]
         [ExampleAuth]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The user ID parameter")]
+        [OpenApiParameter(name: "limit", In = ParameterLocation.Path, Required = true, Type = typeof(int), Description = "The limit parameter")]
+
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerThought), Description = "The OK response with the retrieved thoughts")]
-        public async Task<HttpResponseData> GetThoughtsByUserId([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "shower/thoughts/{UserId:Guid}/u")] HttpRequestData req, Guid UserId, FunctionContext functionContext)
+        public async Task<HttpResponseData> GetThoughtsByUserId([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "shower/thoughts/{UserId:Guid}/u")] HttpRequestData req, Guid UserId,int limit, FunctionContext functionContext)
         {
             _logger.LogInformation("Retrieving thoughts.");
 
@@ -184,7 +186,7 @@ namespace ShowerShow.Controllers
             }
             if (await userService.CheckIfUserExistAndActive(UserId))
             {
-                List<ShowerThought> thoughts = (List<ShowerThought>)await showerThoughtService.GetAllShowerThoughtsForUser(UserId);
+                List<ShowerThought> thoughts = (List<ShowerThought>)await showerThoughtService.GetAllShowerThoughtsForUser(UserId,limit);
                 await responseData.WriteAsJsonAsync(thoughts);
                 responseData.StatusCode = HttpStatusCode.OK;
                 return responseData;

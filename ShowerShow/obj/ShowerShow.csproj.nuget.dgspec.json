@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj": {}
+    "C:\\Users\\Cosmin\\Desktop\\SAWA APP\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj": {}
   },
   "projects": {
-    "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj": {
+    "C:\\Users\\Cosmin\\Desktop\\SAWA APP\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj",
+        "projectUniqueName": "C:\\Users\\Cosmin\\Desktop\\SAWA APP\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj",
         "projectName": "ShowerShow",
-        "projectPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj",
-        "packagesPath": "C:\\Users\\31683\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\obj\\",
+        "projectPath": "C:\\Users\\Cosmin\\Desktop\\SAWA APP\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj",
+        "packagesPath": "C:\\Users\\Cosmin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Cosmin\\Desktop\\SAWA APP\\SAWA-Backend\\ShowerShow\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\31683\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Cosmin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -65,7 +62,7 @@
             },
             "HttpMultipartParser": {
               "target": "Package",
-              "version": "[5.0.0, )"
+              "version": "[7.0.0, )"
             },
             "Microsoft.AspNet.WebHelpers": {
               "target": "Package",
@@ -101,7 +98,7 @@
             },
             "Microsoft.Azure.Functions.Worker.Extensions.Storage": {
               "target": "Package",
-              "version": "[4.0.4, )"
+              "version": "[5.0.1, )"
             },
             "Microsoft.Azure.Functions.Worker.Sdk": {
               "target": "Package",
@@ -149,7 +146,7 @@
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
-              "version": "[6.24.0, )"
+              "version": "[6.25.0, )"
             },
             "WindowsAzure.Storage": {
               "target": "Package",
@@ -162,8 +159,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -172,7 +168,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

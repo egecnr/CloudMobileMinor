@@ -3,8 +3,6 @@ using ShowerShow.Models;
 using ShowerShow.Repository.Interface;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ShowerShow.Service
@@ -17,29 +15,40 @@ namespace ShowerShow.Service
         {
             this.scheduleRepository = scheduleRepository;
         }
-        public async Task CreateSchedule(CreateScheduleDTO schedule, Guid id)
+
+        public async Task AddScheduleToQueue(CreateScheduleDTO schedule, Guid userId)
         {
-            await scheduleRepository.CreateSchedule(schedule, id);
+            await scheduleRepository.AddScheduleToQueue(schedule, userId);
         }
 
-        public async Task DeleteSchedule(Schedule schedule)
+        public async Task CreateSchedule(Schedule schedule)
         {
-            await scheduleRepository.DeleteSchedule(schedule);
+            await scheduleRepository.CreateSchedule(schedule);
         }
 
-        public Task<IEnumerable<Schedule>> GetAllSchedules(Guid UserId)
+        public async Task DeleteSchedule(Guid scheduleId)
         {
-            return scheduleRepository.GetAllSchedules(UserId);
+            await scheduleRepository.DeleteSchedule(scheduleId);
         }
 
-        public Task<Schedule> GetScheduleById(Guid scheduleId)
+        public async Task<bool> DoesScheduleExist(Guid scheduleId)
         {
-            return scheduleRepository.GetScheduleById(scheduleId);
+           return await scheduleRepository.DoesScheduleExist(scheduleId);
         }
 
-        public async Task UpdateSchedule(Schedule oldSchedule, UpdateScheduleDTO newSchedule)
+        public async Task<IEnumerable<Schedule>> GetAllSchedules(Guid UserId)
         {
-            await scheduleRepository.UpdateSchedule(oldSchedule, newSchedule);
+            return await scheduleRepository.GetAllSchedules(UserId);
+        }
+
+        public async Task<Schedule> GetScheduleById(Guid scheduleId)
+        {
+            return await scheduleRepository.GetScheduleById(scheduleId);
+        }
+
+        public async Task<Schedule> UpdateSchedule(Guid scheduleId, UpdateScheduleDTO newSchedule)
+        {
+            return await scheduleRepository.UpdateSchedule(scheduleId, newSchedule);
         }
     }
 }

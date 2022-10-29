@@ -38,10 +38,10 @@ namespace ShowerShow.Repository
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<ShowerThought>> GetAllShowerThoughtsForUser(Guid userId)
+        public async Task<IEnumerable<ShowerThought>> GetAllShowerThoughtsForUser(Guid userId, int limit)
         {
             await dbContext.SaveChangesAsync();
-            return dbContext.ShowerThoughts.Where(x => x.UserId == userId).ToList();
+            return dbContext.ShowerThoughts.Where(x => x.UserId == userId).Take(limit).ToList();
         }
 
         public async Task<ShowerThought> GetShowerThoughtById(Guid id)

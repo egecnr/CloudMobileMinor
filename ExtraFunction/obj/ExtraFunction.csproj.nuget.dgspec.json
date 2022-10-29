@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ExtraFunction\\ExtraFunction.csproj": {}
+    "C:\\Users\\Cosmin\\Desktop\\SAWA APP\\SAWA-Backend\\ExtraFunction\\ExtraFunction.csproj": {}
   },
   "projects": {
-    "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ExtraFunction\\ExtraFunction.csproj": {
+    "C:\\Users\\Cosmin\\Desktop\\SAWA APP\\SAWA-Backend\\ExtraFunction\\ExtraFunction.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ExtraFunction\\ExtraFunction.csproj",
+        "projectUniqueName": "C:\\Users\\Cosmin\\Desktop\\SAWA APP\\SAWA-Backend\\ExtraFunction\\ExtraFunction.csproj",
         "projectName": "ExtraFunction",
-        "projectPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ExtraFunction\\ExtraFunction.csproj",
-        "packagesPath": "C:\\Users\\31683\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ExtraFunction\\obj\\",
+        "projectPath": "C:\\Users\\Cosmin\\Desktop\\SAWA APP\\SAWA-Backend\\ExtraFunction\\ExtraFunction.csproj",
+        "packagesPath": "C:\\Users\\Cosmin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Cosmin\\Desktop\\SAWA APP\\SAWA-Backend\\ExtraFunction\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\31683\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Cosmin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -134,8 +131,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -144,7 +140,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

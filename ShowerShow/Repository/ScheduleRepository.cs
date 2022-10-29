@@ -6,55 +6,115 @@ using ShowerShow.Repository.Interface;
 using ShowerShow.Utils;
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Linq;
+using Azure.Storage.Queues;
+using System.Text.Json;
 
 namespace ShowerShow.Repository
 {
     public class ScheduleRepository : IScheduleRepository
     {
         private DatabaseContext dbContext;
+        private IUserRepository userRepository;
 
-        public ScheduleRepository(DatabaseContext dbContext)
+        public ScheduleRepository(DatabaseContext dbContext,IUserRepository userRepository)
         {
             this.dbContext = dbContext;
+            this.userRepository = userRepository;
         }
 
-        public async Task CreateSchedule(CreateScheduleDTO schedule, Guid userId)
+        public async Task AddScheduleToQueue(CreateScheduleDTO schedule, Guid userId)
         {
+
+            string qName = Environment.GetEnvironmentVariable("CreateScheduleQueue");
+            string connString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
+            QueueClientOptions clientOpt = new QueueClientOptions() { MessageEncoding = QueueMessageEncoding.Base64 };
+
+            QueueClient qClient = new QueueClient(connString, qName, clientOpt);
             Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<CreateScheduleDTO, Schedule>()));
-            Schedule fullSchedule = mapper.Map<Schedule>(schedule);
-            fullSchedule.UserId = userId;
-            dbContext.Schedules?.Add(fullSchedule);
+            Schedule newSchedule = mapper.Map<Schedule>(schedule);
+            newSchedule.UserId = userId;
+            var jsonOpt = new JsonSerializerOptions() { WriteIndented = true };
+            string userJson = JsonSerializer.Serialize(newSchedule, jsonOpt);
+            await qClient.SendMessageAsync(userJson);
+
+
+        }
+
+        public async Task CreateSchedule(Schedule schedule)
+        {
+            if (!await userRepository.CheckIfUserExistAndActive(schedule.UserId))
+                throw new ArgumentException("The user does not exist or is inactive.");
+
+            dbContext.Schedules?.Add(schedule);
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteSchedule(Schedule schedule)
+        public async Task DeleteSchedule(Guid scheduleId)
         {
-            dbContext.Schedules?.Remove(schedule);
+            if(!await DoesScheduleExist(scheduleId))
+                throw new ArgumentException("The schedule does not exist.");
+
+            Schedule schedule = null;
+
+            //this is to give priority to tasks
+            Task getId = Task.Run(() =>
+            {
+                schedule = GetScheduleById(scheduleId).Result;
+            });
+            await getId.ContinueWith(prev =>
+            {
+                dbContext.Schedules?.Remove(schedule);
+
+            });
             await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<bool> DoesScheduleExist(Guid scheduleId)
+        {
+            await dbContext.SaveChangesAsync();
+            return dbContext.Schedules.FirstOrDefault(x => x.Id == scheduleId) != null;
         }
 
         public async Task<IEnumerable<Schedule>> GetAllSchedules(Guid UserId)
         {
+            if(!await userRepository.CheckIfUserExistAndActive(UserId))
+                throw new ArgumentException("The user does not exist or is inactive.");
+
             await dbContext.SaveChangesAsync();
             return dbContext.Schedules.Where(x => x.UserId == UserId).ToList();
         }
 
         public async Task<Schedule> GetScheduleById(Guid scheduleId)
         {
+            if(!await DoesScheduleExist(scheduleId))
+                throw new ArgumentException("The schedule does not exist.");
+
             await dbContext.SaveChangesAsync();
             return dbContext.Schedules.FirstOrDefault(x => x.Id == scheduleId);
         }
 
-        public async Task UpdateSchedule(Schedule oldSchedule, UpdateScheduleDTO newSchedule)
+        public async Task<Schedule> UpdateSchedule(Guid scheduleId, UpdateScheduleDTO newSchedule)
         {
-            oldSchedule.DaysOfWeek = newSchedule.DaysOfWeek;
-            oldSchedule.Tags = newSchedule.Tags;
-            dbContext.Schedules?.Update(oldSchedule);   
+            if(!await DoesScheduleExist(scheduleId))
+                throw new ArgumentException("The schedule does not exist.");
 
+            Schedule schedule = null;
+            //this is to give priority to tasks
+            Task getId = Task.Run(() =>
+            {
+                schedule = GetScheduleById(scheduleId).Result;
+                schedule.DaysOfWeek = newSchedule.DaysOfWeek;
+                schedule.Tags = newSchedule.Tags;
+            });
+            await getId.ContinueWith(prev =>
+            {
+                dbContext.Schedules?.Update(schedule);
+            });
             await dbContext.SaveChangesAsync();
+
+            return schedule;
         }
     }
 }
