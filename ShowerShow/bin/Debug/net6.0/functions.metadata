@@ -595,32 +595,6 @@
     ]
   },
   {
-    "name": "GetAllVoices",
-    "scriptFile": "ShowerShow.dll",
-    "entryPoint": "ShowerShow.Controllers.BlobStorageController.GetAllVoices",
-    "language": "dotnet-isolated",
-    "properties": {
-      "IsCodeless": false
-    },
-    "bindings": [
-      {
-        "name": "req",
-        "type": "httpTrigger",
-        "direction": "In",
-        "authLevel": "Anonymous",
-        "methods": [
-          "get"
-        ],
-        "route": "user/defaultvoices/getall"
-      },
-      {
-        "name": "$return",
-        "type": "http",
-        "direction": "Out"
-      }
-    ]
-  },
-  {
     "name": "CreateSchedule",
     "scriptFile": "ShowerShow.dll",
     "entryPoint": "ShowerShow.Controllers.ScheduleController.CreateSchedule",

@@ -114,7 +114,7 @@ namespace ShowerShow.Repository
             });
             await getId.ContinueWith(prev =>
             {
-                dbContext.Schedules?.Update(schedule);
+                dbContext.Schedules?.Update(schedule); //update schedules
             });
             await dbContext.SaveChangesAsync();
 

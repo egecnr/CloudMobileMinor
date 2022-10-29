@@ -3,16 +3,10 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System;
 using ShowerShow.Repository.Interface;
-using System.Collections.Generic;
-using HttpMultipartParser;
-using Microsoft.WindowsAzure.Storage.Blob;
-using Microsoft.WindowsAzure.Storage;
-using System.Linq;
 using ShowerShow.Authorization;
 
 namespace ShowerShow.Controllers
@@ -20,17 +14,12 @@ namespace ShowerShow.Controllers
     public class BlobStorageController
     {
         private readonly ILogger<BlobStorageController> _logger;
-        // get env connection string
-        private string connection = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
-        private CloudStorageAccount account;
+        private IBlobStorageService blobStorageService;
 
-        private IUserService userService;
-
-        public BlobStorageController(ILogger<BlobStorageController> log, IUserService userService)
+        public BlobStorageController(ILogger<BlobStorageController> log, IBlobStorageService blobStorageService)
         {
             _logger = log;
-            account = CloudStorageAccount.Parse(connection);
-            this.userService = userService;
+            this.blobStorageService = blobStorageService;
         }
 
 
@@ -42,42 +31,19 @@ namespace ShowerShow.Controllers
         {
             _logger.LogInformation("Uploading to blob.");
 
-            string containerName = Environment.GetEnvironmentVariable("ContainerProfilePictures");
             HttpResponseData responseData = req.CreateResponse();
             try
             {
-                if (!await userService.CheckIfUserExistAndActive(UserId))
-                {
-                    responseData.StatusCode = HttpStatusCode.BadRequest;
-                    return responseData;
-                }
-                var parsedFormBody = MultipartFormDataParser.ParseAsync(req.Body);
-                var file = parsedFormBody.Result.Files[0];
-
-
-                CloudBlobClient client = account.CreateCloudBlobClient();
-                CloudBlobContainer container = client.GetContainerReference(containerName);
-                await container.CreateIfNotExistsAsync();
-
-                CloudBlockBlob blockBlob = container.GetBlockBlobReference(UserId.ToString() + ".png");
-                blockBlob.Properties.ContentType = file.ContentType;
-
-                if (!blockBlob.Properties.ContentType.Contains("image"))
-                {
-                    responseData.StatusCode = HttpStatusCode.BadRequest;
-                    return responseData;
-                }
-
-                await blockBlob.UploadFromStreamAsync(file.Data);
+                await blobStorageService.UploadProfilePicture(req.Body, UserId);
                 responseData.StatusCode = HttpStatusCode.OK;
                 return responseData;
             }
-            catch
+            catch (Exception ex)
             {
                 responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
             }
-
         }
         [Function("GetProfilePictureOfUser")] // USE POSTMAN TO TEST
         [ExampleAuth]
@@ -88,7 +54,6 @@ namespace ShowerShow.Controllers
         {
             _logger.LogInformation("Uploading to blob.");
 
-            string containerName = Environment.GetEnvironmentVariable("ContainerProfilePictures");
             HttpResponseData responseData = req.CreateResponse();
             try
             {
@@ -97,40 +62,16 @@ namespace ShowerShow.Controllers
                     responseData.StatusCode = HttpStatusCode.Unauthorized;
                     return responseData;
                 }
-                if (!await userService.CheckIfUserExistAndActive(UserId))
-                {
-                    responseData.StatusCode = HttpStatusCode.BadRequest;
-                    return responseData;
-                }
-                CloudBlobClient client = account.CreateCloudBlobClient();
-                CloudBlobContainer container = client.GetContainerReference(containerName);
-
-
-                CloudBlockBlob blockBlob = container.GetBlockBlobReference(UserId.ToString() + ".png");
-                if (!await container.ExistsAsync())
-                {
-                    responseData.StatusCode = HttpStatusCode.BadRequest;
-                    return responseData;
-                }
-                if (!await blockBlob.ExistsAsync())
-                {
-                    blockBlob = container.GetBlockBlobReference("defaultpicture.png");
-                    if (!await blockBlob?.ExistsAsync())
-                    {
-                        responseData.StatusCode = HttpStatusCode.BadRequest;
-                        return responseData;
-                    }
-                }
-                responseData = GetDownloadResponseData(responseData, blockBlob, "image/jpeg").Result;
+                responseData = await blobStorageService.GetProfilePictureOfUser(responseData, UserId);
                 responseData.StatusCode = HttpStatusCode.OK;
                 return responseData;
             }
-            catch
+            catch (Exception ex)
             {
                 responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
             }
-
         }
         [Function("UploadVoiceSound")] // USE POSTMAN TO TEST
         [ExampleAuth]
@@ -139,7 +80,6 @@ namespace ShowerShow.Controllers
         {
             _logger.LogInformation("Uploading to blob.");
 
-            string containerName = Environment.GetEnvironmentVariable("ContainerDefaultVoices");
             HttpResponseData responseData = req.CreateResponse();
             try
             {
@@ -148,30 +88,14 @@ namespace ShowerShow.Controllers
                     responseData.StatusCode = HttpStatusCode.Unauthorized;
                     return responseData;
                 }
-                var parsedFormBody = MultipartFormDataParser.ParseAsync(req.Body);
-                var file = parsedFormBody.Result.Files[0];
-
-
-                CloudBlobClient client = account.CreateCloudBlobClient();
-                CloudBlobContainer container = client.GetContainerReference(containerName);
-                await container.CreateIfNotExistsAsync();
-
-                CloudBlockBlob blockBlob = container.GetBlockBlobReference(file.FileName);
-                blockBlob.Properties.ContentType = file.ContentType;
-
-                if (!blockBlob.Properties.ContentType.Contains("audio"))
-                {
-                    responseData.StatusCode = HttpStatusCode.BadRequest;
-                    return responseData;
-                }
-
-                await blockBlob.UploadFromStreamAsync(file.Data);
+                await blobStorageService.UploadVoiceSound(req.Body);
                 responseData.StatusCode = HttpStatusCode.OK;
                 return responseData;
             }
-            catch
+            catch (Exception ex)
             {
                 responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
             }
         }
@@ -184,7 +108,6 @@ namespace ShowerShow.Controllers
         {
             _logger.LogInformation("Downloading from blob.");
 
-            string containerName = Environment.GetEnvironmentVariable("ContainerDefaultVoices");
             HttpResponseData responseData = req.CreateResponse();
             try
             {
@@ -193,23 +116,14 @@ namespace ShowerShow.Controllers
                     responseData.StatusCode = HttpStatusCode.Unauthorized;
                     return responseData;
                 }
-                CloudBlobClient client = account.CreateCloudBlobClient();
-                CloudBlobContainer container = client.GetContainerReference(containerName);
-
-
-                CloudBlockBlob blockBlob = container.GetBlockBlobReference(FileName);
-                if (!await container.ExistsAsync() || !await blockBlob.ExistsAsync())
-                {
-                    responseData.StatusCode = HttpStatusCode.BadRequest;
-                    return responseData;
-                }
-                responseData = GetDownloadResponseData(responseData, blockBlob, "audio/mpeg").Result;
+                responseData = await blobStorageService.GetVoiceSound(responseData, req.Body, FileName);
                 responseData.StatusCode = HttpStatusCode.OK;
                 return responseData;
             }
-            catch
+            catch (Exception ex)
             {
                 responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
             }
         }
@@ -220,7 +134,6 @@ namespace ShowerShow.Controllers
         public async Task<HttpResponseData> DeleteUserProfilePicture([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "user/{UserId:Guid}/profile/deletepic")] HttpRequestData req, Guid UserId, FunctionContext functionContext)
         {
             _logger.LogInformation("Deleting user profile picture.");
-            string containerName = Environment.GetEnvironmentVariable("ContainerProfilePictures");
             HttpResponseData responseData = req.CreateResponse();
             try
             {
@@ -229,33 +142,18 @@ namespace ShowerShow.Controllers
                     responseData.StatusCode = HttpStatusCode.Unauthorized;
                     return responseData;
                 }
-                if (!await userService.CheckIfUserExistAndActive(UserId))
-                {
-                    responseData.StatusCode = HttpStatusCode.BadRequest;
-                    return responseData;
-                }
-                CloudBlobClient client = account.CreateCloudBlobClient();
-                CloudBlobContainer container = client.GetContainerReference(containerName);
-
-
-                CloudBlockBlob blockBlob = container.GetBlockBlobReference(UserId.ToString() + ".png");
-                if (!await container.ExistsAsync() || !await blockBlob.ExistsAsync())
-                {
-                    responseData.StatusCode = HttpStatusCode.BadRequest;
-                    return responseData;
-                }
-                await blockBlob.DeleteIfExistsAsync();
+                await blobStorageService.DeleteProfilePicture(UserId);
                 responseData.StatusCode = HttpStatusCode.OK;
                 return responseData;
             }
-            catch
+            catch (Exception ex)
             {
                 responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
             }
         }
-
-        [Function("GetAllVoices")] // THIS IS NOT WORKING
+      /*  [Function("GetAllVoices")] // THIS IS NOT WORKING
         [OpenApiOperation(operationId: "GetAllVoices", tags: new[] { "Blob Storage" })]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "audio/mpeg", bodyType: typeof(byte[]), Description = "The OK response with the voice.")]
         public async Task<HttpResponseData> GetAllVoices([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/defaultvoices/getall")] HttpRequestData req)
@@ -304,21 +202,7 @@ namespace ShowerShow.Controllers
                 responseData.StatusCode = HttpStatusCode.BadRequest;
                 return responseData;
             }
-        }
-        public async Task<HttpResponseData> GetDownloadResponseData(HttpResponseData responseData, CloudBlockBlob blockBlob, string ContentType)
-        {
-            byte[] content = null;
-            using (MemoryStream ms = new MemoryStream())
-            {
-                await blockBlob.DownloadToStreamAsync(ms);
-                content = ms.ToArray();
-                responseData.WriteBytes(content);
-                responseData.Headers.Add("Content-Type", ContentType);
-                responseData.Headers.Add("Accept-Ranges", $"bytes");
-                responseData.Headers.Add("Content-Disposition", $"attachment; filename={blockBlob.Name}; filename*=UTF-8'{blockBlob.Name}");
-            }
-            return responseData;
-        }
+        }*/
     }
 
 }
