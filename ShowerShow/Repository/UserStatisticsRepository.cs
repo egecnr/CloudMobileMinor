@@ -56,6 +56,7 @@ namespace ShowerShow.Repository
 
             int count = 0;
             // loop through the ordered list (dictionary), and add them to the original ranking list
+            // human language = list; code language = dictionarý; 
             foreach (KeyValuePair<Guid, double> kvp in rankingOrderedAscending)
             {
                 ranking.Add(kvp.Key, kvp.Value);
