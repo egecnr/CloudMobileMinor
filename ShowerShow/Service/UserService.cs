@@ -125,5 +125,10 @@ namespace ShowerShow.Service
         {
             await userRepository.CreateUser(userDTO);
         }
+
+        public async Task DeleteUser(string username)
+        {          
+            await userRepository.DeleteUser(username);         
+        }
     }
 }

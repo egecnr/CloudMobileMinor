@@ -90,6 +90,14 @@ namespace ShowerShow.Repository
                 dbContext.Users.Update(user);
                 await dbContext.SaveChangesAsync();              
         }
+        //This is only for the testing environment to delete created users to keep db clean.
+        public async Task DeleteUser(string username)
+        {
+            await dbContext.SaveChangesAsync();
+            User user = dbContext.Users.FirstOrDefault(u => u.UserName==username);
+            dbContext.Users.Remove(user);
+            await dbContext.SaveChangesAsync();
+        }
         public async Task DeactivateUserAccount(Guid userId, bool isAccountActive)
         {
                 await dbContext.SaveChangesAsync();
