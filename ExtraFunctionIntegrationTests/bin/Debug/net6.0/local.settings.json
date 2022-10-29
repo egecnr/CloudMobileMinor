@@ -1,0 +1,19 @@
+{
+  "IsEncrypted": false,
+
+  "Values": {
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=sawalocal;AccountKey=VaMe0vY+kzzO/Ksu8J5GSsVdLHQ+V2h4Z4COnUw2bAz6JBPJyi9jTyR4yYhnE1JugkU36BrT1PhK+AStDELqvg==;EndpointSuffix=core.windows.net",
+    "ContainerProfilePictures": "profile-pictures",
+    "ContainerDefaultVoices": "default-voices",
+    "CreateUserQueue": "create-user-queue",
+    "UserFriendQueue": "create-user-friend-queue",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "DBConnection": "AccountEndpoint=https://database-sawa.documents.azure.com:443/;AccountKey=0iV6DDVOqBso4R7ylBYskYk7vPhYtzoQS8kg7ltSdAuTY7xpXLlHtCZAh3au9qDoEOPw4lE91jVApTkQrHLB8g==;"
+
+  },
+  "JwtSettings": {
+    "Key": "azurejwtkeyforexamplethatneedstobelonginordertoworkletsseeifthisworks",
+    "Issuer": "SawaApp.azurewebsites.net",
+    "Audience": "User"
+  }
+}

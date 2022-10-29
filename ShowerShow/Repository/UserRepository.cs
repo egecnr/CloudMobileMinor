@@ -21,12 +21,11 @@ namespace ShowerShow.Repository
     public class UserRepository:IUserRepository
     {
         private DatabaseContext dbContext;
-        private IUserPrefencesService userPrefencesService;
+   
 
-        public UserRepository(DatabaseContext dbContext, IUserPrefencesService userPrefencesService)
+        public UserRepository(DatabaseContext dbContext)
         {
             this.dbContext = dbContext;
-            this.userPrefencesService = userPrefencesService;
         }
         //Move this to the service layer later on
         public async Task AddUserToQueue(CreateUserDTO userDTO)
