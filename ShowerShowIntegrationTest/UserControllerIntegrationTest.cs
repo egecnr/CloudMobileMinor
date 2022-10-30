@@ -40,24 +40,41 @@ namespace ShowerShowIntegrationTest
 
         }
 
-        [Fact]
+        [Fact]  //Not working
         public async Task CreateUserShouldReturnStatusCreated()
         {
             string requestUri = $"user/register";
-            await Authenticate();
 
             CreateUserDTO userDto = new CreateUserDTO()
             {
-                UserName = "++!_@#()!+#)@#+)_!@",
+                UserName = "uniqueUsername!!!!!!",
                 PasswordHash = "++!_@#()!+#)@#+)_!@",
                 Email = "++!_@#()!+#)@#+)_!@",
                 Name = "George Costanza"
             };
+            await FlushUser(userDto.UserName);
+
             HttpContent http = new StringContent(JsonConvert.SerializeObject(userDto), Encoding.UTF8, "application/json");
             var response = await client.PostAsync(requestUri,http);
             response.StatusCode.Should().Be(HttpStatusCode.Created);
+        }
 
-            await FlushUser(userDto.UserName);
+        [Fact]
+        public async Task CreateUserShouldReturnStatusBadRequest()
+        {
+            string requestUri = $"user/register";
+
+            CreateUserDTO userDto = new CreateUserDTO()
+            {
+                UserName = "test",
+                PasswordHash = "++!_@#()!+#)@#+)_!@",  // Email and Username already exists in database
+                Email = "test",
+                Name = "George Costanza"
+            };
+            HttpContent http = new StringContent(JsonConvert.SerializeObject(userDto), Encoding.UTF8, "application/json");
+            var response = await client.PostAsync(requestUri, http);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
         }
     }
 }
