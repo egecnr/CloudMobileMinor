@@ -992,6 +992,32 @@
     ]
   },
   {
+    "name": "DeleteUserByUsername",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.UserController.DeleteUserByUsername",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "delete"
+        ],
+        "route": "user/{userName}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
     "name": "GetUser",
     "scriptFile": "ShowerShow.dll",
     "entryPoint": "ShowerShow.Controllers.UserController.GetUser",
