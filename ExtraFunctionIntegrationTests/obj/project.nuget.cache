@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "gRHr5WwsCpTh68jkuF+pnwTYuqJCrjzpPcHQZMaZn9SWg1vC32lBzBcpK8xkey39GA6NQsfa08Qt1E9lZRGiYA==",
+  "dgSpecHash": "sug9Xy2HOdF2KT50/tcyJ9GFJnyY7jhKRbVAjKNhcO4LiSaIPUAeBM6p/D0Ltbwq0DWLZdg97a8D2zEEH/x5yQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ExtraFunctionIntegrationTests\\ExtraFunctionIntegrationTests.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,7 @@
     "C:\\Users\\31683\\.nuget\\packages\\azure.core\\1.19.0\\azure.core.1.19.0.nupkg.sha512",
     "C:\\Users\\31683\\.nuget\\packages\\azurefunctions.extensions.dependencyinjection\\1.1.3\\azurefunctions.extensions.dependencyinjection.1.1.3.nupkg.sha512",
     "C:\\Users\\31683\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
+    "C:\\Users\\31683\\.nuget\\packages\\fluentassertions\\6.8.0\\fluentassertions.6.8.0.nupkg.sha512",
     "C:\\Users\\31683\\.nuget\\packages\\google.protobuf\\3.21.7\\google.protobuf.3.21.7.nupkg.sha512",
     "C:\\Users\\31683\\.nuget\\packages\\grpc.core.api\\2.49.0\\grpc.core.api.2.49.0.nupkg.sha512",
     "C:\\Users\\31683\\.nuget\\packages\\grpc.net.client\\2.49.0\\grpc.net.client.2.49.0.nupkg.sha512",
