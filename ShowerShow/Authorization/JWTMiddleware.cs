@@ -36,6 +36,7 @@ namespace ShowerShow.Authorization
             }
 
 
+
             if (Headers.TryGetValue("Authorization", out string AuthorizationHeader))
             {
                 try

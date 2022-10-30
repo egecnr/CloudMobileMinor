@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ExtraFunction.Service_
 {
-    internal class AchievementService : IAchievementService
+    public class AchievementService : IAchievementService
     {
         private readonly IAchievementRepository _achievementRepository;
         private readonly IUserRepository _userRepository;

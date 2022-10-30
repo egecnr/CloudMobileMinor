@@ -90,6 +90,33 @@ namespace ShowerShow.Controllers
             }
             return responseData; 
         }
+        // // // // // // // // // // // // // // // // // // // // // // // // DELETE // // // // // // // // // // // // // // // // // // // // // // // //
+        //This endpoint is never run by any account  it is only for testing purposes
+        [Function("DeleteUserByUsername")]
+        [OpenApiOperation(operationId: "DeleteUserByUsername", tags: new[] { "Testing" }, Summary = "Delete users by id", Description = "This endpoint get users by username")]
+        [ExampleAuth]
+        [OpenApiParameter(name: "userName", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "The User ID parameter")]
+        public async Task<HttpResponseData> DeleteUserByUsername([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "user/{userName}")] HttpRequestData req, string userName, FunctionContext functionContext)
+        {
+            HttpResponseData responseData = req.CreateResponse();
+            try
+            {
+                if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+                {
+                    responseData.StatusCode = HttpStatusCode.Unauthorized;
+                    return responseData;
+                }
+
+                await userService.DeleteUser(userName);
+               
+            }
+            catch (Exception e)
+            {
+                responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", e.Message);
+            }
+            return responseData;
+        }
 
         [Function("GetUser")]
         [OpenApiOperation(operationId: "GetUserById", tags: new[] { "Users " },Summary = "Get users by id", Description = "This endpoint get users by id")]

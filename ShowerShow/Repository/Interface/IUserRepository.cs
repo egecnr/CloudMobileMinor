@@ -15,6 +15,7 @@ namespace ShowerShow.Repository.Interface
         public Task<bool> CheckIfEmailExist(string email);
         public Task<bool> CheckIfUserNameExist(string userName);
         public Task AddUserToQueue(CreateUserDTO user);
+        public Task DeleteUser(string username);// Only and only for testing
         public Task DeactivateUserAccount(Guid userId, bool isAccountActive);
         public Task<GetUserDTO> GetUserById(Guid Id);
         public Task<bool> CheckIfEmailExist(Guid userId,string wantedEmail);
