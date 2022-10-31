@@ -48,11 +48,11 @@ namespace ShowerShow.Repository
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<ShowerThought>> GetAllShowerThoughtsForUser(Guid userId, int limit)
+        public async Task<IEnumerable<ShowerThought>> GetAllShowerThoughtsForUser(Guid userId, uint limit)
         {
             await dbContext.SaveChangesAsync();
             // get all thoughts with that USER id, and return only the limit amount
-            return dbContext.ShowerThoughts.Where(x => x.UserId == userId).Take(limit).ToList();
+            return dbContext.ShowerThoughts.Where(x => x.UserId == userId).Take((int)limit).ToList();
         }
 
         public async Task<ShowerThought> GetShowerThoughtById(Guid id)

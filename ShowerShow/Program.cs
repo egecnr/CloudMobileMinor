@@ -57,6 +57,8 @@ namespace ShowerShow
                         services.AddTransient<IBlobStorageRepository, BlobStorageRepository>();
                         services.AddTransient<IUserStatisticsRepository, UserStatisticsRepository>();
                         services.AddTransient<IUserStatisticsService, UserStatisticsService>();
+                        services.AddTransient<IBubbleMessageRepository, BubbleMessageRepository>();
+                        services.AddTransient<IBubbleMessageService, BubbleMessageService>();
                     })
                     .Build();
 

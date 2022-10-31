@@ -28,6 +28,7 @@ namespace ShowerShow.DAL
         public DbSet<ShowerData> ShowerInstances { get; set; } = null!;
         public DbSet<Preferences> Preferences { get; set; } = null!;
         public DbSet<ShowerThought> ShowerThoughts { get; set; } = null!;
+        public DbSet<BubbleMessage> BubbleMessages { get; set; } = null!;
         
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
@@ -54,6 +55,7 @@ namespace ShowerShow.DAL
             modelBuilder.Entity<Preferences>().ToContainer("Preferences").HasPartitionKey(c => c.UserId);
             modelBuilder.Entity<ShowerData>().ToContainer("ShowerData").HasPartitionKey(c => c.UserId); //This could be a date too ask Frank
             modelBuilder.Entity<ShowerThought>().ToContainer("ShowerThoughts").HasPartitionKey(c => c.UserId);
+            modelBuilder.Entity<BubbleMessage>().ToContainer("BubbleMessages").HasPartitionKey(c => c.Id);
             modelBuilder.Entity<User>().OwnsMany(u => u.Achievements);
             modelBuilder.Entity<Schedule>().OwnsMany(s => s.Tags);
             modelBuilder

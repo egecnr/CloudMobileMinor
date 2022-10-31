@@ -251,3 +251,12 @@ C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShowUnitTest\obj\Debug\net
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.pdb
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.genruntimeconfig.cache
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShowUnitTest\obj\Debug\net6.0\ref\ShowerShowUnitTest.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\CoverletSourceRootsMapping
+C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.csproj.AssemblyReference.cache
+C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.AssemblyInfoInputs.cache
+C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.AssemblyInfo.cs
+C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.csproj.CoreCompileInputs.cache
+C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\refint\ShowerShowUnitTest.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.pdb

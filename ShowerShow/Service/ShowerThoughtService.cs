@@ -35,7 +35,7 @@ namespace ShowerShow.Service
             await showerThoughtRepository.DeleteShowerThought(thoughtId);
         }
 
-        public async Task<IEnumerable<ShowerThought>> GetAllShowerThoughtsForUser(Guid userId, int limit)
+        public async Task<IEnumerable<ShowerThought>> GetAllShowerThoughtsForUser(Guid userId, uint limit)
         {
             if (!await userService.CheckIfUserExistAndActive(userId))
                 throw new ArgumentException("The user does not exist or is inactive.");

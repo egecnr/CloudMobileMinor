@@ -595,6 +595,136 @@
     ]
   },
   {
+    "name": "CreateBubbleMessage",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.BubbleMessageController.CreateBubbleMessage",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "post"
+        ],
+        "route": "bubble/messages/add"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "DeleteBubbleMessage",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.BubbleMessageController.DeleteSchedule",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "delete"
+        ],
+        "route": "bubble/messages/{MessageId:Guid}/delete"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "GetRandomMessage",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.BubbleMessageController.GetRandomMessage",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "bubble/messages/retrieve"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "GetBubbleMessageById",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.BubbleMessageController.GetBubbleMessageById",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "bubble/messages/retrieve/{MessageId:Guid}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
+    "name": "GetRandomMessagesList",
+    "scriptFile": "ShowerShow.dll",
+    "entryPoint": "ShowerShow.Controllers.BubbleMessageController.GetRandomMessagesList",
+    "language": "dotnet-isolated",
+    "properties": {
+      "IsCodeless": false
+    },
+    "bindings": [
+      {
+        "name": "req",
+        "type": "httpTrigger",
+        "direction": "In",
+        "authLevel": "Anonymous",
+        "methods": [
+          "get"
+        ],
+        "route": "bubble/messages/get/{limit}"
+      },
+      {
+        "name": "$return",
+        "type": "http",
+        "direction": "Out"
+      }
+    ]
+  },
+  {
     "name": "CreateSchedule",
     "scriptFile": "ShowerShow.dll",
     "entryPoint": "ShowerShow.Controllers.ScheduleController.CreateSchedule",
