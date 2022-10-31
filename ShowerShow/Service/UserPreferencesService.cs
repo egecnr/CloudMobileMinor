@@ -1,4 +1,5 @@
-﻿using ShowerShow.DTO;
+﻿using Microsoft.EntityFrameworkCore;
+using ShowerShow.DTO;
 using ShowerShow.Models;
 using ShowerShow.Repository;
 using ShowerShow.Repository.Interface;
@@ -22,6 +23,7 @@ namespace ShowerShow.Service
         {
             await _userPreferencesRepository.CreateUserPreferences(userId);
         }
+      
 
 
         public async Task<PreferencesDTO> GetUserPreferencesById(Guid userId)
