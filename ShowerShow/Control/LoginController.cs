@@ -16,11 +16,13 @@ namespace ShowerShow.Control
 {
     public class LoginController
     {
+        private readonly ILogger logger;
         private ITokenService tokenService;
         private ILoginService loginService;
 
-        public LoginController(ITokenService tokenService,ILoginService loginService)
+        public LoginController(ILogger<LoginController> logger,ITokenService tokenService,ILoginService loginService)
         {
+            this.logger=logger;
             this.tokenService = tokenService;
             this.loginService = loginService;
         }
@@ -37,7 +39,8 @@ namespace ShowerShow.Control
             Login login = JsonConvert.DeserializeObject<Login>(await new StreamReader(req.Body).ReadToEndAsync());
             if (await loginService.CheckIfCredentialsCorrect(login.Username, login.Password))
             {
-                LoginResult result = await tokenService.CreateToken(login);          
+                LoginResult result = await tokenService.CreateToken(login);
+                logger.LogInformation(result.AccessToken);
                 HttpResponseData response = req.CreateResponse(HttpStatusCode.OK);
 
                 await response.WriteAsJsonAsync(result);

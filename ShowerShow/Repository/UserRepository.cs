@@ -21,26 +21,15 @@ namespace ShowerShow.Repository
     public class UserRepository:IUserRepository
     {
         private DatabaseContext dbContext;
-        private IUserPrefencesService userPrefencesService;
+   
 
-        public UserRepository(DatabaseContext dbContext, IUserPrefencesService userPrefencesService)
+        public UserRepository(DatabaseContext dbContext)
         {
             this.dbContext = dbContext;
-            this.userPrefencesService = userPrefencesService;
         }
         //Move this to the service layer later on
         public async Task AddUserToQueue(CreateUserDTO userDTO)
-        {
-            if (await CheckIfEmailExist(userDTO.Email))
-            {
-                throw new Exception("Please pick a unique email address");
-            }
-            else if(await CheckIfUserNameExist(userDTO.UserName))
-            {
-                throw new Exception("Please pick a unique username");
-            }
-            else
-            {
+        {            
                 string qName = Environment.GetEnvironmentVariable("CreateUserQueue");
                 string connString = Environment.GetEnvironmentVariable("AzureWebJobsStorage");
                 QueueClientOptions clientOpt = new QueueClientOptions() { MessageEncoding = QueueMessageEncoding.Base64 };
@@ -48,9 +37,7 @@ namespace ShowerShow.Repository
                 QueueClient qClient = new QueueClient(connString, qName, clientOpt);
                 var jsonOpt = new JsonSerializerOptions() { WriteIndented = true };
                 string userJson = JsonSerializer.Serialize<CreateUserDTO>(userDTO, jsonOpt);
-                await qClient.SendMessageAsync(userJson);
-              
-            }      
+                await qClient.SendMessageAsync(userJson);                            
         }
         public async Task CreateUser(CreateUserDTO userDTO)
         {
@@ -64,19 +51,11 @@ namespace ShowerShow.Repository
         }
         public async Task<GetUserDTO> GetUserById(Guid userId)
         {
-            if (await CheckIfUserExistAndActive(userId))
-            {
                 await dbContext.SaveChangesAsync();
                 User user = dbContext.Users.Where(acc => acc.isAccountActive == true).FirstOrDefault(u => u.Id == userId);
                 Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<User, GetUserDTO>()));
                 GetUserDTO userDTO = mapper.Map<GetUserDTO>(user);
-                return userDTO;
-            }
-            else
-            {
-                throw new Exception("User does not exist");
-            }
-           
+                return userDTO;         
         }
 
         public async Task<bool> CheckIfUserExistAndActive(Guid userId)
@@ -101,45 +80,31 @@ namespace ShowerShow.Repository
         
 
         public async Task UpdateUser(Guid userId, UpdateUserDTO userDTO)
-        {
-            if (!await CheckIfUserExistAndActive(userId))
-            {
-                throw new Exception("User does not exist");
-            }
-            else if (await CheckIfEmailExist(userId,userDTO.Email))
-            {
-                throw new Exception("Email has to be unique");
-            }
-            else if (await CheckIfUserNameExist(userId,userDTO.UserName))
-            {
-                throw new Exception("Username has to be unique");
-            }
-            else
-            {
+        {      
                 await dbContext.SaveChangesAsync();
                 User user = dbContext.Users.Where(acc => acc.isAccountActive == true).FirstOrDefault(u => u.Id == userId);
                 user.Name = userDTO.Name;
+                user.UserName = userDTO.UserName;
                 user.Email = userDTO.Email;
                 user.PasswordHash = PasswordHasher.HashPassword(userDTO.PasswordHash);
                 dbContext.Users.Update(user);
-                await dbContext.SaveChangesAsync();
-            }   
+                await dbContext.SaveChangesAsync();              
+        }
+        //This is only for the testing environment to delete created users to keep db clean.
+        public async Task DeleteUser(string username)
+        {
+            await dbContext.SaveChangesAsync();
+            User user = dbContext.Users.FirstOrDefault(u => u.UserName==username);
+            dbContext.Users.Remove(user);
+            await dbContext.SaveChangesAsync();
         }
         public async Task DeactivateUserAccount(Guid userId, bool isAccountActive)
         {
-            if (await CheckIfUserExist(userId))
-            {
                 await dbContext.SaveChangesAsync();
                 User user = dbContext.Users.FirstOrDefault(x => x.Id == userId);
                 user.isAccountActive = isAccountActive;
                 dbContext.Users.Update(user);
-                await dbContext.SaveChangesAsync();
-            }
-            else
-            {
-                throw new Exception("User does not exist");
-            }
-            
+                await dbContext.SaveChangesAsync();                     
         }
         private List<GetUserDTO> ConvertGetDtos(List<User> users)
         {
@@ -153,18 +118,11 @@ namespace ShowerShow.Repository
         }
 
         public async Task<IEnumerable<GetUserDTO>> GetUsersByName(string userName)
-        {
-            if (userName.IsNullOrWhiteSpace())
-            {
-                throw new Exception("Please input a username");
-            }
-            else
-            {
+        {           
                 List<User> usersWithName = dbContext.Users.Where(u=> u.isAccountActive==true).Where(u => u.UserName.ToLower().StartsWith(userName.ToLower())).ToList();
                 Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<User, GetUserDTO>()));
                 List<GetUserDTO> dtos = ConvertGetDtos(usersWithName);
-                return dtos;
-            }          
+                return dtos;                      
         }
 
        
@@ -191,7 +149,7 @@ namespace ShowerShow.Repository
         {
             await dbContext.SaveChangesAsync();
             User user =  dbContext.Users.FirstOrDefault(u => u.Id == userId);
-            if (user.UserName.ToLower() == wantedUsername.ToLower()) //We want to skip the badrequest if userDTO is inputting the same email.
+            if (user.UserName.ToLower() == wantedUsername.ToLower()) 
                 return false;
             else
             {
@@ -203,7 +161,7 @@ namespace ShowerShow.Repository
         {
             await dbContext.SaveChangesAsync();
             User user = dbContext.Users.FirstOrDefault(u => u.Id == userId);
-            if (user.Email == wantedEmail) //We want to skip the badrequest if userDTO is inputting the same email.
+            if (user.Email == wantedEmail) 
                 return false;
             else
             {

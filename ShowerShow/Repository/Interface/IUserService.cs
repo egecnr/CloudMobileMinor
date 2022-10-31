@@ -7,18 +7,19 @@ namespace ShowerShow.Repository.Interface
 {
     public interface IUserService
     {
-        public Task AddUserToQueue(CreateUserDTO user);
-        public Task CreateUser(CreateUserDTO userDTO);
-        public Task<bool> CheckIfEmailExist(string email);
-        public Task<GetUserDTO> GetUserById(Guid Id);
-        public Task<bool> CheckIfUserNameExist(string userName);
-        public Task<bool> CheckIfUserExistAndActive(Guid userId);
-        public Task<bool> CheckIfUserExist(Guid userId);
-        public Task<IEnumerable<GetUserDTO>> GetUsersByName(string userName);
-        public Task<bool> CheckIfEmailExist(Guid userId, string wantedEmail);
-        public Task<bool> CheckIfUserNameExist(Guid userId, string wantedUsername);
-        public Task DeactivateUserAccount(Guid userId, bool isAccountActive);
-        public Task UpdateUser(Guid userId, UpdateUserDTO userDTO);
+        Task AddUserToQueue(CreateUserDTO user);
+        Task CreateUser(CreateUserDTO userDTO);
+        Task<bool> CheckIfEmailExist(string email);
+        Task<GetUserDTO> GetUserById(Guid Id);
+        Task<bool> CheckIfUserNameExist(string userName);
+        Task<bool> CheckIfUserExistAndActive(Guid userId);
+        Task<bool> CheckIfUserExist(Guid userId);
+        Task DeleteUser(string username);
+        Task<IEnumerable<GetUserDTO>> GetUsersByName(string userName);
+        Task<bool> CheckIfEmailExist(Guid userId, string wantedEmail);
+        Task<bool> CheckIfUserNameExist(Guid userId, string wantedUsername);
+        Task DeactivateUserAccount(Guid userId, bool isAccountActive);
+        Task UpdateUser(Guid userId, UpdateUserDTO userDTO);
 
     }
 }
