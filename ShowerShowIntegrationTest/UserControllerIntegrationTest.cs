@@ -10,7 +10,6 @@ namespace ShowerShowIntegrationTest
     public class UserControllerIntegrationTest :ControllerBase
     {
         public UserControllerIntegrationTest(ITestOutputHelper outputHelper) : base(outputHelper){}
-         // Done endpoints : getuserbyname, createuser,getuserById, deactivateAccount
         //Get User By name endpoint
         [Fact]
         public async Task GetUserByNameShouldReturnAListOfUsersWithStatusCodeOk()

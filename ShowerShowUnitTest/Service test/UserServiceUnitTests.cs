@@ -11,7 +11,7 @@ namespace ShowerShowUnitTest
     {
         private Mock<IUserRepository> userRepositoryMock = new Mock<IUserRepository>();
         private UserService sut;
-
+        //Done methods: GetUserById, AddUserToQueue , updateuser, deactivateuseraccount, GetUsersByName
         public UserServiceUnitTests()
         {
             sut = new UserService(userRepositoryMock.Object);
@@ -36,7 +36,8 @@ namespace ShowerShowUnitTest
             //Assert
             result.Should().NotBeNull();
             result.Id.Should().Be(getUserDTO.Id);
-            //Assert all the fields later on
+            result.Email.Should().Be(getUserDTO.Email);
+            result.UserName.Should().Be(getUserDTO.UserName);
         }
         [Fact]
         public async Task GetUserByIdShouldThrowExceptionIfUserDoesNotExist()
@@ -48,7 +49,6 @@ namespace ShowerShowUnitTest
             Func<Task> exceptionThrown = async () => await sut.GetUserById(It.IsAny<Guid>());
             //Assert
             await exceptionThrown.Should().ThrowAsync<Exception>().WithMessage("User does not exist");
-            //Assert all the fields later on
         }
 
         [Fact]
@@ -70,7 +70,6 @@ namespace ShowerShowUnitTest
             Func<Task> exceptionThrown = async () => await sut.AddUserToQueue(us);
             //Assert
             await exceptionThrown.Should().NotThrowAsync<Exception>();
-            //Assert all the fields later on
         }
         [Fact]
         public async Task AddUserToQueueShouldFailDueToNotHavingUniqueEmailAddress()
@@ -90,7 +89,6 @@ namespace ShowerShowUnitTest
             Func<Task> exceptionThrown = async () => await sut.AddUserToQueue(us);
             //Assert
             await exceptionThrown.Should().ThrowAsync<Exception>().WithMessage("Please pick a unique email address");
-            //Assert all the fields later on
         }
         [Fact]
         public async Task AddUserToQueueShouldFailDueToNotHavingUniqueUsername()
@@ -111,7 +109,6 @@ namespace ShowerShowUnitTest
             Func<Task> exceptionThrown = async () => await sut.AddUserToQueue(us);
             //Assert
             await exceptionThrown.Should().ThrowAsync<Exception>().WithMessage("Please pick a unique username");
-            //Assert all the fields later on
         }
         [Fact]
         public async Task UpdateUserShouldUpdateTheUserInDatabase()
@@ -197,5 +194,61 @@ namespace ShowerShowUnitTest
             //Assert
             await act.Should().ThrowAsync<Exception>().WithMessage("Username has to be unique");
         }
+        [Fact]
+        public async Task DeactivateUserAccountShouldDeactivateAccountInDatabase()
+        {
+            //Arrange
+            Guid id = Guid.NewGuid();
+            userRepositoryMock.Setup(u => u.CheckIfUserExist(id)).ReturnsAsync(true);
+            //Act
+            Func<Task> act = async () => await sut.DeactivateUserAccount(id,false);
+            //Assert
+            await act.Should().NotThrowAsync<Exception>();
+        }
+        [Fact]
+        public async Task DeactivateUserAccountShouldThrowExceptionDueToNotExistingUser()
+        {
+            //Arrange
+            Guid id = Guid.NewGuid();
+            userRepositoryMock.Setup(u => u.CheckIfUserExist(id)).ReturnsAsync(false);
+            //Act
+            Func<Task> act = async () => await sut.DeactivateUserAccount(id, false);
+            //Assert
+            await act.Should().ThrowAsync<Exception>().WithMessage("User does not exist");
+        }
+
+        [Fact]
+        public async Task GetUserByNameShouldThrowExceptionIfUsernameisNull()
+        {
+            //Arrange
+            string username = null;
+            //Act
+            Func<Task> exceptionThrown = async () => await sut.GetUsersByName(username);
+            //Assert
+            await exceptionThrown.Should().ThrowAsync<Exception>().WithMessage("Please input a username");
+        }
+
+        [Fact]
+        public async Task GetUserByNameShouldNotThrowExceptionIfUsernameisNotNull()
+        {
+            //Arrange
+            string username = "tom";
+            List<GetUserDTO> users = new List<GetUserDTO>() {   new GetUserDTO()
+            {
+                Id = Guid.NewGuid(),
+                UserName = "tommie",
+                Email = "0",
+                Name = "DR"
+            } };
+        
+            userRepositoryMock.Setup(u => u.GetUsersByName(username)).ReturnsAsync(users);
+            //Act
+            var result = await sut.GetUsersByName(username);
+            //Assert
+            result.Should().NotBeNull();
+            result.Count().Should().Be(1);
+            result.First().UserName.Should().Be("tommie");
+        }
     }
 }
+
