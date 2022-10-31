@@ -37,9 +37,9 @@ namespace ShowerShow.DAL
 
             //secure connection string later
 
-            optionsBuilder.UseCosmos("https://sawa-db.documents.azure.com:443/",
-                "gggcb28Z24nJAmpz4SRwQRNT9Xyd0wn1riSKAUkvVyaBf4WRALsyx4kgl6POPmi8Ka7JHZfTx06uWD3DHzoqTw==",
-                "sawa-db");
+            optionsBuilder.UseCosmos("https://database-sawa.documents.azure.com:443/",
+               "0iV6DDVOqBso4R7ylBYskYk7vPhYtzoQS8kg7ltSdAuTY7xpXLlHtCZAh3au9qDoEOPw4lE91jVApTkQrHLB8g==",
+               "Database - SAWA");
         }
 
 

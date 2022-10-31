@@ -14,25 +14,33 @@ namespace ShowerShow.Service
     internal class ShowerThoughtService : IShowerThoughtService
     {
         private IShowerThoughtRepository showerThoughtRepository;
+        private IUserService userService;
 
-        public ShowerThoughtService(IShowerThoughtRepository showerThoughtRepository)
+        public ShowerThoughtService(IShowerThoughtRepository showerThoughtRepository, IUserService userService)
         {
             this.showerThoughtRepository = showerThoughtRepository;
+            this.userService = userService;
         }
 
         public async Task CreateShowerThought(ShowerThoughtDTO thought, Guid showerId, Guid userId)
         {
+            if (!await userService.CheckIfUserExistAndActive(userId))
+                throw new ArgumentException("The user does not exist or is inactive.");
+
             await showerThoughtRepository.CreateShowerThought(thought, showerId,userId);
         }
 
-        public async Task DeleteShowerThought(ShowerThought thought)
+        public async Task DeleteShowerThought(Guid thoughtId)
         {
-            await showerThoughtRepository.DeleteShowerThought(thought);
+            await showerThoughtRepository.DeleteShowerThought(thoughtId);
         }
 
-        public async Task<IEnumerable<ShowerThought>> GetAllShowerThoughtsForUser(Guid userId)
+        public async Task<IEnumerable<ShowerThought>> GetAllShowerThoughtsForUser(Guid userId, int limit)
         {
-           return await showerThoughtRepository.GetAllShowerThoughtsForUser(userId);
+            if (!await userService.CheckIfUserExistAndActive(userId))
+                throw new ArgumentException("The user does not exist or is inactive.");
+
+            return await showerThoughtRepository.GetAllShowerThoughtsForUser(userId,limit);
         }
 
         public async Task<ShowerThought> GetShowerThoughtById(Guid id)
@@ -42,6 +50,9 @@ namespace ShowerShow.Service
 
         public async Task<IEnumerable<ShowerThought>> GetShowerThoughtsByDate(DateTime date, Guid userId)
         {
+            if (!await userService.CheckIfUserExistAndActive(userId))
+                throw new ArgumentException("The user does not exist or is inactive.");
+
             return await showerThoughtRepository.GetShowerThoughtsByDate(date, userId);
         }
 
@@ -52,12 +63,15 @@ namespace ShowerShow.Service
 
         public async Task<IEnumerable<ShowerThought>> GetThoughtsByContent(string searchWord, Guid userId)
         {
+            if (!await userService.CheckIfUserExistAndActive(userId))
+                throw new ArgumentException("The user does not exist or is inactive.");
+
             return await showerThoughtRepository.GetThoughtsByContent(searchWord, userId);
         }
 
-        public async Task UpdateThought(ShowerThought thought, UpdateShowerThoughtDTO updatedThought)
+        public async Task<ShowerThought> UpdateThought(Guid thoughtId, UpdateShowerThoughtDTO updatedThought)
         {
-            await showerThoughtRepository.UpdateThought(thought, updatedThought);
+            return await showerThoughtRepository.UpdateThought(thoughtId, updatedThought);
         }
     }
 }
