@@ -27,7 +27,7 @@ namespace ShowerShowIntegrationTest
         {
             this.outputHelper = outputHelper;
             this.client = new HttpClient() {
-                BaseAddress = new Uri($"http://localhost:7024/api/")
+                BaseAddress = new Uri($"http://localhost:7071/api/")
                 //http://localhost:7071/api/Login"
             };
         }
@@ -42,13 +42,11 @@ namespace ShowerShowIntegrationTest
             Login loginUser = new Login() {Username="test",Password="test"};
             string requesturi = "Login";
             HttpContent http = new StringContent(JsonConvert.SerializeObject(loginUser),Encoding.UTF8,"application/json");
-            client.BaseAddress= new Uri("http://localhost:7071/api/");
             client.DefaultRequestHeaders.Clear();
             client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
             var response = client.PostAsync(requesturi, http).Result;
 
             var authString = (await response.Content.ReadAsAsync<LoginResultDTO>()).AccessToken;
-            client.BaseAddress = new Uri($"http://localhost:7024/api/");
             return authString;
         }
 

@@ -228,3 +228,4 @@ C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunctionIntegrationTests\ob
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunctionIntegrationTests\obj\Debug\net6.0\ExtraFunctionIntegrationTests.pdb
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunctionIntegrationTests\obj\Debug\net6.0\ExtraFunctionIntegrationTests.genruntimeconfig.cache
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunctionIntegrationTests\obj\Debug\net6.0\ref\ExtraFunctionIntegrationTests.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunctionIntegrationTests\bin\Debug\net6.0\FluentAssertions.dll
