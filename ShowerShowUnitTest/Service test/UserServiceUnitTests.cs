@@ -11,7 +11,6 @@ namespace ShowerShowUnitTest
     {
         private Mock<IUserRepository> userRepositoryMock = new Mock<IUserRepository>();
         private UserService sut;
-        //Done methods: GetUserById, AddUserToQueue , updateuser, deactivateuseraccount, GetUsersByName
         public UserServiceUnitTests()
         {
             sut = new UserService(userRepositoryMock.Object);

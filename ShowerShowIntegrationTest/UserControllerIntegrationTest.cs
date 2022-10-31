@@ -11,6 +11,7 @@ namespace ShowerShowIntegrationTest
     {
         public UserControllerIntegrationTest(ITestOutputHelper outputHelper) : base(outputHelper){}
         //Get User By name endpoint
+        private Guid testUserId = Guid.Parse("31aa2d55-8eae-4d00-9daa-5be588aba14d");
         [Fact]
         public async Task GetUserByNameShouldReturnAListOfUsersWithStatusCodeOk()
         {
@@ -50,8 +51,8 @@ namespace ShowerShowIntegrationTest
         //Get user by id endpoint
         [Fact]
         public async Task GetUserByIdShouldReturnASingleRecordWithStatusCodeOk()
-        {   Guid id = Guid.Parse("31aa2d55-8eae-4d00-9daa-5be588aba14d");
-            string requestUri = $"user/{id}";
+        {   
+            string requestUri = $"user/{testUserId}";
             await Authenticate();
 
             var response = await client.GetAsync(requestUri);
@@ -64,8 +65,8 @@ namespace ShowerShowIntegrationTest
         [Fact]
         public async Task GetUserByIdShouldReturnWithResponseStatusCodeUnauthorized()
         {
-            Guid id = Guid.Parse("31aa2d55-8eae-4d00-9daa-5be588aba14d");
-            string requestUri = $"user/{id}";
+            
+            string requestUri = $"user/{testUserId}";
             //Authentication ommited.
             var response = await client.GetAsync(requestUri);
 ;
@@ -139,8 +140,8 @@ namespace ShowerShowIntegrationTest
         [Fact]
         public async Task DeactivateUserShouldUpdateAccountStatusWithStatusCodeOK()
         {
-            Guid id = Guid.Parse("31aa2d55-8eae-4d00-9daa-5be588aba14d");
-            string requestUri = $"user/{id}/true";
+            
+            string requestUri = $"user/{testUserId}/true";
             await Authenticate();
 
             HttpContent http = new StringContent(JsonConvert.SerializeObject(""), Encoding.UTF8, "application/json");
@@ -150,8 +151,8 @@ namespace ShowerShowIntegrationTest
         [Fact]
         public async Task DeactivateUserShouldReturnWithResponseStatusCodeUnauthorized()
         {
-            Guid id = Guid.Parse("31aa2d55-8eae-4d00-9daa-5be588aba14d");
-            string requestUri = $"user/{id}/true";
+           
+            string requestUri = $"user/{testUserId}/true";
             //Authentication method ommited.
             HttpContent http = new StringContent(JsonConvert.SerializeObject(""), Encoding.UTF8, "application/json");
             var response = await client.PutAsync(requestUri, http);
@@ -162,8 +163,8 @@ namespace ShowerShowIntegrationTest
         [Fact]
         public async Task UpdateUserShouldReturnWithResponseStatusCodeUnauthorized()
         {
-            Guid id = Guid.Parse("31aa2d55-8eae-4d00-9daa-5be588aba14d");
-            string requestUri = $"user/{id}";
+            
+            string requestUri = $"user/{testUserId}";
             //Authentication method ommited.
             Random random = new Random();
             UpdateUserDTO updateUserDTO = new UpdateUserDTO() {
@@ -180,8 +181,8 @@ namespace ShowerShowIntegrationTest
         [Fact]
         public async Task UpdateUserShouldReturnWithResponseStatusCodeOk()
         {
-            Guid id = Guid.Parse("31aa2d55-8eae-4d00-9daa-5be588aba14d");
-            string requestUri = $"user/{id}";
+           
+            string requestUri = $"user/{testUserId}";
             await Authenticate();
             Random random = new Random();
             UpdateUserDTO updateUserDTO = new UpdateUserDTO()
