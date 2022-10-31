@@ -647,9 +647,9 @@
     ]
   },
   {
-    "name": "GetSchedule",
+    "name": "GetScheduleById",
     "scriptFile": "ShowerShow.dll",
-    "entryPoint": "ShowerShow.Controllers.ScheduleController.GetSchedule",
+    "entryPoint": "ShowerShow.Controllers.ScheduleController.GetScheduleById",
     "language": "dotnet-isolated",
     "properties": {
       "IsCodeless": false

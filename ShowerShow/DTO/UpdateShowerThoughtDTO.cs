@@ -12,6 +12,6 @@ namespace ShowerShow.DTO
         [JsonProperty]
         public bool IsFavorite { get; set; }
         [JsonRequired]
-        public bool IsPublic { get; set; }
+        public bool ShareWithFriends { get; set; }
     }
 }

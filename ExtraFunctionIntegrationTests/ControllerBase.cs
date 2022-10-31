@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit.Abstractions;
 
-namespace ShowerShowIntegrationTest
+namespace ExtraFunctionIntegrationTest
 {
     public class LoginResultDTO
     {

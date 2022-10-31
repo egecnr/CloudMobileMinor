@@ -11,13 +11,16 @@ namespace ShowerShowIntegrationTest
 {
     public class SchedulecontrollerIntegrationTest : ControllerBase
     {
-        public SchedulecontrollerIntegrationTest(ITestOutputHelper outputHelper) : base(outputHelper) { }
-        //Get User By name endpoint
+        public SchedulecontrollerIntegrationTest(ITestOutputHelper outputHelper) : base(outputHelper) {
+            this.client = new HttpClient()
+            {
+                BaseAddress = new Uri($"http://localhost:7177/api/")
+            };
+        }
         private Guid testUserId = Guid.Parse("3c37e2a9-b4e5-402f-aabe-1ad16810f81f");
-        private Guid badUserId = Guid.Parse("3c37e2a9-b4e5-402f-aabe-1ad16810f82d");
+        private Guid testScheduleId = Guid.Parse("a7aa2fbc-0685-4e3f-a733-2fbe16cef7d8");
 
-
-        //Create schedule endpoint
+        #region Create Schedule
         [Fact]
         public async Task CreateScheduleShouldReturnStatusCreated()
         {
@@ -34,6 +37,23 @@ namespace ShowerShowIntegrationTest
             response.StatusCode.Should().Be(HttpStatusCode.Created);
         }
         [Fact]
+        public async Task CreateScheduleShouldReturnBadRequest()
+        {
+            string requestUri = $"schedule/{Guid.NewGuid()}";
+
+            CreateScheduleDTO scheduleDTO = new CreateScheduleDTO()
+            {
+                DaysOfWeek = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Friday },
+                Tags = new List<ScheduleTag> { new ScheduleTag() { Name = "test", ActivityDuration = 30, IsWaterOn = true, waterTemperature = ShowerShow.Model.WaterTemperature.Hot } }
+            };
+
+            HttpContent http = new StringContent(JsonConvert.SerializeObject(scheduleDTO), Encoding.UTF8, "application/json");
+            var response = await client.PostAsync(requestUri, http);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+        #endregion
+        #region Get Schedules
+        [Fact]
         public async Task GetSchedulesShouldReturnAListOfSchedulesWithStatusCodeOk()
         {
             string requestUri = $"schedule/{testUserId}/schedules";
@@ -48,17 +68,20 @@ namespace ShowerShowIntegrationTest
         [Fact]
         public async Task GetSchedulesShouldNotReturnAnythingWithStatusCodeBadRequest()
         {
-            string requestUri = $"schedule/{badUserId}/schedules";
+            string requestUri = $"schedule/{Guid.NewGuid()}/schedules";
 
             var response = await client.GetAsync(requestUri);
 
             var assertVar = await response.Content.ReadAsAsync<List<Schedule>>();
-            assertVar.Count.Should().Be(0);
+            assertVar.Should().BeNull();
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+        #endregion
+        #region Get Schedule By id
+        [Fact]
         public async Task GetScheduleByIdShouldReturnScheduleWithStatusCodeOk()
         {
-            string requestUri = $"schedule/{badUserId}/schedules";
+            string requestUri = $"schedule/{testScheduleId}";
 
             var response = await client.GetAsync(requestUri);
 
@@ -67,177 +90,64 @@ namespace ShowerShowIntegrationTest
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
         [Fact]
-        public async Task GetUserByNameShouldNotReturnUsersWithStatusCodeBadrequest()
+        public async Task GetScheduleByIdShouldReturnBadRequest()
         {
-            string userName = "  asdas  asdasd  asdasd"; //This username would never exist in db so this will always return an empty list
-            string requestUri = $"user/{userName}";
-            await Authenticate();
-
-            var response = await client.GetAsync(requestUri);
-            var assertVar = await response.Content.ReadAsAsync<List<GetUserDTO>>();
-            assertVar.Count.Should().Be(0);
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        }
-        [Fact]
-        public async Task GetUserByNameShouldReturnResponseWithStatusCodeUnauthorized()
-        {
-            string userName = "te"; //For test
-            string requestUri = $"user/{userName}";
-            //Authentication ommitted.
-            var response = await client.GetAsync(requestUri);
-            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-        }
-        //Get user by id endpoint
-        [Fact]
-        public async Task GetUserByIdShouldReturnASingleRecordWithStatusCodeOk()
-        {
-            string requestUri = $"user/{testUserId}";
-            await Authenticate();
+            string requestUri = $"schedule/{Guid.NewGuid()}";
 
             var response = await client.GetAsync(requestUri);
 
-            var assertVar = await response.Content.ReadAsAsync<GetUserDTO>();
-            assertVar.Should().NotBeNull();
-            assertVar.UserName.Should().Be("test");
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-        }
-        [Fact]
-        public async Task GetUserByIdShouldReturnWithResponseStatusCodeUnauthorized()
-        {
-
-            string requestUri = $"user/{testUserId}";
-            //Authentication ommited.
-            var response = await client.GetAsync(requestUri);
-            ;
-            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-        }
-
-        [Fact]
-        public async Task GetUserByIdShouldNotReturnASingleRecordWithStatusCodeBadrequest()
-        {
-            Guid id = Guid.NewGuid();
-            string requestUri = $"user/{id}";
-            await Authenticate();
-
-            var response = await client.GetAsync(requestUri);
-
-            var assertVar = await response.Content.ReadAsAsync<GetUserDTO>();
+            var assertVar = await response.Content.ReadAsAsync<Schedule>();
+            assertVar.Should().BeNull();
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
-
-
-
-
-
+        #endregion
+        #region Delete Schedule
         [Fact]
-        public async Task CreateUserShouldReturnStatusBadRequest()
+        public async Task DeleteScheduleShouldReturnStatusOK()
         {
-            string requestUri = $"user/register";
+            string requestUri = $"schedule/{testUserId}";
 
-            CreateUserDTO userDto = new CreateUserDTO()
+            var response = await client.DeleteAsync(requestUri);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+        [Fact]
+        public async Task DeleteScheduleShouldReturnStatusBadRequest()
+        {
+            string requestUri = $"schedule/{Guid.NewGuid()}";
+
+            var response = await client.DeleteAsync(requestUri);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+        #endregion
+        #region Update Schedule
+        [Fact]
+        public async Task UpdateScheduleShouldReturnStatusOK()
+        {
+            string requestUri = $"schedule/{testScheduleId}";
+            UpdateScheduleDTO updateScheduleDTO = new UpdateScheduleDTO()
             {
-                UserName = "test",
-                PasswordHash = "++!_@#()!+#)@#+)_!@",  // Email and Username already exists in database
-                Email = "test",
-                Name = "George Costanza"
+                DaysOfWeek = new List<DayOfWeek> { DayOfWeek.Wednesday},
+                Tags = new List<ScheduleTag> { new ScheduleTag() { Name = "test22", ActivityDuration = 12, IsWaterOn = false, waterTemperature = ShowerShow.Model.WaterTemperature.Cold } }
             };
-            HttpContent http = new StringContent(JsonConvert.SerializeObject(userDto), Encoding.UTF8, "application/json");
-            var response = await client.PostAsync(requestUri, http);
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
-        }
-        //Deactivate User endpoint
-        [Fact]
-        public async Task DeactivateUserShouldNotUpdateAccountWithStatusCodeBadRequest()
-        {
-            Guid id = Guid.NewGuid();
-            string requestUri = $"user/{id}/true";
-            await Authenticate();
-
-            HttpContent http = new StringContent(JsonConvert.SerializeObject(""), Encoding.UTF8, "application/json");
-            var response = await client.PutAsync(requestUri, http);
-            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        }
-        [Fact]
-        public async Task DeactivateUserShouldUpdateAccountStatusWithStatusCodeOK()
-        {
-
-            string requestUri = $"user/{testUserId}/true";
-            await Authenticate();
-
-            HttpContent http = new StringContent(JsonConvert.SerializeObject(""), Encoding.UTF8, "application/json");
+            HttpContent http = new StringContent(JsonConvert.SerializeObject(updateScheduleDTO), Encoding.UTF8, "application/json");
             var response = await client.PutAsync(requestUri, http);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
         [Fact]
-        public async Task DeactivateUserShouldReturnWithResponseStatusCodeUnauthorized()
+        public async Task UpdateScheduleShouldReturnStatusBadRequest()
         {
-
-            string requestUri = $"user/{testUserId}/true";
-            //Authentication method ommited.
-            HttpContent http = new StringContent(JsonConvert.SerializeObject(""), Encoding.UTF8, "application/json");
-            var response = await client.PutAsync(requestUri, http);
-            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-        }
-        ////Update User endpoint
-
-        [Fact]
-        public async Task UpdateUserShouldReturnWithResponseStatusCodeUnauthorized()
-        {
-
-            string requestUri = $"user/{testUserId}";
-            //Authentication method ommited.
-            Random random = new Random();
-            UpdateUserDTO updateUserDTO = new UpdateUserDTO()
+            string requestUri = $"schedule/{Guid.NewGuid()}";
+            UpdateScheduleDTO updateScheduleDTO = new UpdateScheduleDTO()
             {
-                Name = "ChangedName",
-                UserName = "test",
-                Email = "test",
-                PasswordHash = "ChangedPassword"
+                DaysOfWeek = new List<DayOfWeek> { DayOfWeek.Wednesday },
+                Tags = new List<ScheduleTag> { new ScheduleTag() { Name = "test22", ActivityDuration = 12, IsWaterOn = false, waterTemperature = ShowerShow.Model.WaterTemperature.Cold } }
             };
-            HttpContent http = new StringContent(JsonConvert.SerializeObject(updateUserDTO), Encoding.UTF8, "application/json");
+
+            HttpContent http = new StringContent(JsonConvert.SerializeObject(updateScheduleDTO), Encoding.UTF8, "application/json");
             var response = await client.PutAsync(requestUri, http);
-
-            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
-        }
-        [Fact]
-        public async Task UpdateUserShouldReturnWithResponseStatusCodeOk()
-        {
-
-            string requestUri = $"user/{testUserId}";
-            await Authenticate();
-            Random random = new Random();
-            UpdateUserDTO updateUserDTO = new UpdateUserDTO()
-            {
-                Name = "ChangedName",
-                UserName = "test",
-                Email = "test",
-                PasswordHash = "test"
-            };
-            HttpContent http = new StringContent(JsonConvert.SerializeObject(updateUserDTO), Encoding.UTF8, "application/json");
-            var response = await client.PutAsync(requestUri, http);
-
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-        }
-        [Fact]
-        public async Task UpdateUserShouldReturnWithResponseStatusCodeBadRequestDueToNotHavingRightId()
-        {
-            Guid id = Guid.NewGuid();
-            string requestUri = $"user/{id}";
-            await Authenticate();
-            Random random = new Random();
-            UpdateUserDTO updateUserDTO = new UpdateUserDTO()
-            {
-                Name = "ChangedName",
-                UserName = "test",
-                Email = "test",
-                PasswordHash = "test"
-            };
-            HttpContent http = new StringContent(JsonConvert.SerializeObject(updateUserDTO), Encoding.UTF8, "application/json");
-            var response = await client.PutAsync(requestUri, http);
-
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+        #endregion
     }
 }

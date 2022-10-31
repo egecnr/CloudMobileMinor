@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using ShowerShow.Model;
+using ShowerShow.Models;
 
 namespace ShowerShow.Repository
 {
@@ -46,6 +47,12 @@ namespace ShowerShow.Repository
             });
 
             await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<bool> DoesShowerThoughtExist(Guid id)
+        {
+            await dbContext.SaveChangesAsync();
+            return dbContext.ShowerThoughts.FirstOrDefault(x => x.Id == id) != null;
         }
 
         public async Task<IEnumerable<ShowerThought>> GetAllShowerThoughtsForUser(Guid userId, int limit)
@@ -93,11 +100,12 @@ namespace ShowerShow.Repository
             {
                 // set the new thought
                 thought = GetShowerThoughtById(thoughtId).Result;
-                thought.IsPublic = updatedThought.IsPublic;
-                thought.IsFavorite = updatedThought.IsFavorite;
+
             });
             await getId.ContinueWith(prev =>
             {
+                thought.ShareWithFriends = updatedThought.ShareWithFriends;
+                thought.IsFavorite = updatedThought.IsFavorite;
                 dbContext.ShowerThoughts?.Update(thought);
             });
 

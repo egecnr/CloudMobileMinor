@@ -20,6 +20,9 @@ namespace ShowerShow.Service
 
         public async Task AddScheduleToQueue(CreateScheduleDTO schedule, Guid userId)
         {
+            if (!await userService.CheckIfUserExistAndActive(userId))
+                throw new ArgumentException("The user does not exist or is inactive.");
+
             await scheduleRepository.AddScheduleToQueue(schedule, userId);
         }
 

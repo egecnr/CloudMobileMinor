@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ShowerShow.Service
 {
-    internal class ShowerThoughtService : IShowerThoughtService
+    public class ShowerThoughtService : IShowerThoughtService
     {
         private IShowerThoughtRepository showerThoughtRepository;
         private IUserService userService;
@@ -35,6 +35,11 @@ namespace ShowerShow.Service
             await showerThoughtRepository.DeleteShowerThought(thoughtId);
         }
 
+        public async Task<bool> DoesShowerThoughtExist(Guid id)
+        {
+            return await showerThoughtRepository.DoesShowerThoughtExist(id);
+        }
+
         public async Task<IEnumerable<ShowerThought>> GetAllShowerThoughtsForUser(Guid userId, int limit)
         {
             if (!await userService.CheckIfUserExistAndActive(userId))
@@ -45,6 +50,9 @@ namespace ShowerShow.Service
 
         public async Task<ShowerThought> GetShowerThoughtById(Guid id)
         {
+            if(!await DoesShowerThoughtExist(id))
+                throw new ArgumentException("The shower thought could not be found");
+
             return await showerThoughtRepository.GetShowerThoughtById(id);
         }
 
