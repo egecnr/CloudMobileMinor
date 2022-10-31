@@ -16,12 +16,10 @@ namespace ShowerShow.Repository
     public class ScheduleRepository : IScheduleRepository
     {
         private DatabaseContext dbContext;
-        private IUserRepository userRepository;
 
-        public ScheduleRepository(DatabaseContext dbContext,IUserRepository userRepository)
+        public ScheduleRepository(DatabaseContext dbContext)
         {
             this.dbContext = dbContext;
-            this.userRepository = userRepository;
         }
 
         public async Task AddScheduleToQueue(CreateScheduleDTO schedule, Guid userId)
@@ -47,18 +45,12 @@ namespace ShowerShow.Repository
 
         public async Task CreateSchedule(Schedule schedule)
         {
-            if (!await userRepository.CheckIfUserExistAndActive(schedule.UserId))
-                throw new ArgumentException("The user does not exist or is inactive.");
-
             dbContext.Schedules?.Add(schedule);
             await dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteSchedule(Guid scheduleId)
         {
-            if(!await DoesScheduleExist(scheduleId))
-                throw new ArgumentException("The schedule does not exist.");
-
             Schedule schedule = null;
 
             //this is to give priority to tasks
@@ -82,27 +74,18 @@ namespace ShowerShow.Repository
 
         public async Task<IEnumerable<Schedule>> GetAllSchedules(Guid UserId)
         {
-            if(!await userRepository.CheckIfUserExistAndActive(UserId))
-                throw new ArgumentException("The user does not exist or is inactive.");
-
             await dbContext.SaveChangesAsync();
             return dbContext.Schedules.Where(x => x.UserId == UserId).ToList();
         }
 
         public async Task<Schedule> GetScheduleById(Guid scheduleId)
         {
-            if(!await DoesScheduleExist(scheduleId))
-                throw new ArgumentException("The schedule does not exist.");
-
             await dbContext.SaveChangesAsync();
             return dbContext.Schedules.FirstOrDefault(x => x.Id == scheduleId);
         }
 
         public async Task<Schedule> UpdateSchedule(Guid scheduleId, UpdateScheduleDTO newSchedule)
         {
-            if(!await DoesScheduleExist(scheduleId))
-                throw new ArgumentException("The schedule does not exist.");
-
             Schedule schedule = null;
             //this is to give priority to tasks
             Task getId = Task.Run(() =>

@@ -14,18 +14,14 @@ namespace ShowerShow.Repository
     {
         private DatabaseContext dbContext;
         private IUserFriendRepository userFriendRepository;
-        private IUserRepository userRepository;
 
-        public UserStatisticsRepository(DatabaseContext dbContext, IUserRepository userRepository, IUserFriendRepository userFriendRepository)
+        public UserStatisticsRepository(DatabaseContext dbContext, IUserFriendRepository userFriendRepository)
         {
             this.dbContext = dbContext;
             this.userFriendRepository = userFriendRepository;
-            this.userRepository = userRepository;
         }
         public async Task<Dictionary<Guid, double>> GetFriendRanking(Guid userId, int limit)
         {
-            if (!await userRepository.CheckIfUserExistAndActive(userId))
-                throw new ArgumentException("The user does not exist or is inactive.");
             // get all friends of user
             List<GetUserFriendDTO> friends = (List<GetUserFriendDTO>)await userFriendRepository.GetAllFriendsOfUser(userId);
             Dictionary<Guid, double> ranking = new Dictionary<Guid, double>();
@@ -66,9 +62,6 @@ namespace ShowerShow.Repository
         }
         public async Task<UserDashboard> GetUserDashboard(Guid userId, int amountOfDays)
         {
-            if (!await userRepository.CheckIfUserExistAndActive(userId))
-                throw new ArgumentException("The user does not exist or is inactive.");
-
             List<ShowerData> showers = GetUserShowers(userId, amountOfDays); //get all showers for user for specified amount of days
                                                                              // init variables
             double litersAmount = 0, gasAmount = 0, totalPrice = 0, avgShowerLiters = 0, avgGasUsage = 0, avgShowerTime = 0, avgShowerPrice = 0, totalOvertime = 0;

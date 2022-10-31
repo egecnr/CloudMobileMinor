@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "HcXyvkBAt+FxzfWXC/Z6nm+5nGo0iG/BwKgyXq+bdNADW/eG8cNqDl3N4q6+uS3AkU/k5Aknj194F7RVyrWPcA==",
+  "dgSpecHash": "VzgTEgs+jkEumvJ0nBqrDasv1ZJLaZDdOvHBwxBgAXNwgOOh7GFyn2uCDmJ2InC9ctCipk+mSh0htZH+NHqHTg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Cosmin\\Desktop\\SAWA APP\\SAWA-Backend\\ExtraFunction\\ExtraFunction.csproj",
+  "projectFilePath": "C:\\Users\\Cosmin\\source\\repos\\FunctionApp1\\ExtraFunction\\ExtraFunction.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Cosmin\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\Cosmin\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",

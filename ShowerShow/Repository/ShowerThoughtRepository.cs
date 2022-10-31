@@ -14,19 +14,14 @@ namespace ShowerShow.Repository
     internal class ShowerThoughtRepository : IShowerThoughtRepository
     {
         private DatabaseContext dbContext;
-        private IUserRepository userRepository;
 
-        public ShowerThoughtRepository(DatabaseContext dbContext, IUserRepository userRepository)
+        public ShowerThoughtRepository(DatabaseContext dbContext)
         {
             this.dbContext = dbContext;
-            this.userRepository = userRepository;
         }
 
         public async Task CreateShowerThought(ShowerThoughtDTO thought, Guid showerId, Guid userId)
         {
-            if (!await userRepository.CheckIfUserExistAndActive(userId))
-                throw new ArgumentException("The user does not exist or is inactive.");
-
             Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<ShowerThoughtDTO, ShowerThought>()));
             ShowerThought fullThought = mapper.Map<ShowerThought>(thought);
             fullThought.ShowerId = showerId;
@@ -55,9 +50,7 @@ namespace ShowerShow.Repository
 
         public async Task<IEnumerable<ShowerThought>> GetAllShowerThoughtsForUser(Guid userId, int limit)
         {
-            if (!await userRepository.CheckIfUserExistAndActive(userId))
-                throw new ArgumentException("The user does not exist or is inactive.");
-
+            await dbContext.SaveChangesAsync();
             // get all thoughts with that USER id, and return only the limit amount
             return dbContext.ShowerThoughts.Where(x => x.UserId == userId).Take(limit).ToList();
         }
@@ -70,9 +63,7 @@ namespace ShowerShow.Repository
 
         public async Task<IEnumerable<ShowerThought>> GetShowerThoughtsByDate(DateTime date, Guid userId)
         {
-            if (!await userRepository.CheckIfUserExistAndActive(userId))
-                throw new ArgumentException("The user does not exist or is inactive.");
-
+            await dbContext.SaveChangesAsync();
             // return all thoughts for user that are for the specified date
             // only year, month and day are relevant
             return dbContext.ShowerThoughts?.Where(x => x.UserId == userId).ToList()
@@ -89,9 +80,7 @@ namespace ShowerShow.Repository
 
         public async Task<IEnumerable<ShowerThought>> GetThoughtsByContent(string searchWord, Guid userId)
         {
-            if (!await userRepository.CheckIfUserExistAndActive(userId))
-                throw new ArgumentException("The user does not exist or is inactive.");
-
+            await dbContext.SaveChangesAsync();
             //search if the title or the content contains the search word
             return dbContext.ShowerThoughts?.Where(x => x.UserId == userId && (x.Title.ToLower().Contains(searchWord) || x.Text.ToLower().Contains(searchWord))).ToList();
         }

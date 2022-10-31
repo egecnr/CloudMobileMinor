@@ -11,7 +11,6 @@ namespace ShowerShow.Repository
 {
     public class BlobStorageRepository : IBlobStorageRepository
     {
-        private IUserRepository userRepository;
         //containers and connection strings
         private string profilePicContainerString = Environment.GetEnvironmentVariable("ContainerProfilePictures");
         private string voicesContainerString = Environment.GetEnvironmentVariable("ContainerDefaultVoices");
@@ -23,9 +22,8 @@ namespace ShowerShow.Repository
         private CloudBlobContainer profilePicContainer;
         private CloudBlobContainer voicesContainer;
 
-        public BlobStorageRepository(IUserRepository userRepository)
+        public BlobStorageRepository()
         {
-            this.userRepository = userRepository;
             // initialize account & containers
             account = CloudStorageAccount.Parse(connection);
             blobClient = account.CreateCloudBlobClient();
@@ -35,9 +33,6 @@ namespace ShowerShow.Repository
         }
         public async Task DeleteProfilePicture(Guid userId)
         {
-            if (!await userRepository.CheckIfUserExistAndActive(userId))
-                throw new ArgumentException("The user does not exist or is inactive.");
-
             // get the picture blob
             CloudBlockBlob blockBlob = profilePicContainer.GetBlockBlobReference(userId.ToString() + ".png");
          
@@ -49,8 +44,6 @@ namespace ShowerShow.Repository
 
         public async Task<HttpResponseData> GetProfilePictureOfUser(HttpResponseData response, Guid userId)
         {
-            if (!await userRepository.CheckIfUserExistAndActive(userId))
-                throw new ArgumentException("The user does not exist or is inactive.");
 
             //get the picture blob
             CloudBlockBlob blockBlob = profilePicContainer.GetBlockBlobReference(userId.ToString() + ".png");
@@ -82,9 +75,6 @@ namespace ShowerShow.Repository
 
         public async Task UploadProfilePicture(Stream requestBody, Guid userId)
         {
-            if (!await userRepository.CheckIfUserExistAndActive(userId))
-                throw new ArgumentException("The user does not exist or is inactive.");
-
             // parse a Stream to a form
             var parsedFormBody = MultipartFormDataParser.ParseAsync(requestBody);
             // get the form's first file
