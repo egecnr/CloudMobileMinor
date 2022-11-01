@@ -459,3 +459,4 @@ C:\Users\fabio\Documents\GitHub\SAWA-Backend\ExtraFunctionIntegrationTests\bin\D
 C:\Users\fabio\Documents\GitHub\SAWA-Backend\ExtraFunctionIntegrationTests\obj\Debug\net6.0\ExtraFunctionIntegrationTests.csproj.CopyComplete
 C:\Users\fabio\Documents\GitHub\SAWA-Backend\ExtraFunctionIntegrationTests\obj\Debug\net6.0\ExtraFunctionIntegrationTests.genruntimeconfig.cache
 C:\Users\fabio\Documents\GitHub\SAWA-Backend\ExtraFunctionIntegrationTests\obj\Debug\net6.0\ref\ExtraFunctionIntegrationTests.dll
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunctionIntegrationTests\bin\Debug\net6.0\FluentAssertions.dll

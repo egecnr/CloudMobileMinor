@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShowIntegrationTest\\ShowerShowIntegrationTest.csproj": {}
+    "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShowIntegrationTest\\ShowerShowIntegrationTest.csproj": {}
   },
   "projects": {
-    "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShowIntegrationTest\\ShowerShowIntegrationTest.csproj": {
+    "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShowIntegrationTest\\ShowerShowIntegrationTest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShowIntegrationTest\\ShowerShowIntegrationTest.csproj",
+        "projectUniqueName": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShowIntegrationTest\\ShowerShowIntegrationTest.csproj",
         "projectName": "ShowerShowIntegrationTest",
-        "projectPath": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShowIntegrationTest\\ShowerShowIntegrationTest.csproj",
-        "packagesPath": "C:\\Users\\fabio\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShowIntegrationTest\\obj\\",
+        "projectPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShowIntegrationTest\\ShowerShowIntegrationTest.csproj",
+        "packagesPath": "C:\\Users\\31683\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShowIntegrationTest\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\fabio\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\31683\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +31,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj": {
-                "projectPath": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj"
+              "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj": {
+                "projectPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj"
               }
             }
           }
@@ -89,17 +92,20 @@
         }
       }
     },
-    "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj": {
+    "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj",
+        "projectUniqueName": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj",
         "projectName": "ShowerShow",
-        "projectPath": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj",
-        "packagesPath": "C:\\Users\\fabio\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShow\\obj\\",
+        "projectPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj",
+        "packagesPath": "C:\\Users\\31683\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\fabio\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\31683\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
