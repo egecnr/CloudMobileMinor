@@ -13310,23 +13310,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\31683\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\fabio\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ExtraFunctionIntegrationTests\\ExtraFunctionIntegrationTests.csproj",
+      "projectUniqueName": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ExtraFunctionIntegrationTests\\ExtraFunctionIntegrationTests.csproj",
       "projectName": "ExtraFunctionIntegrationTests",
-      "projectPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ExtraFunctionIntegrationTests\\ExtraFunctionIntegrationTests.csproj",
-      "packagesPath": "C:\\Users\\31683\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ExtraFunctionIntegrationTests\\obj\\",
+      "projectPath": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ExtraFunctionIntegrationTests\\ExtraFunctionIntegrationTests.csproj",
+      "packagesPath": "C:\\Users\\fabio\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ExtraFunctionIntegrationTests\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\31683\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\fabio\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -13340,8 +13336,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ExtraFunction\\ExtraFunction.csproj": {
-              "projectPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ExtraFunction\\ExtraFunction.csproj"
+            "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ExtraFunction\\ExtraFunction.csproj": {
+              "projectPath": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ExtraFunction\\ExtraFunction.csproj"
             }
           }
         }

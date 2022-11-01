@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using Xunit.Abstractions;
 
-namespace ExtraFunctionIntegrationTest
+namespace ShowerShowIntegrationTest
 {
     public class UserControllerIntegrationTest :ControllerBase
     {

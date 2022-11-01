@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShowUnitTest\\ShowerShowUnitTest.csproj": {}
+    "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShowUnitTest\\ShowerShowUnitTest.csproj": {}
   },
   "projects": {
-    "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShowUnitTest\\ShowerShowUnitTest.csproj": {
+    "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShowUnitTest\\ShowerShowUnitTest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShowUnitTest\\ShowerShowUnitTest.csproj",
+        "projectUniqueName": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShowUnitTest\\ShowerShowUnitTest.csproj",
         "projectName": "ShowerShowUnitTest",
-        "projectPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShowUnitTest\\ShowerShowUnitTest.csproj",
-        "packagesPath": "C:\\Users\\31683\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShowUnitTest\\obj\\",
+        "projectPath": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShowUnitTest\\ShowerShowUnitTest.csproj",
+        "packagesPath": "C:\\Users\\fabio\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShowUnitTest\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\31683\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\fabio\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -31,8 +28,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj": {
-                "projectPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj"
+              "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj": {
+                "projectPath": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj"
               }
             }
           }
@@ -92,20 +89,17 @@
         }
       }
     },
-    "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj": {
+    "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj",
+        "projectUniqueName": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj",
         "projectName": "ShowerShow",
-        "projectPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj",
-        "packagesPath": "C:\\Users\\31683\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\obj\\",
+        "projectPath": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj",
+        "packagesPath": "C:\\Users\\fabio\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\fabio\\Documents\\GitHub\\SAWA-Backend\\ShowerShow\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\31683\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\fabio\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

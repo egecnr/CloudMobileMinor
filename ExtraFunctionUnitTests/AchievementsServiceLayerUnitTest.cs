@@ -113,34 +113,6 @@ namespace ExtraFunctionUnitTests
 
             Func<Task> act = async () => await _achievementService.UpdateAchievementByIdAndTitle(mockUser.Achievements[0].Title, mockUser.Id, 69);
             await act.Should().NotThrowAsync<Exception>();
-
-
-
-            //Achievement achievementt = new Achievement("Perfect week", "Using sawa as 7 times a week", 0, 7);
-
-
-
-
-
-
-            ////Arrange
-            //string email = "mockEmail";
-            //string username = "mockname";
-            //Guid id = Guid.NewGuid();
-            //userRepositoryMock.Setup(u => u.CheckIfUserExistAndActive(id)).ReturnsAsync(true);
-            //userRepositoryMock.Setup(u => u.CheckIfEmailExist(email)).ReturnsAsync(false);
-            //userRepositoryMock.Setup(u => u.CheckIfUserNameExist(username)).ReturnsAsync(false);
-
-            //UpdateUserDTO us = new UpdateUserDTO()
-            //{
-            //    Email = email,
-            //    UserName = username
-            //};
-            ////Act
-            //Func<Task> act = async () => await sut.UpdateUser(id, us);
-            ////Assert
-            //await act.Should().NotThrowAsync<Exception>();
-
         }
 
 
