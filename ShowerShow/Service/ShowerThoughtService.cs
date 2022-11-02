@@ -32,6 +32,8 @@ namespace ShowerShow.Service
 
         public async Task DeleteShowerThought(Guid thoughtId)
         {
+            if (!await DoesShowerThoughtExist(thoughtId))
+                throw new ArgumentException("The shower thought could not be found");
             await showerThoughtRepository.DeleteShowerThought(thoughtId);
         }
 
@@ -79,6 +81,8 @@ namespace ShowerShow.Service
 
         public async Task<ShowerThought> UpdateThought(Guid thoughtId, UpdateShowerThoughtDTO updatedThought)
         {
+            if (!await DoesShowerThoughtExist(thoughtId))
+                throw new ArgumentException("The shower thought could not be found");
             return await showerThoughtRepository.UpdateThought(thoughtId, updatedThought);
         }
     }
