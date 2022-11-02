@@ -31,6 +31,8 @@ namespace ExtraFunction.Service_
             {
                 return await _achievementRepository.GetAchievementByIdAndTitle(achievementTitle, userId);
             }
+
+
             else
             {
                 throw new Exception("User does not exist");
@@ -64,6 +66,7 @@ namespace ExtraFunction.Service_
 
             //await _achievementRepository.UpdateAchievementByIdAndTitle(achievementTitle, userId, currentValue);
         }
+
 
     }
 }

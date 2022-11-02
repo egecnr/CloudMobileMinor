@@ -68,9 +68,7 @@ namespace ExtraFunction.Control
         public async Task<HttpResponseData> GetAchievementByIdAndTitle([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{UserId}/achievement/{achievementTitle}")] HttpRequestData req, Guid UserId, string achievementTitle, FunctionContext functionContext)
         {
             _logger.LogInformation("Getting achievement by title");
-
             HttpResponseData responseData = req.CreateResponse();
-
             try
             {
                 if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
@@ -79,20 +77,21 @@ namespace ExtraFunction.Control
                     return responseData;
 
                 }
-
                 Achievement achievement = await _achievementService.GetAchievementByIdAndTitle(achievementTitle, UserId);
+                if (achievement == null)
+                {
+                    responseData.StatusCode = HttpStatusCode.NotFound;
+                    return responseData;
+                }
                 responseData.StatusCode = HttpStatusCode.OK;
                 await responseData.WriteAsJsonAsync(achievement);
-
             }
             catch (Exception e)
             {
-
                 responseData.StatusCode = HttpStatusCode.BadRequest;
                 responseData.Headers.Add("Reason", e.Message);
             }
             return responseData;
-
         }
         [Function(nameof(UpdateAchievementByIdAndTitle))]
         [OpenApiOperation(operationId: "UpdateAchievement", tags: new[] { "Achievement" })]

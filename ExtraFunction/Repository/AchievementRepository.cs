@@ -23,7 +23,7 @@ namespace ExtraFunction.Repository_
         public async Task<Achievement> GetAchievementByIdAndTitle(string achievementTitle, Guid userId)
         {
             await _databaseContext.SaveChangesAsync();
-            return _databaseContext.Users.FirstOrDefault(x => x.Id == userId).Achievements.FirstOrDefault(y => y.Title == achievementTitle);  
+            return _databaseContext.Users.FirstOrDefault(x => x.Id == userId)?.Achievements.FirstOrDefault(y => y.Title == achievementTitle) ?? null ;  
         }
 
         public async Task<List<Achievement>> GetAchievementsById(Guid userId)
