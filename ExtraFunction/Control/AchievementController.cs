@@ -43,7 +43,7 @@ namespace ExtraFunction.Control
                     responseData.StatusCode = HttpStatusCode.Unauthorized;
                     return responseData;
                 }
-                Task<List<Achievement>> achievements = _achievementService.GetAchievementsById(UserId);
+                List<Achievement> achievements = await _achievementService.GetAchievementsById(UserId);
                 responseData.StatusCode = HttpStatusCode.OK;
                 await responseData.WriteAsJsonAsync(achievements);
 
@@ -80,7 +80,7 @@ namespace ExtraFunction.Control
 
                 }
 
-                Task<Achievement> achievement = _achievementService.GetAchievementByIdAndTitle(achievementTitle, UserId);
+                Achievement achievement = await _achievementService.GetAchievementByIdAndTitle(achievementTitle, UserId);
                 responseData.StatusCode = HttpStatusCode.OK;
                 await responseData.WriteAsJsonAsync(achievement);
 

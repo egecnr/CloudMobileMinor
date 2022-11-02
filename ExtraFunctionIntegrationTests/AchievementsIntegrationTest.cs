@@ -27,7 +27,7 @@ namespace ExtraFunctionIntegrationTests
         //cd extrafunction -> func start --port 7075
 
         //string requestUr = "\"user/{UserId:Guid}/achievements\"";
-        Guid testId = Guid.Parse("10cad932-fb7f-4dcc-abec-58a44e691b15");
+        Guid testId = Guid.Parse("31aa2d55-8eae-4d00-9daa-5be588aba14d");
 
         public AchievementsIntegrationTest(ITestOutputHelper outputHelper) : base(outputHelper)
         {
@@ -42,58 +42,15 @@ namespace ExtraFunctionIntegrationTests
             await Authenticate();
 
 
-
-
-
             var response = await client.GetAsync(requestUri);
             outputHelper.WriteLine(response.Content.ToString());
-            //var results = JsonConvert.DeserializeObject<List<Achievement>>(response.Content);
-            //var assertVar = await response.Content.ReadAsAsync<List<Achievement>>();
-            //assertVar.Should().NotBeNull();
-            //assertVar.Count.Should().BeGreaterThanOrEqualTo(1);
+            var assertVar = await response.Content.ReadAsAsync<List<Achievement>>();
+            assertVar.Should().NotBeNull();
+            assertVar.Count.Should().BeGreaterThanOrEqualTo(14);
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-
-
-
-
-
-
-
-
-
-
-            //string requestUri = $"user/{testId}/achievements";
-            //await Authenticate();
-
-
-
-            //var response = await client.GetAsync(requestUri);
-
-            //var assertVar = await response.Content.ReadAsAsync<List<Achievement>>();
-
-            //var result = response.Content.ReadAsStringAsync().Result;
-
-            //var caralho = JsonSerializer.DeserializeAsync<List<Achievement>>(result);
-
-            //var result = response.Content.ReadAsStringAsync();
-
-            //var serializerOptions = new JsonSerializerOptions
-            //{
-            //    PropertyNameCaseInsensitive = false
-
-
-            //List<Achievement> achievements = JsonConvert.DeserializeObject<List<Achievement>>(result);
-
-            // Achievement[] achievementsArray = JsonConvert.DeserializeObject<Achievement[]>(assertVar);
-            //List<Achievement> myDeserializedObjList = (List<Achievement>)JsonConvert.DeserializeObject(Request[requestUri], typeof(List<Achievement>));
-
-
-            //achievements.Should().NotBeNull();
-            //achievements.Count.Should().BeGreaterThanOrEqualTo(1);
-            // response.StatusCode.Should().Be(HttpStatusCode.OK); //no assert true. this is the reccomended approach. 
         }
-       
+
         [Fact]
         public async Task Get_Achievements_By_Id_Should_Return_Bad_Request()
         {
@@ -107,7 +64,7 @@ namespace ExtraFunctionIntegrationTests
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
         [Fact]
-        public async Task Get_Achievements_By_Should_Fail_If_Not_Authorized()
+        public async Task Get_Achievements_By_Id_Should_Fail_If_Not_Authorized()
         {
             Guid wrongId = Guid.NewGuid();
             string requestUri = $"user/{wrongId}/achievements";
@@ -118,5 +75,118 @@ namespace ExtraFunctionIntegrationTests
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
 
         }
+        [Fact]
+        public async Task Get_Achievement_By_Id_And_Title_Should_Return_One_Achievement()
+        {
+
+            string title = "Perfect week";
+            string requestUri = $"user/{testId}/achievement/{title}";
+            await Authenticate();
+
+
+            var response = await client.GetAsync(requestUri);
+
+            var assertVar = await response.Content.ReadAsAsync<Achievement>();
+
+            assertVar.Should().NotBeNull();
+            assertVar.Should().BeAssignableTo<Achievement>();  // when comparing one object//!!!! LETS GO
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+
+        }
+
+        [Fact]
+        public async Task Get_Achievement_By_Id_And_Title_Should_Return_Bad_Request()
+        {
+            string title = "Perfect week";
+            Guid wrongId = Guid.NewGuid();
+            string requestUri = $"user/{wrongId}/achievement/{title}";
+            await Authenticate();
+
+            var response = await client.GetAsync(requestUri);
+
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+        }
+        [Fact]
+        public async Task Get_Achievement_By_Id_And_Title_Should_Fail_If_Not_Authorized()
+        {
+            string title = "Perfect week";
+            Guid wrongId = Guid.NewGuid();
+            string requestUri = $"user/{wrongId}/achievement/{title}";
+
+            var response = await client.GetAsync(requestUri);
+
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+
+
+        }
+
+        [Fact]
+        public async Task Update_Achievement_By_Id_And_Title_Should_Return_Status_Ok() //achievementTitle, UserId, CurrentValue
+        {
+            int changedValue = 79;
+
+            UpdateAchievementDTO updateAchievementDTO = new UpdateAchievementDTO()
+            {
+
+                CurrentValue = changedValue
+            };
+
+            string title = "Perfect week";
+            string requestUri = $"user/{testId}/achievement/{title}";
+            await Authenticate();
+
+            // var response = await client.GetAsync(requestUri);
+
+            HttpContent http = new StringContent(JsonConvert.SerializeObject(updateAchievementDTO), Encoding.UTF8, "application/json");
+            var response = await client.PutAsync(requestUri, http);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+
+        }
+
+        [Fact]
+        public async Task Update_Achievement_By_Id_And_Title_Should_Return_Bad_Request()
+        {
+            int changedValue = 79;
+
+            UpdateAchievementDTO updateAchievementDTO = new UpdateAchievementDTO()
+            {
+
+                CurrentValue = changedValue
+            };
+            Guid wrongId = Guid.NewGuid();
+            string title = "Perfect week";
+            string requestUri = $"user/{wrongId}/achievement/{title}";
+            await Authenticate();
+
+            HttpContent http = new StringContent(JsonConvert.SerializeObject(updateAchievementDTO), Encoding.UTF8, "application/json");
+            var response = await client.PutAsync(requestUri, http);
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+        }
+
+        [Fact]
+        public async Task Update_Achievement_By_Id_And_Title_Fail_If_Not_Authorized()
+        {
+            int changedValue = 79;
+
+            UpdateAchievementDTO updateAchievementDTO = new UpdateAchievementDTO()
+            {
+
+                CurrentValue = changedValue
+            };
+
+            string title = "Perfect week";
+            string requestUri = $"user/{testId}/achievement/{title}";
+
+            HttpContent http = new StringContent(JsonConvert.SerializeObject(updateAchievementDTO), Encoding.UTF8, "application/json");
+            var response = await client.PutAsync(requestUri, http);
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+
+        }
+
+
     }
 }
