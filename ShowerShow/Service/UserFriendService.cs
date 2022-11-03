@@ -25,13 +25,14 @@ namespace ShowerShow.Service
             {
                 throw new Exception("User don't exist.");
             }
-            else if (!await CheckFriendStatusIsResponseRequired(userId, friendId))
-            {
-                throw new Exception($"Only the user with id {friendId} can accept friend requests since user with id {userId} sent the request");
-            }
             else if (!await CheckIfUserIsAlreadyFriend(userId, friendId))
             {
                 throw new Exception("Users dont have pending requests with each other");
+
+            }
+            else if (!await CheckFriendStatusIsResponseRequired(userId, friendId))
+            {
+                throw new Exception($"Only the user with id {friendId} can accept friend requests since user with id {userId} sent the request");
             }
             else 
             { 

@@ -56,5 +56,20 @@ namespace ShowerShowIntegrationTest
             await Authenticate();
             var response = await client.DeleteAsync(requestUri);
         }
+        
+        public async Task CreateUserFriend(Guid testUserId1, Guid testUserId2)
+        {
+            string requestUri = $"user/{testUserId1}/friends/{testUserId2}";
+            await Authenticate();
+            HttpContent http = new StringContent("", Encoding.UTF8, "application/json");
+            var response = await client.PostAsync(requestUri, http);
+        }
+        public async Task FlushUserFriend(Guid id1, Guid id2)
+        {
+            string requestUri = $"user/{id1}/friends/{id2}";
+            await Authenticate();
+
+            var response = await client.DeleteAsync(requestUri);
+        }
     }
 }
