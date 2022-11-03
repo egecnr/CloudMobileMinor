@@ -21,5 +21,6 @@ namespace ShowerShow.DTO
 
         [JsonRequired]
         public Guid ScheduleId { get; set; }
+        public int Overtime { get; set; }
     }
 }
