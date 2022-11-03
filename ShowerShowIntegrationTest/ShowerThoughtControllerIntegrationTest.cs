@@ -7,7 +7,6 @@ using ShowerShowIntegrationTest;
 using System.Net;
 using System.Text;
 using Xunit.Abstractions;
-using DayOfWeek = ShowerShow.Models.DayOfWeek;
 
 namespace ShowerThoughtControllerIntegrationTest
 {
@@ -20,7 +19,7 @@ namespace ShowerThoughtControllerIntegrationTest
                 BaseAddress = new Uri($"http://localhost:7177/api/")
             };
         }
-        private Guid testUserId = Guid.Parse("3c37e2a9-b4e5-402f-aabe-1ad16810f81f");
+        private Guid testUserId = Guid.Parse("31aa2d55-8eae-4d00-9daa-5be588aba14d");
         private Guid testShowerThoughtId = Guid.Parse("9d3fb42e-1fa2-4b9b-b3f6-876860a1a8ac");
         private Guid testShowerId = Guid.Parse("f9f95c1c-852f-4440-9e6d-742a5005b6db");
 
@@ -38,7 +37,6 @@ namespace ShowerThoughtControllerIntegrationTest
                 DateTime = DateTime.Now,
                 IsFavorite = false
             };
-
             HttpContent http = new StringContent(JsonConvert.SerializeObject(showerThoughtDTO), Encoding.UTF8, "application/json");
             var response = await client.PostAsync(requestUri, http);
             response.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -172,36 +170,36 @@ namespace ShowerThoughtControllerIntegrationTest
         }
         #endregion
         #region Update Thoughts
-        /*  [Fact]
-          public async Task UpdateThoughtShouldReturnOK()
-          {
-              string requestUri = $"shower/thoughts/{testShowerThoughtId}";
-              await Authenticate();
-              UpdateShowerThoughtDTO updateThought = new UpdateShowerThoughtDTO()
-              {
-                  IsFavorite = false,
-                  ShareWithFriends = true
-              };
-              HttpContent http = new StringContent(JsonConvert.SerializeObject(updateThought), Encoding.UTF8, "application/json");
-              var response = await client.PutAsync(requestUri, http);
+        [Fact]
+        public async Task UpdateThoughtShouldReturnOK()
+        {
+            string requestUri = $"shower/thoughts/{testShowerThoughtId}";
+            await Authenticate();
+            UpdateShowerThoughtDTO updateThought = new UpdateShowerThoughtDTO()
+            {
+                IsFavorite = false,
+                ShareWithFriends = true
+            };
+            HttpContent http = new StringContent(JsonConvert.SerializeObject(updateThought), Encoding.UTF8, "application/json");
+            var response = await client.PutAsync(requestUri, http);
 
-              response.StatusCode.Should().Be(HttpStatusCode.OK);
-          }
-          [Fact]
-          public async Task UpdateThoughtShouldReturnBadRequest()
-          {
-              string requestUri = $"shower/thoughts/{Guid.NewGuid()}";
-              await Authenticate();
-              UpdateShowerThoughtDTO updateThought = new UpdateShowerThoughtDTO()
-              {
-                  IsFavorite = false,
-                  ShareWithFriends = true
-              };
-              HttpContent http = new StringContent(JsonConvert.SerializeObject(updateThought), Encoding.UTF8, "application/json");
-              var response = await client.PutAsync(requestUri, http);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+        [Fact]
+        public async Task UpdateThoughtShouldReturnBadRequest()
+        {
+            string requestUri = $"shower/thoughts/{Guid.NewGuid()}";
+            await Authenticate();
+            UpdateShowerThoughtDTO updateThought = new UpdateShowerThoughtDTO()
+            {
+                IsFavorite = false,
+                ShareWithFriends = true
+            };
+            HttpContent http = new StringContent(JsonConvert.SerializeObject(updateThought), Encoding.UTF8, "application/json");
+            var response = await client.PutAsync(requestUri, http);
 
-              response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-          }*/
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
         #endregion
     }
 }

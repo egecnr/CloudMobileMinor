@@ -19,7 +19,7 @@ namespace ShowerShowIntegrationTest
                 BaseAddress = new Uri($"http://localhost:7177/api/")
             };
         }
-        private Guid testUserId = Guid.Parse("3c37e2a9-b4e5-402f-aabe-1ad16810f81f");
+        private Guid testUserId = Guid.Parse("31aa2d55-8eae-4d00-9daa-5be588aba14d");
 
         #region Get Friends Ranking
         [Fact]

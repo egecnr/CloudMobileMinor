@@ -1,8 +1,7 @@
-﻿using FluentAssertions;
+﻿using ExtraFunction.Model;
+using FluentAssertions;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using ShowerShow.DTO;
-using ShowerShow.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

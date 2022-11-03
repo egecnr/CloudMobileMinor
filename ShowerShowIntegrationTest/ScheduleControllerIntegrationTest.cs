@@ -1,7 +1,10 @@
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
+using Moq;
 using Newtonsoft.Json;
 using ShowerShow.DTO;
 using ShowerShow.Models;
+using ShowerShow.Repository.Interface;
 using System.Net;
 using System.Text;
 using Xunit.Abstractions;
@@ -17,25 +20,36 @@ namespace ShowerShowIntegrationTest
                 BaseAddress = new Uri($"http://localhost:7177/api/")
             };
         }
-        private Guid testUserId = Guid.Parse("3c37e2a9-b4e5-402f-aabe-1ad16810f81f");
-        private Guid testScheduleId = Guid.Parse("a7aa2fbc-0685-4e3f-a733-2fbe16cef7d8");
+        private Guid testUserId = Guid.Parse("31aa2d55-8eae-4d00-9daa-5be588aba14d");
+        private Guid testScheduleId = Guid.Parse("a6bf9dfc-ba06-48a5-9aff-a45db038b30e");
+        private Mock<IScheduleRepository> scheduleRepositoryMock = new Mock<IScheduleRepository>();
 
         #region Create Schedule
-        [Fact]
-        public async Task CreateScheduleShouldReturnStatusCreated()
+
+       /* private async Task<DbContext> GetDatabaseContext()
         {
-            string requestUri = $"schedule/{testUserId}";
-
-            CreateScheduleDTO scheduleDTO = new CreateScheduleDTO()
+            var options = new DbContextOptionsBuilder<DbContext>()
+                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+                .Options;
+            var databaseContext = new DatabaseContext(options);
+            databaseContext.Database.EnsureCreated();
+            if (await databaseContext.Users.CountAsync() <= 0)
             {
-                DaysOfWeek = new List<DayOfWeek> { DayOfWeek.Monday,DayOfWeek.Friday},
-                Tags = new List<ScheduleTag> { new ScheduleTag() { Name = "test",ActivityDuration = 30, IsWaterOn = true, waterTemperature = ShowerShow.Model.WaterTemperature.Hot} }
-            };
-
-            HttpContent http = new StringContent(JsonConvert.SerializeObject(scheduleDTO), Encoding.UTF8, "application/json");
-            var response = await client.PostAsync(requestUri, http);
-            response.StatusCode.Should().Be(HttpStatusCode.Created);
-        }
+                for (int i = 1; i <= 10; i++)
+                {
+                    databaseContext.Users.Add(new User()
+                    {
+                        Id = i,
+                        Email = $"testuser{i}@example.com",
+                        IsLocked = false,
+                        CreatedBy = "SYSTEM",
+                        CreatedDate = DateTime.UtcNow
+                    });
+                    await databaseContext.SaveChangesAsync();
+                }
+            }
+            return databaseContext;
+        }*/
         [Fact]
         public async Task CreateScheduleShouldReturnBadRequest()
         {
@@ -50,6 +64,22 @@ namespace ShowerShowIntegrationTest
             HttpContent http = new StringContent(JsonConvert.SerializeObject(scheduleDTO), Encoding.UTF8, "application/json");
             var response = await client.PostAsync(requestUri, http);
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+        [Fact]
+        public async Task CreateScheduleShouldReturnStatusCreated()
+        {
+            string requestUri = $"schedule/{testUserId}";
+
+            CreateScheduleDTO scheduleDTO = new CreateScheduleDTO()
+            {
+                DaysOfWeek = new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Friday },
+                Tags = new List<ScheduleTag> { new ScheduleTag() { Name = "test", ActivityDuration = 30, IsWaterOn = true, waterTemperature = ShowerShow.Model.WaterTemperature.Hot } }
+            };
+
+            HttpContent http = new StringContent(JsonConvert.SerializeObject(scheduleDTO), Encoding.UTF8, "application/json");
+            
+            var response = await client.PostAsync(requestUri, http);
+            response.StatusCode.Should().Be(HttpStatusCode.Created);
         }
         #endregion
         #region Get Schedules
@@ -149,5 +179,6 @@ namespace ShowerShowIntegrationTest
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
         #endregion
+
     }
 }
