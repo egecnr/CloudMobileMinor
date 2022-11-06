@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
@@ -9,15 +8,10 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System;
-using ShowerShow.Models;
 using ShowerShow.DTO;
 using ShowerShow.Repository.Interface;
 using System.Collections.Generic;
-using System.Collections;
 using ShowerShow.Model;
-using ShowerShow.Service;
-using System.Configuration;
-using System.ComponentModel.DataAnnotations;
 using ShowerShow.Authorization;
 
 namespace ShowerShow.Controllers
@@ -41,29 +35,30 @@ namespace ShowerShow.Controllers
         [OpenApiParameter(name: "ShowerId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The ShowerId parameter")]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Query, Required = false, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(ShowerThought), Description = "The OK response with the new thought.")]
-        public async Task<HttpResponseData> CreateShowerThought([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "shower/thoughts/{ShowerId:Guid}")] HttpRequestData req, Guid ShowerId, Guid UserId,FunctionContext functionContext)
+        public async Task<HttpResponseData> CreateShowerThought([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "shower/thoughts/{ShowerId:Guid}")] HttpRequestData req, Guid ShowerId, Guid UserId, FunctionContext functionContext)
         {
             _logger.LogInformation("Creating new thought.");
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             HttpResponseData responseData = req.CreateResponse();
-            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            try
             {
-                responseData.StatusCode = HttpStatusCode.Unauthorized;
-                return responseData;
-            }
-            if (await userService.CheckIfUserExistAndActive(UserId))
-            {
-               // passing both shower id and user id because I dont have a ShowerData class
-               // later get UserId based on ShowerId
+                if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+                {
+                    responseData.StatusCode = HttpStatusCode.Unauthorized;
+                    return responseData;
+                }
+                // passing both shower id and user id because I dont have a ShowerData class
+                // later get UserId based on ShowerId
                 ShowerThoughtDTO data = JsonConvert.DeserializeObject<ShowerThoughtDTO>(requestBody);
-                await showerThoughtService.CreateShowerThought(data,ShowerId,UserId);
+                await showerThoughtService.CreateShowerThought(data, ShowerId, UserId);
                 await responseData.WriteAsJsonAsync(data);
                 responseData.StatusCode = HttpStatusCode.Created;
                 return responseData;
             }
-            else
+            catch (Exception ex)
             {
                 responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
             }
         }
@@ -72,10 +67,9 @@ namespace ShowerShow.Controllers
         [OpenApiOperation(operationId: "DeleteShowerThought", tags: new[] { "Shower Thoughts" })]
         [OpenApiParameter(name: "ThoughtId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The ShowerThought ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerThought), Description = "The OK response with the deleted thought")]
-        public async Task<HttpResponseData> DeleteShowerThought([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "shower/thoughts/{ThoughtId:Guid}")] HttpRequestData req, Guid ThoughtId,FunctionContext functionContext)
+        public async Task<HttpResponseData> DeleteShowerThought([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "shower/thoughts/{ThoughtId:Guid}")] HttpRequestData req, Guid ThoughtId, FunctionContext functionContext)
         {
             _logger.LogInformation("Deleting thought.");
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             HttpResponseData responseData = req.CreateResponse();
             if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
             {
@@ -84,25 +78,14 @@ namespace ShowerShow.Controllers
             }
             try
             {
-                ShowerThought thought = null;
-
-                //this is to give priority to tasks
-                Task getId = Task.Run(() =>
-                {
-                    thought = showerThoughtService.GetShowerThoughtById(ThoughtId).Result;
-                });
-                await getId.ContinueWith(prev =>
-                {
-                    showerThoughtService.DeleteShowerThought(thought);
-                });
+                await showerThoughtService.DeleteShowerThought(ThoughtId);
                 responseData.StatusCode = HttpStatusCode.OK;
-                await responseData.WriteAsJsonAsync(thought);
                 return responseData;
-
             }
-            catch
+            catch (Exception ex)
             {
                 responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
             }
         }
@@ -114,7 +97,6 @@ namespace ShowerShow.Controllers
         public async Task<HttpResponseData> GetThoughtById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "shower/thoughts/{ThoughtId:Guid}")] HttpRequestData req, Guid ThoughtId, FunctionContext functionContext)
         {
             _logger.LogInformation("Retrieving schedule.");
-
 
             HttpResponseData responseData = req.CreateResponse();
             if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
@@ -128,11 +110,11 @@ namespace ShowerShow.Controllers
                 await responseData.WriteAsJsonAsync(thought);
                 responseData.StatusCode = HttpStatusCode.OK;
                 return responseData;
-
             }
-            catch
+            catch (Exception ex)
             {
                 responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
             }
         }
@@ -144,7 +126,6 @@ namespace ShowerShow.Controllers
         public async Task<HttpResponseData> GetThoughtByShowerId([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "shower/thoughts/{ShowerId:Guid}/s")] HttpRequestData req, Guid ShowerId, FunctionContext functionContext)
         {
             _logger.LogInformation("Retrieving schedule.");
-
 
             HttpResponseData responseData = req.CreateResponse();
             if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
@@ -160,9 +141,10 @@ namespace ShowerShow.Controllers
                 return responseData;
 
             }
-            catch
+            catch (Exception ex)
             {
                 responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
             }
         }
@@ -170,29 +152,32 @@ namespace ShowerShow.Controllers
         [OpenApiOperation(operationId: "GetThoughtsByUserId", tags: new[] { "Shower Thoughts" })]
         [ExampleAuth]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The user ID parameter")]
+        [OpenApiParameter(name: "limit", In = ParameterLocation.Path, Required = true, Type = typeof(int), Description = "The limit parameter")]
+
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerThought), Description = "The OK response with the retrieved thoughts")]
-        public async Task<HttpResponseData> GetThoughtsByUserId([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "shower/thoughts/{UserId:Guid}/u")] HttpRequestData req, Guid UserId, FunctionContext functionContext)
+        public async Task<HttpResponseData> GetThoughtsByUserId([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "shower/thoughts/{UserId:Guid}/u")] HttpRequestData req, Guid UserId, int limit, FunctionContext functionContext)
         {
             _logger.LogInformation("Retrieving thoughts.");
 
 
             HttpResponseData responseData = req.CreateResponse();
-            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            try
             {
-                responseData.StatusCode = HttpStatusCode.Unauthorized;
-                return responseData;
-            }
-            if (await userService.CheckIfUserExistAndActive(UserId))
-            {
-                List<ShowerThought> thoughts = (List<ShowerThought>)await showerThoughtService.GetAllShowerThoughtsForUser(UserId);
+                if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+                {
+                    responseData.StatusCode = HttpStatusCode.Unauthorized;
+                    return responseData;
+                }
+
+                List<ShowerThought> thoughts = (List<ShowerThought>)await showerThoughtService.GetAllShowerThoughtsForUser(UserId, limit);
                 await responseData.WriteAsJsonAsync(thoughts);
                 responseData.StatusCode = HttpStatusCode.OK;
                 return responseData;
-
             }
-            else
+            catch (Exception ex)
             {
                 responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
             }
         }
@@ -206,25 +191,26 @@ namespace ShowerShow.Controllers
         {
             _logger.LogInformation("Retrieving thoughts.");
 
-
             HttpResponseData responseData = req.CreateResponse();
-            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            try
             {
-                responseData.StatusCode = HttpStatusCode.Unauthorized;
-                return responseData;
-            }
-            if (await userService.CheckIfUserExistAndActive(UserId))
-            {
-                DateTime dateTime = DateTime.ParseExact(Date, "dd-MM-yyyy",System.Globalization.CultureInfo.InvariantCulture);
+                if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+                {
+                    responseData.StatusCode = HttpStatusCode.Unauthorized;
+                    return responseData;
+                }
+                // parse the date to an easy to work with format (only year, month, day are relevant)
+                DateTime dateTime = DateTime.ParseExact(Date, "dd-MM-yyyy", System.Globalization.CultureInfo.InvariantCulture);
+
                 List<ShowerThought> thoughts = (List<ShowerThought>)await showerThoughtService.GetShowerThoughtsByDate(dateTime, UserId);
                 await responseData.WriteAsJsonAsync(thoughts);
                 responseData.StatusCode = HttpStatusCode.OK;
                 return responseData;
-
             }
-            else
+            catch (Exception ex)
             {
                 responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
             }
         }
@@ -247,24 +233,16 @@ namespace ShowerShow.Controllers
             }
             try
             {
-                ShowerThought thought = null;
                 UpdateShowerThoughtDTO updatedThought = JsonConvert.DeserializeObject<UpdateShowerThoughtDTO>(requestBody);
-                //this is to give priority to tasks
-                Task getId = Task.Run(() =>
-                {
-                    thought = showerThoughtService.GetShowerThoughtById(ThoughtId).Result;
-                });
-                await getId.ContinueWith(prev =>
-                {
-                    showerThoughtService.UpdateThought(thought, updatedThought);
-                });
+                ShowerThought thought = await showerThoughtService.UpdateThought(ThoughtId, updatedThought);
                 responseData.StatusCode = HttpStatusCode.OK;
                 await responseData.WriteAsJsonAsync(thought);
                 return responseData;
             }
-            catch
+            catch (Exception ex)
             {
                 responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
             }
         }
@@ -279,23 +257,27 @@ namespace ShowerShow.Controllers
             _logger.LogInformation("Getting thoughts.");
 
             HttpResponseData responseData = req.CreateResponse();
-            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            try
             {
-                responseData.StatusCode = HttpStatusCode.Unauthorized;
-                return responseData;
-            }
-            if (await userService.CheckIfUserExistAndActive(UserId))
-            {
+                if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+                {
+                    responseData.StatusCode = HttpStatusCode.Unauthorized;
+                    return responseData;
+                }
+
                 List<ShowerThought> thoughts = (List<ShowerThought>)await showerThoughtService.GetThoughtsByContent(SearchWord, UserId);
                 await responseData.WriteAsJsonAsync(thoughts);
                 responseData.StatusCode = HttpStatusCode.OK;
                 return responseData;
             }
-            else
+            catch (Exception ex)
             {
                 responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
             }
+
+
         }
     }
 }

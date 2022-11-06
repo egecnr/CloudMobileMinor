@@ -43,32 +43,28 @@ namespace ShowerShow.Control
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerData), Description = "Successfully received the shower data.")]
         public async Task<HttpResponseData> GetShowerById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{userId:Guid}/showerdata/{showerId:Guid}")] HttpRequestData req, Guid userId, Guid showerId, FunctionContext functionContext)
         {
+            HttpResponseData responseData = req.CreateResponse();
             if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
             {
-                HttpResponseData responseData = req.CreateResponse();
                 responseData.StatusCode = HttpStatusCode.Unauthorized;
                 return responseData;
             }
-
-            if(await _userService.CheckIfUserExistAndActive(userId)) //add a if showerdataid exist method herepls. Also move this logic to service ty.
+            try
             {
-                var response = _showerDataService.GetShowerDataByUserId(userId, showerId);
-                HttpResponseData responseData = req.CreateResponse(HttpStatusCode.OK);
+                ShowerData response = await _showerDataService.GetShowerDataByUserId(userId, showerId);
+                responseData.StatusCode = HttpStatusCode.OK;
+
                 await responseData.WriteAsJsonAsync(response);
                 return responseData;
             }
-            else
+            catch (Exception ex)
             {
-                HttpResponseData responseData = req.CreateResponse();
                 responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
+
             }
-
-
-
         }
-
-
         [Function(nameof(CreateShowerDataById))]
         [OpenApiOperation(operationId: "CreateShowerData", tags: new[] { "Shower data" })]
         [ExampleAuth]
@@ -77,31 +73,27 @@ namespace ShowerShow.Control
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(ShowerData), Description = "The OK response with the new shower.")]
         public async Task<HttpResponseData> CreateShowerDataById([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "user/{UserId:Guid}/showerdata")] HttpRequestData req, Guid UserId, FunctionContext functionContext)
         {
+            HttpResponseData responseData = req.CreateResponse();
             if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
             {
-                HttpResponseData responseData = req.CreateResponse();
                 responseData.StatusCode = HttpStatusCode.Unauthorized;
                 return responseData;
             }
             _logger.LogInformation("Creating new shower.");
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            CreateShowerDataDTO showerDataDTO = JsonConvert.DeserializeObject<CreateShowerDataDTO>(requestBody);
-
-
-
-            if (await _userService.CheckIfUserExistAndActive(UserId)) //add a if showerdataid exist method here pls. Also move this logic to service ty.
+            try
             {
+                CreateShowerDataDTO showerDataDTO = JsonConvert.DeserializeObject<CreateShowerDataDTO>(requestBody);
+
                 await _showerDataService.AddShowerToQueue(showerDataDTO, UserId);
-                HttpResponseData responseData = req.CreateResponse();
                 responseData.StatusCode = HttpStatusCode.Created;
 
                 return responseData;
-
             }
-            else
+            catch (Exception ex)
             {
-                HttpResponseData responseData = req.CreateResponse();
                 responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
             }
 

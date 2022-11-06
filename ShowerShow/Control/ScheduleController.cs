@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
@@ -13,7 +12,6 @@ using ShowerShow.Models;
 using ShowerShow.DTO;
 using ShowerShow.Repository.Interface;
 using System.Collections.Generic;
-using System.Collections;
 
 namespace ShowerShow.Controllers
 {
@@ -21,13 +19,11 @@ namespace ShowerShow.Controllers
     {
         private readonly ILogger<ScheduleController> _logger;
         private IScheduleService scheduleService;
-        private IUserService userService;
 
-        public ScheduleController(ILogger<ScheduleController> log, IScheduleService scheduleService, IUserService userService)
+        public ScheduleController(ILogger<ScheduleController> log, IScheduleService scheduleService)
         {
             _logger = log;
             this.scheduleService = scheduleService;
-            this.userService = userService;
         }
         [Function("CreateSchedule")]
         [OpenApiOperation(operationId: "CreateSchedule", tags: new[] { "Schedules" })]
@@ -40,19 +36,21 @@ namespace ShowerShow.Controllers
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
 
             HttpResponseData responseData = req.CreateResponse();
-
-            if (await userService.CheckIfUserExist(UserId))
+            try
             {
+
                 CreateScheduleDTO data = JsonConvert.DeserializeObject<CreateScheduleDTO>(requestBody);
-                await scheduleService.CreateSchedule(data, UserId);
+                await scheduleService.AddScheduleToQueue(data, UserId);
                 await responseData.WriteAsJsonAsync(data);
                 responseData.StatusCode = HttpStatusCode.Created;
                 return responseData;
             }
-            else
+            catch (Exception ex)
             {
                 responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
+
             }
         }
         [Function("GetSchedules")]
@@ -63,33 +61,29 @@ namespace ShowerShow.Controllers
         {
             _logger.LogInformation("Getting schedules.");
             HttpResponseData responseData = req.CreateResponse();
-            if (await userService.CheckIfUserExist(UserId))
-            {
-                
-                List<Schedule> schedules = (List<Schedule>)await scheduleService.GetAllSchedules(UserId);
-                Task getId = Task.Run(() =>
-                {
-                    schedules = (List<Schedule>)scheduleService.GetAllSchedules(UserId).Result;
-                });
-                await getId.ContinueWith(prev =>
-                {
-                     responseData.WriteAsJsonAsync(schedules);
 
-                });
+            try
+            {
+
+                List<Schedule> schedules = (List<Schedule>)await scheduleService.GetAllSchedules(UserId);
+                await responseData.WriteAsJsonAsync(schedules);
+
                 responseData.StatusCode = HttpStatusCode.OK;
                 return responseData;
+
             }
-            else
+            catch (Exception ex)
             {
                 responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
             }
         }
-        [Function("GetSchedule")]
+        [Function("GetScheduleById")]
         [OpenApiOperation(operationId: "GetScheduleById", tags: new[] { "Schedules" })]
         [OpenApiParameter(name: "ScheduleId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The Schedule ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Schedule), Description = "The OK response with the retrieved schedule")]
-        public async Task<HttpResponseData> GetSchedule([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "schedule/{ScheduleId:Guid}")] HttpRequestData req, Guid ScheduleId)
+        public async Task<HttpResponseData> GetScheduleById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "schedule/{ScheduleId:Guid}")] HttpRequestData req, Guid ScheduleId)
         {
             _logger.LogInformation("Retrieving schedule.");
 
@@ -103,9 +97,10 @@ namespace ShowerShow.Controllers
                 return responseData;
 
             }
-            catch
+            catch(Exception ex)
             {
                 responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
             }
         }
@@ -116,29 +111,18 @@ namespace ShowerShow.Controllers
         public async Task<HttpResponseData> DeleteSchedule([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "schedule/{ScheduleId:Guid}")] HttpRequestData req, Guid ScheduleId)
         {
             _logger.LogInformation("Deleting schedule.");
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             HttpResponseData responseData = req.CreateResponse();
             try
-            {
-                Schedule schedule = null;
-
-                //this is to give priority to tasks
-                Task getId = Task.Run(() =>
-                {
-                    schedule = scheduleService.GetScheduleById(ScheduleId).Result;
-                });
-                await getId.ContinueWith(prev =>
-                {
-                    scheduleService.DeleteSchedule(schedule);
-                });
+            { 
+                await scheduleService.DeleteSchedule(ScheduleId);
                 responseData.StatusCode = HttpStatusCode.OK;
-                await responseData.WriteAsJsonAsync(schedule);
                 return responseData;
 
             }
-            catch
+            catch (Exception ex)
             {
                 responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
             }
         }
@@ -155,25 +139,17 @@ namespace ShowerShow.Controllers
             HttpResponseData responseData = req.CreateResponse();
             try
             {
-                Schedule schedule = null;
                 UpdateScheduleDTO newSchedule = JsonConvert.DeserializeObject<UpdateScheduleDTO>(requestBody);
-                //this is to give priority to tasks
-                Task getId = Task.Run(() =>
-                {
-                    schedule = scheduleService.GetScheduleById(ScheduleId).Result;
-                });
-                await getId.ContinueWith(prev =>
-                {
-                    scheduleService.UpdateSchedule(schedule, newSchedule);
-                });
+
+                Schedule schedule = await scheduleService.UpdateSchedule(ScheduleId, newSchedule);
                 responseData.StatusCode = HttpStatusCode.OK;
                 await responseData.WriteAsJsonAsync(schedule);
                 return responseData;
             }
-            catch
+            catch (Exception ex)
             {
-                // DEV ONLY
                 responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
             }
         }
