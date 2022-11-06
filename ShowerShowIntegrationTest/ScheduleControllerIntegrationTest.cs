@@ -15,41 +15,14 @@ namespace ShowerShowIntegrationTest
     public class SchedulecontrollerIntegrationTest : ControllerBase
     {
         public SchedulecontrollerIntegrationTest(ITestOutputHelper outputHelper) : base(outputHelper) {
-            this.client = new HttpClient()
-            {
-                BaseAddress = new Uri($"http://localhost:7177/api/")
-            };
         }
         private Guid testUserId = Guid.Parse("31aa2d55-8eae-4d00-9daa-5be588aba14d");
-        private Guid testScheduleId = Guid.Parse("a6bf9dfc-ba06-48a5-9aff-a45db038b30e");
+        private Guid testScheduleId = Guid.Parse("aa1ab168-b658-4b61-8c89-6899fc21762d");
         private Mock<IScheduleRepository> scheduleRepositoryMock = new Mock<IScheduleRepository>();
 
         #region Create Schedule
 
-       /* private async Task<DbContext> GetDatabaseContext()
-        {
-            var options = new DbContextOptionsBuilder<DbContext>()
-                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-                .Options;
-            var databaseContext = new DatabaseContext(options);
-            databaseContext.Database.EnsureCreated();
-            if (await databaseContext.Users.CountAsync() <= 0)
-            {
-                for (int i = 1; i <= 10; i++)
-                {
-                    databaseContext.Users.Add(new User()
-                    {
-                        Id = i,
-                        Email = $"testuser{i}@example.com",
-                        IsLocked = false,
-                        CreatedBy = "SYSTEM",
-                        CreatedDate = DateTime.UtcNow
-                    });
-                    await databaseContext.SaveChangesAsync();
-                }
-            }
-            return databaseContext;
-        }*/
+     
         [Fact]
         public async Task CreateScheduleShouldReturnBadRequest()
         {
@@ -116,6 +89,7 @@ namespace ShowerShowIntegrationTest
             var response = await client.GetAsync(requestUri);
 
             var assertVar = await response.Content.ReadAsAsync<Schedule>();
+
             assertVar.Should().NotBeNull();
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
@@ -132,14 +106,7 @@ namespace ShowerShowIntegrationTest
         }
         #endregion
         #region Delete Schedule
-        [Fact]
-        public async Task DeleteScheduleShouldReturnStatusOK()
-        {
-            string requestUri = $"schedule/{testUserId}";
-
-            var response = await client.DeleteAsync(requestUri);
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-        }
+       
         [Fact]
         public async Task DeleteScheduleShouldReturnStatusBadRequest()
         {

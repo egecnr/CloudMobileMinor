@@ -11,6 +11,7 @@ namespace ShowerShow.Repository.Interface
     {
         Task<bool> CheckIfUserIsAlreadyFriend(Guid userId, Guid friendId);
         Task<bool> CheckFriendStatusIsResponseRequired(Guid userId, Guid friendId);
+        Task<bool> CheckIfBothUsersExist(Guid userId, Guid friendId);
         Task CreateUserFriend(Guid userId, Guid friendId);
         Task AddFriendToQueue(Guid userId, Guid friendId);
         Task<GetUserFriendDTO> GetUserFriendsById(Guid userId, Guid friendId);

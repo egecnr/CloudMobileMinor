@@ -14,10 +14,6 @@ namespace ShowerShowIntegrationTest
     public class UserStatisticsControllerIntegrationTest : ControllerBase
     {
         public UserStatisticsControllerIntegrationTest(ITestOutputHelper outputHelper) : base(outputHelper) {
-            this.client = new HttpClient()
-            {
-                BaseAddress = new Uri($"http://localhost:7177/api/")
-            };
         }
         private Guid testUserId = Guid.Parse("31aa2d55-8eae-4d00-9daa-5be588aba14d");
 

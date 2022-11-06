@@ -41,22 +41,23 @@ namespace ShowerShow.Control
         {
             _logger.LogInformation($"Fetching the user preference by id {userId}");
             HttpResponseData responseData = req.CreateResponse();
-
-            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            try
             {
-                responseData.StatusCode = HttpStatusCode.Unauthorized;
-                return responseData;
-            }
-            if (await _userService.CheckIfUserExistAndActive(userId))
-            {
-                var preferences = await _userPrefencesService.GetUserPreferencesById(userId);
+                if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+                {
+                    responseData.StatusCode = HttpStatusCode.Unauthorized;
+                    return responseData;
+                }
+                PreferencesDTO preferences = await _userPrefencesService.GetUserPreferencesById(userId);
                 await responseData.WriteAsJsonAsync(preferences);
                 responseData.StatusCode = HttpStatusCode.OK;
+                responseData.Headers.Add("Result","Successfully retrieved preferences");
             }
-            else
+            catch(Exception e)
             {
                 responseData.StatusCode = HttpStatusCode.BadRequest;
-            }
+                responseData.Headers.Add("Reason", e.Message);
+            }               
             return responseData;
 
         }
@@ -74,26 +75,24 @@ namespace ShowerShow.Control
             PreferencesDTO updatePreferencesDTO = JsonConvert.DeserializeObject<PreferencesDTO>(requestBody);
 
             HttpResponseData responseData = req.CreateResponse();
-
-            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            try
             {
-                responseData.StatusCode = HttpStatusCode.Unauthorized;
-                return responseData;
+                if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+                {
+                    responseData.StatusCode = HttpStatusCode.Unauthorized;
+                    return responseData;
+                }
+               
+                    await _userPrefencesService.UpdatePreferenceById(userId, updatePreferencesDTO);
+                    responseData.StatusCode = HttpStatusCode.OK;
+                responseData.Headers.Add("Result", "Successfully updated preferences");
             }
-            if (await _userService.CheckIfUserExistAndActive(userId))
+            catch(Exception e)
             {
-                await _userPrefencesService.UpdatePreferenceById(userId, updatePreferencesDTO);
-                responseData.StatusCode = HttpStatusCode.OK;  
-            }
-            else
-            {
-                responseData.StatusCode = HttpStatusCode.BadRequest;               
+                responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", e.Message);
             }
             return responseData;
-
-
-
-
 
         }
     }

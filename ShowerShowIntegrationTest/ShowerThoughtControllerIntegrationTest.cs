@@ -14,10 +14,6 @@ namespace ShowerThoughtControllerIntegrationTest
     {
         public ShowerThoughtControllerIntegrationTest(ITestOutputHelper outputHelper) : base(outputHelper)
         {
-            this.client = new HttpClient()
-            {
-                BaseAddress = new Uri($"http://localhost:7177/api/")
-            };
         }
         private Guid testUserId = Guid.Parse("31aa2d55-8eae-4d00-9daa-5be588aba14d");
         private Guid testShowerThoughtId = Guid.Parse("9d3fb42e-1fa2-4b9b-b3f6-876860a1a8ac");

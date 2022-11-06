@@ -258,6 +258,7 @@ C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowIntegrationTest\bin\Debug\ne
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowIntegrationTest\bin\Debug\net6.0\vcruntime140.dll
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowIntegrationTest\bin\Debug\net6.0\vcruntime140_1.dll
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowIntegrationTest\bin\Debug\net6.0\host.json
+C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowIntegrationTest\bin\Debug\net6.0\local.settings.json
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowIntegrationTest\bin\Debug\net6.0\testhost.exe
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowIntegrationTest\bin\Debug\net6.0\testhost.dll
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowIntegrationTest\bin\Debug\net6.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
@@ -265,7 +266,6 @@ C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowIntegrationTest\bin\Debug\ne
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowIntegrationTest\bin\Debug\net6.0\xunit.runner.utility.netcoreapp10.dll
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowIntegrationTest\bin\Debug\net6.0\ShowerShow.deps.json
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowIntegrationTest\bin\Debug\net6.0\ShowerShow.runtimeconfig.json
-C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowIntegrationTest\bin\Debug\net6.0\local.settings.json
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowIntegrationTest\bin\Debug\net6.0\ShowerShow.exe
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowIntegrationTest\bin\Debug\net6.0\Microsoft.TestPlatform.PlatformAbstractions.dll
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowIntegrationTest\bin\Debug\net6.0\ShowerShowIntegrationTest.deps.json

@@ -252,12 +252,21 @@ C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShowUnitTest\obj\Debug\net
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.genruntimeconfig.cache
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ShowerShowUnitTest\obj\Debug\net6.0\ref\ShowerShowUnitTest.dll
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\CoverletSourceRootsMapping
+C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.csproj.AssemblyReference.cache
+C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.AssemblyInfoInputs.cache
+C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.AssemblyInfo.cs
+C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.csproj.CoreCompileInputs.cache
+C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\refint\ShowerShowUnitTest.dll
+C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.pdb
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\Microsoft.Azure.Cosmos.ServiceInterop.dll
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\Cosmos.CRTCompat.dll
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\msvcp140.dll
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\vcruntime140.dll
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\vcruntime140_1.dll
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\host.json
+C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\local.settings.json
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\testhost.exe
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\testhost.dll
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
@@ -265,7 +274,6 @@ C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\xu
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\xunit.runner.utility.netcoreapp10.dll
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\ShowerShow.deps.json
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\ShowerShow.runtimeconfig.json
-C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\local.settings.json
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\ShowerShow.exe
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\Microsoft.TestPlatform.PlatformAbstractions.dll
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\ShowerShowUnitTest.deps.json
@@ -493,14 +501,6 @@ C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\ru
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\ShowerShow.dll
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\bin\Debug\net6.0\ShowerShow.pdb
-C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.csproj.AssemblyReference.cache
-C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.AssemblyInfoInputs.cache
-C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.AssemblyInfo.cs
-C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.csproj.CoreCompileInputs.cache
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.csproj.CopyComplete
-C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.dll
-C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\refint\ShowerShowUnitTest.dll
-C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.pdb
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ShowerShowUnitTest.genruntimeconfig.cache
 C:\Users\Cosmin\source\repos\FunctionApp1\ShowerShowUnitTest\obj\Debug\net6.0\ref\ShowerShowUnitTest.dll
