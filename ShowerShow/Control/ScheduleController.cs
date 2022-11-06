@@ -79,11 +79,11 @@ namespace ShowerShow.Controllers
                 return responseData;
             }
         }
-        [Function("GetSchedule")]
+        [Function("GetScheduleById")]
         [OpenApiOperation(operationId: "GetScheduleById", tags: new[] { "Schedules" })]
         [OpenApiParameter(name: "ScheduleId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The Schedule ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Schedule), Description = "The OK response with the retrieved schedule")]
-        public async Task<HttpResponseData> GetSchedule([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "schedule/{ScheduleId:Guid}")] HttpRequestData req, Guid ScheduleId)
+        public async Task<HttpResponseData> GetScheduleById([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "schedule/{ScheduleId:Guid}")] HttpRequestData req, Guid ScheduleId)
         {
             _logger.LogInformation("Retrieving schedule.");
 
@@ -111,7 +111,6 @@ namespace ShowerShow.Controllers
         public async Task<HttpResponseData> DeleteSchedule([HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "schedule/{ScheduleId:Guid}")] HttpRequestData req, Guid ScheduleId)
         {
             _logger.LogInformation("Deleting schedule.");
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             HttpResponseData responseData = req.CreateResponse();
             try
             { 

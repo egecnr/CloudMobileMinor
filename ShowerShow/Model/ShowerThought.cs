@@ -17,7 +17,7 @@ namespace ShowerShow.Model
         public string Title { get; set; } = "My Shower Thought";
         [JsonRequired]
         public string Text { get; set; }
-        public bool IsPublic { get; set; } = false;
+        public bool ShareWithFriends { get; set; } = false;
         [JsonRequired]
         public DateTime DateTime { get; set; }
     }

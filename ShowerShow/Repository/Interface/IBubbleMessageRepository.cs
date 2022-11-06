@@ -13,6 +13,7 @@ namespace ShowerShow.Repository.Interface
         public Task CreateBubbleMessage(CreateBubbleMessageDTO message);
         public Task DeleteBubbleMessage(Guid messageId);
         public Task<BubbleMessage> GetRandomBubbleMessage();
+        public Task<bool> CheckIfMessageExist(Guid messageId);
         public Task<BubbleMessage> GetBubbleMessageById(Guid messageId);
         public Task<IEnumerable<BubbleMessage>> GetListOfRandomBubbleMessages(uint limit);
 

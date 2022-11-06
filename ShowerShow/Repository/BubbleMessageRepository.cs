@@ -37,6 +37,14 @@ namespace ShowerShow.Repository
             dbContext.BubbleMessages.Add(bubbleMessage);
             await dbContext.SaveChangesAsync();
         }
+        public async Task<bool> CheckIfMessageExist(Guid MessageId)
+        {
+            await dbContext.SaveChangesAsync();
+            if (dbContext.BubbleMessages.Count(x => x.Id == MessageId) > 0)
+                return true;
+            else
+                return false;
+        }
 
         public async Task DeleteBubbleMessage(Guid messageId)
         {

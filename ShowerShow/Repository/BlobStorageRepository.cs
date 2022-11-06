@@ -109,7 +109,7 @@ namespace ShowerShow.Repository
             // make sure the blob content type is the same as the input file
             blockBlob.Properties.ContentType = file.ContentType;
 
-            // check if the input is an audio | content-type e.g: 'audio/mp3'
+            // check if the input is an audio | content-type e.g: 'audio/mpeg'
             if (!blockBlob.Properties.ContentType.Contains("audio"))
                 throw new BadImageFormatException("You must input an audio file.");
 

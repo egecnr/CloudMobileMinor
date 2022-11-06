@@ -1,256 +1,387 @@
 using FluentAssertions;
-using Microsoft.AspNetCore.Components.Routing;
-using Moq;
-using FluentAssertions;
+using Microsoft.Azure.Cosmos.Serialization.HybridRow;
 using Moq;
 using ShowerShow.DTO;
+using ShowerShow.Model;
+using ShowerShow.Models;
 using ShowerShow.Repository.Interface;
 using ShowerShow.Service;
 using System.Web.Helpers;
-
+using DayOfWeek = ShowerShow.Models.DayOfWeek;
 namespace ShowerShowUnitTest
 {
-    public class ShowerThoughtServiceunitTest
+    public class ShowerThoughtServiceUnitTest
     {
-        private Mock<IShowerThoughtRepository> userRepositoryMock = new Mock<IShowerThoughtRepository>();
-        private ShowerThoughtService sut;
-        public ShowerThoughtServiceunitTest()
+        private Mock<IShowerThoughtRepository> showerThoughtRepositoryMock = new Mock<IShowerThoughtRepository>();
+        private Mock<IUserRepository> userRepositoryMock = new Mock<IUserRepository>();
+        private UserService userService;
+        private ShowerThoughtService thoughtService;
+        public ShowerThoughtServiceUnitTest()
         {
-            sut = new ShowerThoughtService(userRepositoryMock.Object);
+            userService = new UserService(userRepositoryMock.Object);
+            thoughtService = new ShowerThoughtService(showerThoughtRepositoryMock.Object, userService);
         }
 
         [Fact]
-        public async Task GetUserByIdShouldReturnUserDTO()
+        public async Task GetShowerThoughtByIdShouldReturnThought()
         {
             //Arrange
             userRepositoryMock.Setup(u => u.CheckIfUserExistAndActive(It.IsAny<Guid>())).ReturnsAsync(true);
             Guid id = Guid.NewGuid();
-            GetUserDTO getUserDTO = new GetUserDTO()
+            ShowerThought showerThought = new ShowerThought()
             {
                 Id = id,
-                UserName = "DRPEpper",
-                Email = "0",
-                Name = "DR"
+                ShowerId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
+                IsFavorite = true,
+                Title = "My shower thought",
+                Text = "heya",
+                ShareWithFriends = true,
+                DateTime = DateTime.Now
             };
 
-            userRepositoryMock.Setup(u => u.GetUserById(id)).ReturnsAsync(getUserDTO);
+            showerThoughtRepositoryMock.Setup(s => s.DoesShowerThoughtExist(id)).ReturnsAsync(true);
+            showerThoughtRepositoryMock.Setup(u => u.GetShowerThoughtById(id)).ReturnsAsync(showerThought);
             //Act
-            var result = await sut.GetUserById(id);
+            var result = await thoughtService.GetShowerThoughtById(id);
             //Assert
             result.Should().NotBeNull();
-            result.Id.Should().Be(getUserDTO.Id);
-            result.Email.Should().Be(getUserDTO.Email);
-            result.UserName.Should().Be(getUserDTO.UserName);
+            result.Id.Should().Be(showerThought.Id);
+            result.ShowerId.Should().Be(showerThought.ShowerId);
+            result.UserId.Should().Be(showerThought.UserId);
         }
         [Fact]
-        public async Task GetUserByIdShouldThrowExceptionIfUserDoesNotExist()
+        public async Task GetShowerThoughtByIdShouldThrowExceptionIfThoughtDoesNotExist()
         {
-            //Arrange
-            userRepositoryMock.Setup(u => u.CheckIfUserExistAndActive(It.IsAny<Guid>())).ReturnsAsync(false);
 
+            showerThoughtRepositoryMock.Setup(s => s.DoesShowerThoughtExist(It.IsAny<Guid>())).ReturnsAsync(false);
             //Act
-            Func<Task> exceptionThrown = async () => await sut.GetUserById(It.IsAny<Guid>());
+            Func<Task> exceptionThrown = async () => await thoughtService.GetShowerThoughtById(It.IsAny<Guid>());
             //Assert
-            await exceptionThrown.Should().ThrowAsync<Exception>().WithMessage("User does not exist");
+            await exceptionThrown.Should().ThrowAsync<Exception>().WithMessage("The shower thought could not be found");
         }
-
         [Fact]
-        public async Task AddUserToQueueShouldSendObjectToQueueTrigger()
+        public async Task GetShowerThoughtByDateShouldReturnThought()
         {
             //Arrange
-            string email = "mockEmail";
-            string username = "mockname";
-            userRepositoryMock.Setup(u => u.CheckIfEmailExist(email)).ReturnsAsync(false);
-            userRepositoryMock.Setup(u => u.CheckIfUserNameExist(username)).ReturnsAsync(false);
-            CreateUserDTO us = new CreateUserDTO()
+            Guid id = Guid.NewGuid();
+            userRepositoryMock.Setup(u => u.CheckIfUserExistAndActive(id)).ReturnsAsync(true);
+            Guid thoughtId = Guid.NewGuid();
+            DateTime time = DateTime.ParseExact("11-02-2022", "dd-MM-yyyy", System.Globalization.CultureInfo.InvariantCulture);
+            ShowerThought showerThought = new ShowerThought()
             {
-                Email = email,
-                PasswordHash = "SuperSecretPassword",
-                UserName = username
+                Id = thoughtId,
+                ShowerId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
+                IsFavorite = true,
+                Title = "My shower thought",
+                Text = "heya",
+                ShareWithFriends = true,
+                DateTime = time
+            };
+            ShowerThought showerThought2 = new ShowerThought()
+            {
+                Id = thoughtId,
+                ShowerId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
+                IsFavorite = true,
+                Title = "My shower thought",
+                Text = "heya",
+                ShareWithFriends = true,
+                DateTime = time
+            };
+            List<ShowerThought> showerThoughts = new List<ShowerThought> { showerThought, showerThought2 };
+
+            showerThoughtRepositoryMock.Setup(s => s.DoesShowerThoughtExist(thoughtId)).ReturnsAsync(true);
+            showerThoughtRepositoryMock.Setup(s => s.GetShowerThoughtsByDate(time, id)).ReturnsAsync(showerThoughts);
+            //Act
+            var result = await thoughtService.GetShowerThoughtsByDate(time, id);
+            //Assert
+            result.Should().NotBeNull();
+            result.Should().BeEquivalentTo(showerThoughts);
+        }
+        [Fact]
+        public async Task GetShowerThoughtByDateShouldThrowExceptionIfUserDoesNotExist()
+        {
+            //Arrange
+            Guid id = Guid.NewGuid();
+            userRepositoryMock.Setup(u => u.CheckIfUserExistAndActive(id)).ReturnsAsync(false);
+            ShowerThought showerThought = new ShowerThought()
+            {
+                Id = id,
+                ShowerId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
+                IsFavorite = true,
+                Title = "My shower thought",
+                Text = "heya",
+                ShareWithFriends = true,
+                DateTime = DateTime.Now
+            };
+            List<ShowerThought> showerThoughts = new List<ShowerThought> { showerThought };
+
+            showerThoughtRepositoryMock.Setup(s => s.DoesShowerThoughtExist(id)).ReturnsAsync(true);
+            showerThoughtRepositoryMock.Setup(s => s.GetShowerThoughtsByDate(DateTime.Now, id)).ReturnsAsync(showerThoughts);
+            //Act
+            Func<Task> act = async () => await thoughtService.GetAllShowerThoughtsForUser(id, 2);
+            //Assert
+            await act.Should().ThrowAsync<Exception>().WithMessage("The user does not exist or is inactive.");
+        }
+        [Fact]
+        public async Task GetShowerThoughtByContentShouldReturnThought()
+        {
+            //Arrange
+            Guid id = Guid.NewGuid();
+            userRepositoryMock.Setup(u => u.CheckIfUserExistAndActive(id)).ReturnsAsync(true);
+            ShowerThought showerThought = new ShowerThought()
+            {
+                Id = id,
+                ShowerId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
+                IsFavorite = true,
+                Title = "My shower thought test",
+                Text = "heya",
+                ShareWithFriends = true,
+                DateTime = DateTime.Now
+            };
+            List<ShowerThought> showerThoughts = new List<ShowerThought> { showerThought };
+
+            showerThoughtRepositoryMock.Setup(s => s.DoesShowerThoughtExist(id)).ReturnsAsync(true);
+            showerThoughtRepositoryMock.Setup(s => s.GetThoughtsByContent("test", id)).ReturnsAsync(showerThoughts);
+            //Act
+            var result = await thoughtService.GetThoughtsByContent("test", id);
+            //Assert
+            result.Should().NotBeNull();
+            result.Should().BeEquivalentTo(showerThoughts);
+        }
+        [Fact]
+        public async Task GetShowerThoughtByContentShouldThrowExceptionIfUserDoesNotExist()
+        {
+            //Arrange
+            Guid id = Guid.NewGuid();
+            userRepositoryMock.Setup(u => u.CheckIfUserExistAndActive(id)).ReturnsAsync(false);
+            ShowerThought showerThought = new ShowerThought()
+            {
+                Id = id,
+                ShowerId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
+                IsFavorite = true,
+                Title = "My shower thought test",
+                Text = "heya",
+                ShareWithFriends = true,
+                DateTime = DateTime.Now
+            };
+            List<ShowerThought> showerThoughts = new List<ShowerThought> { showerThought };
+
+            showerThoughtRepositoryMock.Setup(s => s.DoesShowerThoughtExist(id)).ReturnsAsync(true);
+            showerThoughtRepositoryMock.Setup(s => s.GetThoughtsByContent("test", id)).ReturnsAsync(showerThoughts);
+            //Act
+            Func<Task> act = async () => await thoughtService.GetThoughtsByContent("test", id);
+            //Assert
+            await act.Should().ThrowAsync<Exception>().WithMessage("The user does not exist or is inactive.");
+        }
+        [Fact]
+        public async Task GetShowerThoughtByShowerIDShouldReturnThought()
+        {
+            //Arrange
+            userRepositoryMock.Setup(u => u.CheckIfUserExistAndActive(It.IsAny<Guid>())).ReturnsAsync(true);
+            Guid id = Guid.NewGuid();
+            Guid showerId = Guid.NewGuid();
+            ShowerThought showerThought = new ShowerThought()
+            {
+                Id = id,
+                ShowerId = showerId,
+                UserId = Guid.NewGuid(),
+                IsFavorite = true,
+                Title = "My shower thought",
+                Text = "heya",
+                ShareWithFriends = true,
+                DateTime = DateTime.Now
             };
 
+            showerThoughtRepositoryMock.Setup(s => s.DoesShowerThoughtExist(id)).ReturnsAsync(true);
+            showerThoughtRepositoryMock.Setup(u => u.GetThoughtByShowerId(showerId)).ReturnsAsync(showerThought);
             //Act
-            Func<Task> exceptionThrown = async () => await sut.AddUserToQueue(us);
+            var result = await thoughtService.GetThoughtByShowerId(showerId);
+            //Assert
+            result.Should().NotBeNull();
+            result.Id.Should().Be(showerThought.Id);
+            result.ShowerId.Should().Be(showerThought.ShowerId);
+            result.UserId.Should().Be(showerThought.UserId);
+        }
+        [Fact]
+        public async Task CreateShowerThoughtShouldNotThrowException()
+        {
+            //Arrange
+            Guid id = Guid.NewGuid();
+            userRepositoryMock.Setup(u => u.CheckIfUserExistAndActive(id)).ReturnsAsync(true);
+
+            ShowerThoughtDTO showerThoughtDTO = new ShowerThoughtDTO()
+            {
+                IsFavorite = true,
+                Title = "My shower thought",
+                Text = "heya",
+                ShareWithFriends = true,
+                DateTime = DateTime.Now
+            };
+            //Act
+            Func<Task> exceptionThrown = async () => await thoughtService.CreateShowerThought(showerThoughtDTO, Guid.NewGuid(), id);
             //Assert
             await exceptionThrown.Should().NotThrowAsync<Exception>();
         }
         [Fact]
-        public async Task AddUserToQueueShouldFailDueToNotHavingUniqueEmailAddress()
+        public async Task CreateShowerThoughtShouldNotThrowExceptionBecauseUserDoesNotExist()
         {
             //Arrange
-            string email = "mockEmail";
-            string username = "mockname";
-            userRepositoryMock.Setup(u => u.CheckIfEmailExist(email)).ReturnsAsync(true);
-            CreateUserDTO us = new CreateUserDTO()
-            {
-                Email = email,
-                PasswordHash = "SuperSecretPassword",
-                UserName = username
-            };
-
-            //Act
-            Func<Task> exceptionThrown = async () => await sut.AddUserToQueue(us);
-            //Assert
-            await exceptionThrown.Should().ThrowAsync<Exception>().WithMessage("Please pick a unique email address");
-        }
-        [Fact]
-        public async Task AddUserToQueueShouldFailDueToNotHavingUniqueUsername()
-        {
-            //Arrange
-            string email = "mockEmail";
-            string username = "mockname";
-            userRepositoryMock.Setup(u => u.CheckIfUserNameExist(username)).ReturnsAsync(true);
-
-            CreateUserDTO us = new CreateUserDTO()
-            {
-                Email = email,
-                PasswordHash = "SuperSecretPassword",
-                UserName = username
-            };
-
-            //Act
-            Func<Task> exceptionThrown = async () => await sut.AddUserToQueue(us);
-            //Assert
-            await exceptionThrown.Should().ThrowAsync<Exception>().WithMessage("Please pick a unique username");
-        }
-        [Fact]
-        public async Task UpdateUserShouldUpdateTheUserInDatabase()
-        {
-            //Arrange
-            string email = "mockEmail";
-            string username = "mockname";
-            Guid id = Guid.NewGuid();
-            userRepositoryMock.Setup(u => u.CheckIfUserExistAndActive(id)).ReturnsAsync(true);
-            userRepositoryMock.Setup(u => u.CheckIfEmailExist(email)).ReturnsAsync(false);
-            userRepositoryMock.Setup(u => u.CheckIfUserNameExist(username)).ReturnsAsync(false);
-
-            UpdateUserDTO us = new UpdateUserDTO()
-            {
-                Email = email,
-                UserName = username
-            };
-            //Act
-            Func<Task> act = async () => await sut.UpdateUser(id, us);
-            //Assert
-            await act.Should().NotThrowAsync<Exception>();
-        }
-
-        [Fact]
-        public async Task UpdateUserShouldNotUpdateDueToNotExistingUser()
-        {
-            //Arrange
-            string email = "mockEmail";
-            string username = "mockname";
             Guid id = Guid.NewGuid();
             userRepositoryMock.Setup(u => u.CheckIfUserExistAndActive(id)).ReturnsAsync(false);
-            userRepositoryMock.Setup(u => u.CheckIfEmailExist(email)).ReturnsAsync(false);
-            userRepositoryMock.Setup(u => u.CheckIfUserNameExist(username)).ReturnsAsync(false);
 
-            UpdateUserDTO us = new UpdateUserDTO()
+            ShowerThoughtDTO showerThoughtDTO = new ShowerThoughtDTO()
             {
-                Email = email,
-                UserName = username
+                IsFavorite = true,
+                Title = "My shower thought",
+                Text = "heya",
+                ShareWithFriends = true,
+                DateTime = DateTime.Now
             };
             //Act
-            Func<Task> act = async () => await sut.UpdateUser(id, us);
+            Func<Task> exceptionThrown = async () => await thoughtService.CreateShowerThought(showerThoughtDTO, id, Guid.NewGuid());
             //Assert
-            await act.Should().ThrowAsync<Exception>().WithMessage("User does not exist");
+            await exceptionThrown.Should().ThrowAsync<Exception>().WithMessage("The user does not exist or is inactive.");
         }
         [Fact]
-        public async Task UpdateUserShouldNotUpdateDueToNotHavingUniqueEmail()
+        public async Task UpdateShowerThoughtShouldUpdateTheShowerThoughtInDatabase()
         {
             //Arrange
-            string email = "mockEmail";
-            string username = "mockname";
-            Guid id = Guid.NewGuid();
-            userRepositoryMock.Setup(u => u.CheckIfUserExistAndActive(id)).ReturnsAsync(true);
-            userRepositoryMock.Setup(u => u.CheckIfEmailExist(id, email)).ReturnsAsync(true);
-            userRepositoryMock.Setup(u => u.CheckIfUserNameExist(username)).ReturnsAsync(false);
-
-            UpdateUserDTO us = new UpdateUserDTO()
+            userRepositoryMock.Setup(u => u.CheckIfUserExistAndActive(It.IsAny<Guid>())).ReturnsAsync(true);
+            UpdateShowerThoughtDTO updateShowerThoughtDTO = new UpdateShowerThoughtDTO()
             {
-                Email = email,
-                UserName = username
+                IsFavorite = false,
+                ShareWithFriends = false,
             };
-            //Act
-            Func<Task> act = async () => await sut.UpdateUser(id, us);
-            //Assert
-            await act.Should().ThrowAsync<Exception>().WithMessage("Email has to be unique");
-        }
-        [Fact]
-        public async Task UpdateUserShouldNotUpdateDueToNotHavingUniqueUserName()
-        {
-            //Arrange
-            string email = "mockEmail";
-            string username = "mockname";
-            Guid id = Guid.NewGuid();
-            userRepositoryMock.Setup(u => u.CheckIfUserExistAndActive(id)).ReturnsAsync(true);
-            userRepositoryMock.Setup(u => u.CheckIfUserNameExist(id, username)).ReturnsAsync(true);
 
-            UpdateUserDTO us = new UpdateUserDTO()
-            {
-                Email = email,
-                UserName = username
-            };
             //Act
-            Func<Task> act = async () => await sut.UpdateUser(id, us);
+            showerThoughtRepositoryMock.Setup(s => s.DoesShowerThoughtExist(It.IsAny<Guid>())).ReturnsAsync(true);
+            Func<Task> act = async () => await thoughtService.UpdateThought(Guid.NewGuid(), updateShowerThoughtDTO);
             //Assert
-            await act.Should().ThrowAsync<Exception>().WithMessage("Username has to be unique");
+            await act.Should().NotThrowAsync<Exception>();
         }
+
         [Fact]
-        public async Task DeactivateUserAccountShouldDeactivateAccountInDatabase()
+        public async Task UpdateShowerThoughtShouldNotUpdateDueToNotExistingShowerThought()
         {
             //Arrange
             Guid id = Guid.NewGuid();
-            userRepositoryMock.Setup(u => u.CheckIfUserExist(id)).ReturnsAsync(true);
+            showerThoughtRepositoryMock.Setup(u => u.DoesShowerThoughtExist(id)).ReturnsAsync(false);
+
+            UpdateShowerThoughtDTO updateShowerThoughtDTO = new UpdateShowerThoughtDTO()
+            {
+                IsFavorite = false,
+                ShareWithFriends = false,
+            };
             //Act
-            Func<Task> act = async () => await sut.DeactivateUserAccount(id, false);
+            Func<Task> act = async () => await thoughtService.UpdateThought(id, updateShowerThoughtDTO);
+            //Assert
+            await act.Should().ThrowAsync<Exception>().WithMessage("The shower thought could not be found");
+        }
+        [Fact]
+        public async Task DeleteShowerThoughtShouldDeleteShowerThought()
+        {
+            //Arrange
+            Guid id = Guid.NewGuid();
+            showerThoughtRepositoryMock.Setup(u => u.DoesShowerThoughtExist(id)).ReturnsAsync(true);
+
+            //Act
+            Func<Task> act = async () => await thoughtService.DeleteShowerThought(id);
             //Assert
             await act.Should().NotThrowAsync<Exception>();
         }
         [Fact]
-        public async Task DeactivateUserAccountShouldThrowExceptionDueToNotExistingUser()
+        public async Task DeleteShowerThoughtShouldNotDeleteDueToNotExistingShowerThought()
         {
             //Arrange
             Guid id = Guid.NewGuid();
-            userRepositoryMock.Setup(u => u.CheckIfUserExist(id)).ReturnsAsync(false);
-            //Act
-            Func<Task> act = async () => await sut.DeactivateUserAccount(id, false);
-            //Assert
-            await act.Should().ThrowAsync<Exception>().WithMessage("User does not exist");
-        }
+            showerThoughtRepositoryMock.Setup(u => u.DoesShowerThoughtExist(It.IsAny<Guid>())).ReturnsAsync(false);
 
+            //Act
+            Func<Task> act = async () => await thoughtService.DeleteShowerThought(Guid.NewGuid());
+            //Assert
+            await act.Should().ThrowAsync<Exception>().WithMessage("The shower thought could not be found");
+        }
         [Fact]
-        public async Task GetUserByNameShouldThrowExceptionIfUsernameisNull()
+        public async Task GetAllThoughtsForUserShouldReturnListOfShowerThoughts()
         {
             //Arrange
-            string username = null;
-            //Act
-            Func<Task> exceptionThrown = async () => await sut.GetUsersByName(username);
-            //Assert
-            await exceptionThrown.Should().ThrowAsync<Exception>().WithMessage("Please input a username");
-        }
+            Guid id = Guid.NewGuid();
 
-        [Fact]
-        public async Task GetUserByNameShouldNotThrowExceptionIfUsernameisNotNull()
-        {
-            //Arrange
-            string username = "tom";
-            List<GetUserDTO> users = new List<GetUserDTO>() {   new GetUserDTO()
+            userRepositoryMock.Setup(u => u.CheckIfUserExistAndActive(id)).ReturnsAsync(true);
+            ShowerThought showerThought = new ShowerThought()
             {
-                Id = Guid.NewGuid(),
-                UserName = "tommie",
-                Email = "0",
-                Name = "DR"
-            } };
-
-            userRepositoryMock.Setup(u => u.GetUsersByName(username)).ReturnsAsync(users);
+                Id = id,
+                ShowerId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
+                IsFavorite = true,
+                Title = "My shower thought",
+                Text = "heya",
+                ShareWithFriends = true,
+                DateTime = DateTime.Now
+            };
+            ShowerThought showerThought2 = new ShowerThought()
+            {
+                Id = id,
+                ShowerId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
+                IsFavorite = true,
+                Title = "My shower thought",
+                Text = "heya",
+                ShareWithFriends = true,
+                DateTime = DateTime.Now
+            };
+            List<ShowerThought> showerThoughts = new List<ShowerThought> { showerThought, showerThought2 };
+            showerThoughtRepositoryMock.Setup(u => u.GetAllShowerThoughtsForUser(id, 2)).ReturnsAsync(showerThoughts);
             //Act
-            var result = await sut.GetUsersByName(username);
+            var result = await thoughtService.GetAllShowerThoughtsForUser(id, 2);
             //Assert
             result.Should().NotBeNull();
-            result.Count().Should().Be(1);
-            result.First().UserName.Should().Be("tommie");
+            result.Should().BeEquivalentTo(showerThoughts);
+        }
+        [Fact]
+        public async Task GetAllThoughtsForUserShouldNOTReturnListOfThoughtsBecauseUserDoesNotExist()
+        {
+            //Arrange
+            Guid id = Guid.NewGuid();
+
+            userRepositoryMock.Setup(u => u.CheckIfUserExistAndActive(id)).ReturnsAsync(false);
+            ShowerThought showerThought = new ShowerThought()
+            {
+                Id = id,
+                ShowerId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
+                IsFavorite = true,
+                Title = "My shower thought",
+                Text = "heya",
+                ShareWithFriends = true,
+                DateTime = DateTime.Now
+            };
+            ShowerThought showerThought2 = new ShowerThought()
+            {
+                Id = id,
+                ShowerId = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
+                IsFavorite = true,
+                Title = "My shower thought",
+                Text = "heya",
+                ShareWithFriends = true,
+                DateTime = DateTime.Now
+            };
+            List<ShowerThought> showerThoughts = new List<ShowerThought> { showerThought, showerThought2 };
+            showerThoughtRepositoryMock.Setup(u => u.GetAllShowerThoughtsForUser(id, 2)).ReturnsAsync(showerThoughts);
+            //Act
+            Func<Task> act = async () => await thoughtService.GetAllShowerThoughtsForUser(id, 2);
+            //Assert
+            await act.Should().ThrowAsync<Exception>().WithMessage("The user does not exist or is inactive.");
+
+
         }
     }
+
 }

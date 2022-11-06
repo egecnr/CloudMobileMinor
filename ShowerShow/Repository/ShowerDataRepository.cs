@@ -45,8 +45,9 @@ namespace ShowerShow.Repository
 
         public async Task<ShowerData> GetShowerDataByUserId(Guid userId, Guid showerId)
         {
-            var showerData = _dbContext.ShowerInstances.Where(x => x.UserId == userId).FirstOrDefault(y => y.Id == showerId);
-            return showerData;
+            await _dbContext.SaveChangesAsync();
+            return _dbContext.ShowerInstances.Where(x => x.UserId == userId).FirstOrDefault(y => y.Id == showerId);
+
         }
 
     }

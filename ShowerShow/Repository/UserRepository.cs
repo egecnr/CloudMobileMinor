@@ -21,11 +21,14 @@ namespace ShowerShow.Repository
     public class UserRepository:IUserRepository
     {
         private DatabaseContext dbContext;
+        private IUserPreferencesRepository userPrefencesRepository;
+
    
 
-        public UserRepository(DatabaseContext dbContext)
+        public UserRepository(DatabaseContext dbContext, IUserPreferencesRepository userPrefencesRepository)
         {
             this.dbContext = dbContext;
+            this.userPrefencesRepository = userPrefencesRepository;
         }
         //Move this to the service layer later on
         public async Task AddUserToQueue(CreateUserDTO userDTO)
@@ -96,6 +99,8 @@ namespace ShowerShow.Repository
             await dbContext.SaveChangesAsync();
             User user = dbContext.Users.FirstOrDefault(u => u.UserName==username);
             dbContext.Users.Remove(user);
+
+            await userPrefencesRepository.DeleteUserPreferences(user.Id);
             await dbContext.SaveChangesAsync();
         }
         public async Task DeactivateUserAccount(Guid userId, bool isAccountActive)

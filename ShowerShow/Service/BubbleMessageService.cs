@@ -32,7 +32,12 @@ namespace ShowerShow.Service
 
         public async Task<BubbleMessage> GetBubbleMessageById(Guid messageId)
         {
-            return await bubbleMessageRepository.GetBubbleMessageById(messageId);
+            if(!await bubbleMessageRepository.CheckIfMessageExist(messageId))
+            {
+                throw new Exception($"Bubble message with the message id {messageId} doesn't exist");
+            }
+                return await bubbleMessageRepository.GetBubbleMessageById(messageId);
+
         }
 
         public async Task<IEnumerable<BubbleMessage>> GetListOfRandomBubbleMessages(uint limit)

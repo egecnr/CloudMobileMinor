@@ -228,12 +228,4 @@ C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunctionIntegrationTests\ob
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunctionIntegrationTests\obj\Debug\net6.0\ExtraFunctionIntegrationTests.pdb
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunctionIntegrationTests\obj\Debug\net6.0\ExtraFunctionIntegrationTests.genruntimeconfig.cache
 C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunctionIntegrationTests\obj\Debug\net6.0\ref\ExtraFunctionIntegrationTests.dll
-C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunctionIntegrationTests\bin\Debug\net6.0\CoverletSourceRootsMapping
-C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunctionIntegrationTests\obj\Debug\net6.0\ExtraFunctionIntegrationTests.csproj.AssemblyReference.cache
-C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunctionIntegrationTests\obj\Debug\net6.0\ExtraFunctionIntegrationTests.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunctionIntegrationTests\obj\Debug\net6.0\ExtraFunctionIntegrationTests.AssemblyInfoInputs.cache
-C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunctionIntegrationTests\obj\Debug\net6.0\ExtraFunctionIntegrationTests.AssemblyInfo.cs
-C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunctionIntegrationTests\obj\Debug\net6.0\ExtraFunctionIntegrationTests.csproj.CoreCompileInputs.cache
-C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunctionIntegrationTests\obj\Debug\net6.0\ExtraFunctionIntegrationTests.dll
-C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunctionIntegrationTests\obj\Debug\net6.0\refint\ExtraFunctionIntegrationTests.dll
-C:\Users\Cosmin\source\repos\FunctionApp1\ExtraFunctionIntegrationTests\obj\Debug\net6.0\ExtraFunctionIntegrationTests.pdb
+C:\Users\31683\Desktop\Year 4\SAWA\SAWA-Backend\ExtraFunctionIntegrationTests\bin\Debug\net6.0\FluentAssertions.dll

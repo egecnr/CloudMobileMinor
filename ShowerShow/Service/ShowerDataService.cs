@@ -12,26 +12,33 @@ namespace ShowerShow.Service
     public class ShowerDataService : IShowerDataService
     {
         private IShowerDataRepository _showerDataRepository;
+        private IUserService userService;
 
-        public ShowerDataService(IShowerDataRepository _showerDataRepository)
+        public ShowerDataService(IShowerDataRepository _showerDataRepository,IUserService userService)
         {
             this._showerDataRepository = _showerDataRepository;
+            this.userService = userService;
         }
 
         public async Task AddShowerToQueue(CreateShowerDataDTO shower, Guid userId)
         {
-            await _showerDataRepository.AddShowerToQueue(shower, userId);
+            if (!await userService.CheckIfUserExistAndActive(userId))
+                throw new Exception("Invalid user.");
+
+                await _showerDataRepository.AddShowerToQueue(shower, userId);
         }
 
-        public Task CreateShowerData(ShowerData shower)
+        public async Task CreateShowerData(ShowerData shower)
         {
-            return _showerDataRepository.CreateShowerData(shower);
-
+            await _showerDataRepository.CreateShowerData(shower);
         }
 
-        public Task<ShowerData> GetShowerDataByUserId(Guid userId, Guid showerId)
+        public async Task<ShowerData> GetShowerDataByUserId(Guid userId, Guid showerId)
         {
-            return _showerDataRepository.GetShowerDataByUserId(userId, showerId);
+            if (!await userService.CheckIfUserExistAndActive(userId))
+                throw new Exception("Invalid user.");
+
+            return await _showerDataRepository.GetShowerDataByUserId(userId, showerId);
 
         }
 
