@@ -11,6 +11,7 @@ using ExtraFunction.DAL;
 using ExtraFunction.Service;
 using ExtraFunction.Authorization;
 using ExtraFunction.Repository;
+using System;
 
 namespace ExtraFunction
 {
@@ -28,9 +29,9 @@ namespace ExtraFunction
                     {
                         services.AddControllers();
                         services.AddDbContext<DatabaseContext>(options =>
-                                   options.UseCosmos("https://sawa-db-fabio.documents.azure.com:443/",
-                            "tfGJUagGE3YBw3vCrDhreFiJn0RT0EfnS5NESBJ0ypja5MxfOgRoBFvVUiMoWgurdPzZ1kWcZ1topQrOy5Et7Q==",
-                            "sawa-db-fabio"));
+                                   options.UseCosmos(Environment.GetEnvironmentVariable("DBUri"),
+                            Environment.GetEnvironmentVariable("DbKey"),
+                            Environment.GetEnvironmentVariable("DbName")));
                         services.AddTransient<IUserService, UserService>();
                         services.AddTransient<IUserRepository, UserRepository>();
                         services.AddTransient<ILoginService, LoginService>();

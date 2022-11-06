@@ -12,9 +12,9 @@ using DayOfWeek = ShowerShow.Models.DayOfWeek;
 
 namespace ShowerShowIntegrationTest
 {
-    public class BubbleMessageIntegrationTests : ControllerBase
+    public class ScheduleControllerIntegrationTest : ControllerBase
     {
-        public BubbleMessageIntegrationTests(ITestOutputHelper outputHelper) : base(outputHelper) {
+        public ScheduleControllerIntegrationTest(ITestOutputHelper outputHelper) : base(outputHelper) {
         }
         private Guid testUserId = Guid.Parse("31aa2d55-8eae-4d00-9daa-5be588aba14d");
         private Guid testScheduleId = Guid.Parse("aa1ab168-b658-4b61-8c89-6899fc21762d");

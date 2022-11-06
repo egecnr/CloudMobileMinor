@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ExtraFunction.Model;
 using User = ExtraFunction.Model.User;
+using System;
 
 namespace ExtraFunction.DAL
 {
@@ -20,9 +21,9 @@ namespace ExtraFunction.DAL
 
             //secure connection string later
 
-            optionsBuilder.UseCosmos("https://sawa-db-fabio.documents.azure.com:443/",
-                            "tfGJUagGE3YBw3vCrDhreFiJn0RT0EfnS5NESBJ0ypja5MxfOgRoBFvVUiMoWgurdPzZ1kWcZ1topQrOy5Et7Q==",
-                            "sawa-db-fabio");
+            optionsBuilder.UseCosmos(Environment.GetEnvironmentVariable("DBUri"),
+                           Environment.GetEnvironmentVariable("DbKey"),
+                           Environment.GetEnvironmentVariable("DbName"));
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

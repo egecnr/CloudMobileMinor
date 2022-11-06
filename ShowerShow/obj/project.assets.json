@@ -13186,24 +13186,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Cosmin\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\31683\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Cosmin\\source\\repos\\FunctionApp1\\ShowerShow\\ShowerShow.csproj",
+      "projectUniqueName": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj",
       "projectName": "ShowerShow",
-      "projectPath": "C:\\Users\\Cosmin\\source\\repos\\FunctionApp1\\ShowerShow\\ShowerShow.csproj",
-      "packagesPath": "C:\\Users\\Cosmin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Cosmin\\source\\repos\\FunctionApp1\\ShowerShow\\obj\\",
+      "projectPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\ShowerShow.csproj",
+      "packagesPath": "C:\\Users\\31683\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\31683\\Desktop\\Year 4\\SAWA\\SAWA-Backend\\ShowerShow\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Cosmin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\31683\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -13211,7 +13210,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -13363,7 +13361,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   },
