@@ -45,24 +45,31 @@ namespace ShowerShow.Controllers
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Dictionary<Guid, double>), Description = "The OK response with the friends ranking" + ".")]
         public async Task<HttpResponseData> GetFriendsRanking([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{UserId:Guid}/friendRanking/{limit}")] HttpRequestData req, Guid UserId, int limit, FunctionContext functionContext)
         {
+            _logger.LogInformation("Getting friends");
+
             HttpResponseData responseData = req.CreateResponse();
 
             //TO DO: make this a better function
-            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            try
             {
-                responseData.StatusCode = HttpStatusCode.Unauthorized;
+                if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+                {
+                    responseData.StatusCode = HttpStatusCode.Unauthorized;
+                    return responseData;
+                }
+
+                Dictionary<Guid, double> friendRanking = await userStatisticsService.GetFriendRanking(UserId, limit);
+                await responseData.WriteAsJsonAsync(friendRanking);
+                responseData.StatusCode = HttpStatusCode.OK;
+                return responseData;
+            }
+            catch (Exception ex)
+            {
+                responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
             }
 
-            if (!await userService.CheckIfUserExistAndActive(UserId))
-            {
-                responseData.StatusCode = HttpStatusCode.BadRequest;
-                return responseData;
-            }
-            Dictionary<Guid, double> friendRanking = await userStatisticsService.GetFriendRanking(UserId, limit);
-            await responseData.WriteAsJsonAsync(friendRanking);
-            responseData.StatusCode = HttpStatusCode.OK;
-            return responseData;
         }
         [Function("GetUserDashboard")]
         [OpenApiOperation(operationId: "GetUserDashboard", tags: new[] { "User Statistics" })]
@@ -75,21 +82,25 @@ namespace ShowerShow.Controllers
             HttpResponseData responseData = req.CreateResponse();
 
             //TO DO: make this a better function
-            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            try
             {
-                responseData.StatusCode = HttpStatusCode.Unauthorized;
+                if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+                {
+                    responseData.StatusCode = HttpStatusCode.Unauthorized;
+                    return responseData;
+                }
+
+                UserDashboard userDashboard = await userStatisticsService.GetUserDashboard(UserId, Days);
+                await responseData.WriteAsJsonAsync(userDashboard);
+                responseData.StatusCode = HttpStatusCode.OK;
                 return responseData;
             }
-
-            if (!await userService.CheckIfUserExistAndActive(UserId))
+            catch (Exception ex)
             {
                 responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
             }
-            UserDashboard userDashboard = await userStatisticsService.GetUserDashboard(UserId, Days);
-            await responseData.WriteAsJsonAsync(userDashboard);
-            responseData.StatusCode = HttpStatusCode.OK;
-            return responseData;
         }
     }
 }

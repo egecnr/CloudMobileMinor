@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using ShowerShow.DAL;
 using ShowerShow.DTO;
-using ShowerShow.Models;
 using ShowerShow.Repository.Interface;
 using ShowerShow.Utils;
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Linq;
 using ShowerShow.Model;
@@ -28,34 +26,49 @@ namespace ShowerShow.Repository
             ShowerThought fullThought = mapper.Map<ShowerThought>(thought);
             fullThought.ShowerId = showerId;
             fullThought.UserId = userId;
+
             dbContext.ShowerThoughts?.Add(fullThought);
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteShowerThought(ShowerThought thought)
+        public async Task DeleteShowerThought(Guid thoughtId)
         {
-            dbContext.ShowerThoughts?.Remove(thought);
+            ShowerThought thought = null;
+
+            //this is to give priority to tasks
+            Task getId = Task.Run(() =>
+            {
+                thought = GetShowerThoughtById(thoughtId).Result; //get the thought
+            });
+            await getId.ContinueWith(prev =>
+            {
+                dbContext.ShowerThoughts?.Remove(thought); // delete the thought
+            });
+
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<ShowerThought>> GetAllShowerThoughtsForUser(Guid userId)
+        public async Task<IEnumerable<ShowerThought>> GetAllShowerThoughtsForUser(Guid userId, int limit)
         {
             await dbContext.SaveChangesAsync();
-            return dbContext.ShowerThoughts.Where(x => x.UserId == userId).ToList();
+            // get all thoughts with that USER id, and return only the limit amount
+            return dbContext.ShowerThoughts.Where(x => x.UserId == userId).Take(limit).ToList();
         }
 
         public async Task<ShowerThought> GetShowerThoughtById(Guid id)
         {
             await dbContext.SaveChangesAsync();
-            return dbContext.ShowerThoughts.FirstOrDefault(x => x.Id == id);
+            return dbContext.ShowerThoughts.FirstOrDefault(x => x.Id == id); //return thought by id
         }
 
         public async Task<IEnumerable<ShowerThought>> GetShowerThoughtsByDate(DateTime date, Guid userId)
         {
             await dbContext.SaveChangesAsync();
+            // return all thoughts for user that are for the specified date
+            // only year, month and day are relevant
             return dbContext.ShowerThoughts?.Where(x => x.UserId == userId).ToList()
-                .Where(d => (d.DateTime.Year == date.Year) 
-                && (d.DateTime.Month == date.Month) 
+                .Where(d => (d.DateTime.Year == date.Year)
+                && (d.DateTime.Month == date.Month)
                 && (d.DateTime.Day == date.Day)).ToList();
         }
 
@@ -68,21 +81,28 @@ namespace ShowerShow.Repository
         public async Task<IEnumerable<ShowerThought>> GetThoughtsByContent(string searchWord, Guid userId)
         {
             await dbContext.SaveChangesAsync();
-            List<ShowerThought> resultsForTitle = dbContext.ShowerThoughts?.Where(x => x.UserId == userId && (x.Title.ToLower().Contains(searchWord) || x.Text.ToLower().Contains(searchWord))).ToList();
-/*            List <ShowerThought> resultsForContent = dbContext.ShowerThoughts?.Where(x => x.Text.ToLower().Contains(searchWord)).ToList();
-
-            List<ShowerThought> thoughts = new List<ShowerThought>();
-            thoughts.AddRange(resultsForTitle);
-            thoughts.AddRange(resultsForContent);*/
-            return resultsForTitle;
+            //search if the title or the content contains the search word
+            return dbContext.ShowerThoughts?.Where(x => x.UserId == userId && (x.Title.ToLower().Contains(searchWord) || x.Text.ToLower().Contains(searchWord))).ToList();
         }
 
-        public async Task UpdateThought(ShowerThought thought, UpdateShowerThoughtDTO updatedThought)
+        public async Task<ShowerThought> UpdateThought(Guid thoughtId, UpdateShowerThoughtDTO updatedThought)
         {
-            thought.IsPublic = updatedThought.IsPublic;
-            thought.IsFavorite = updatedThought.IsFavorite;
-            dbContext.ShowerThoughts?.Update(thought);
+            ShowerThought thought = null;
+            //this is to give priority to tasks
+            Task getId = Task.Run(() =>
+            {
+                // set the new thought
+                thought = GetShowerThoughtById(thoughtId).Result;
+                thought.IsPublic = updatedThought.IsPublic;
+                thought.IsFavorite = updatedThought.IsFavorite;
+            });
+            await getId.ContinueWith(prev =>
+            {
+                dbContext.ShowerThoughts?.Update(thought);
+            });
+
             await dbContext.SaveChangesAsync();
+            return thought;
         }
     }
 }
