@@ -52,9 +52,9 @@
     ]
   },
   {
-    "name": "UpdateAchievementById",
+    "name": "UpdateAchievementByIdAndTitle",
     "scriptFile": "ExtraFunction.dll",
-    "entryPoint": "ExtraFunction.Control.AchievementController.UpdateAchievementById",
+    "entryPoint": "ExtraFunction.Control.AchievementController.UpdateAchievementByIdAndTitle",
     "language": "dotnet-isolated",
     "properties": {
       "IsCodeless": false

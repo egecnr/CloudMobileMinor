@@ -1,11 +1,5 @@
 ﻿using ExtraFunction.Model;
-using FluentAssertions;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Text;
 using Xunit.Abstractions;
 
@@ -20,12 +14,16 @@ namespace ExtraFunctionIntegrationTest
     public class ControllerBase
     {
         protected HttpClient client { get; }
+        protected HttpClient showerShowClient { get; }
         protected ITestOutputHelper outputHelper;
         public ControllerBase(ITestOutputHelper outputHelper)
         {
             this.outputHelper = outputHelper;
-            this.client = new HttpClient() {
+            this.showerShowClient = new HttpClient() {
                 BaseAddress = new Uri($"http://localhost:7071/api/")
+            };
+            this.client = new HttpClient() {
+                BaseAddress = new Uri($"http://localhost:7075/api/")  // func start --port 7075
                 //http://localhost:7071/api/Login"
             };
         }
@@ -40,19 +38,12 @@ namespace ExtraFunctionIntegrationTest
             Login loginUser = new Login() {Username="test",Password="test"};
             string requesturi = "Login";
             HttpContent http = new StringContent(JsonConvert.SerializeObject(loginUser),Encoding.UTF8,"application/json");
-            client.DefaultRequestHeaders.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            var response = client.PostAsync(requesturi, http).Result;
+            showerShowClient.DefaultRequestHeaders.Clear();
+            showerShowClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            var response = showerShowClient.PostAsync(requesturi, http).Result;
 
             var authString = (await response.Content.ReadAsAsync<LoginResultDTO>()).AccessToken;
             return authString;
-        }
-
-        public async Task FlushUser(string username)
-        {
-            string requestUri = $"user/{username}";
-            await Authenticate();
-            var response = await client.DeleteAsync(requestUri);
         }
     }
 }

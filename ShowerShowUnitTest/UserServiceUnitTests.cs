@@ -31,7 +31,7 @@ namespace ShowerShowUnitTest
             };
             userRepositoryMock.Setup(u => u.GetUserById(id)).ReturnsAsync(getUserDTO);
             //Act
-            var result = await sut.GetUserById(id);
+            var result = await sut.GetUserById(id); //using vars, little bitch?
             //Assert
             result.Should().NotBeNull();
             result.Id.Should().Be(getUserDTO.Id);

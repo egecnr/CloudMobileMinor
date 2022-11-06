@@ -23,20 +23,18 @@ namespace ExtraFunction.Repository_
         public async Task<Achievement> GetAchievementByIdAndTitle(string achievementTitle, Guid userId)
         {
             await _databaseContext.SaveChangesAsync();
-            return _databaseContext.Users.FirstOrDefault(x => x.Id == userId)?.Achievements.FirstOrDefault(y => y.Title == achievementTitle) ?? null;  
+            return _databaseContext.Users.FirstOrDefault(x => x.Id == userId)?.Achievements.FirstOrDefault(y => y.Title == achievementTitle) ?? null ;  
         }
 
         public async Task<List<Achievement>> GetAchievementsById(Guid userId)
         {
             await _databaseContext.SaveChangesAsync();
-            List<Achievement> ach = _databaseContext.Users.FirstOrDefault(x => x.Id == userId).Achievements;
-            return ach;
+            List<Achievement> achievements = _databaseContext.Users.FirstOrDefault(x => x.Id == userId).Achievements;
+            return achievements;
         }
 
         public async Task UpdateAchievementByIdAndTitle(string achievementTitle, Guid userId, int currentvalue)
         {
-            //get user instead, update the achievement current value locally and update the user instead of only achievement.
-
             User user = _databaseContext.Users.FirstOrDefault(x => x.Id == userId);
             user.Achievements.ForEach(delegate (Achievement achievement1)
             {

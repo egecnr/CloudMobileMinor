@@ -25,7 +25,7 @@ namespace ExtraFunction.Control
         public TermsAndConditionsController(ILogger<TermsAndConditionsController> log, ITermsAndConditionRepository termsAndConditionRepository)
         {
             _logger = log;
-            this._termsAndConditionRepository = termsAndConditionRepository;
+            _termsAndConditionRepository = termsAndConditionRepository;
         }
 
         [Function(nameof(GetTermsAndConditions))]
@@ -33,9 +33,23 @@ namespace ExtraFunction.Control
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(TermsAndConditions), Description = "Successfully received terms and conditions")]
         public async Task<HttpResponseData> GetTermsAndConditions([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "TermsAndCondition")] HttpRequestData req)
         {
-            TermsAndConditions response = await _termsAndConditionRepository.GetTermsAndConditions();
-            HttpResponseData responseData = req.CreateResponse(HttpStatusCode.OK);
-            await responseData.WriteAsJsonAsync(response);
+            HttpResponseData responseData = req.CreateResponse();
+
+            try
+            {
+                TermsAndConditions termsAndCondition = await _termsAndConditionRepository.GetTermsAndConditions();
+                responseData = req.CreateResponse(HttpStatusCode.OK);
+                await responseData.WriteAsJsonAsync(termsAndCondition);
+                return responseData;
+
+            }
+            catch (Exception e)
+            {
+
+                responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", e.Message);
+            }
+
             return responseData;
         }
 

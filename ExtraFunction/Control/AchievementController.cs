@@ -19,13 +19,11 @@ namespace ExtraFunction.Control
     {
         private readonly ILogger<AchievementController> _logger;
         private readonly IAchievementService _achievementService;
-        private readonly IUserRepository _userRepository;
 
-        public AchievementController(ILogger<AchievementController> logger, IAchievementService achievementService, IUserRepository userRepository)
+        public AchievementController(ILogger<AchievementController> logger, IAchievementService achievementService)
         {
             _logger = logger;
             _achievementService = achievementService;
-            _userRepository = userRepository;
         }
 
         [Function(nameof(GetAchievementsById))]
@@ -37,26 +35,27 @@ namespace ExtraFunction.Control
         {
             _logger.LogInformation("Getting achievement by Id");
 
-            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            HttpResponseData responseData = req.CreateResponse();
+            try
             {
-                HttpResponseData responseData = req.CreateResponse();
-                responseData.StatusCode = HttpStatusCode.Unauthorized;
-                return responseData;
+                if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+                {
+                    responseData.StatusCode = HttpStatusCode.Unauthorized;
+                    return responseData;
+                }
+                List<Achievement> achievements = await _achievementService.GetAchievementsById(UserId);
+                responseData.StatusCode = HttpStatusCode.OK;
+                await responseData.WriteAsJsonAsync(achievements);
+
+            }
+            catch (Exception e)
+            {
+
+                responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", e.Message);
             }
 
-            if (await _userRepository.CheckIfUserExistAndActive(UserId))
-            {
-                var res = _achievementService.GetAchievementsById(UserId);
-                HttpResponseData response = req.CreateResponse(HttpStatusCode.OK);
-                await response.WriteAsJsonAsync(res);
-                return response;
-            }
-            else
-            {
-                HttpResponseData responseData = req.CreateResponse();
-                responseData.StatusCode = HttpStatusCode.NotFound;
-                return responseData;
-            }
+            return responseData;
 
         }
 
@@ -69,64 +68,65 @@ namespace ExtraFunction.Control
         public async Task<HttpResponseData> GetAchievementByIdAndTitle([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "user/{UserId}/achievement/{achievementTitle}")] HttpRequestData req, Guid UserId, string achievementTitle, FunctionContext functionContext)
         {
             _logger.LogInformation("Getting achievement by title");
-            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+            HttpResponseData responseData = req.CreateResponse();
+            try
             {
-                HttpResponseData responseData = req.CreateResponse();
-                responseData.StatusCode = HttpStatusCode.Unauthorized;
-                return responseData;
-            }
+                if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+                {
+                    responseData.StatusCode = HttpStatusCode.Unauthorized;
+                    return responseData;
 
-            if (await _userRepository.CheckIfUserExistAndActive(UserId))
+                }
+                Achievement achievement = await _achievementService.GetAchievementByIdAndTitle(achievementTitle, UserId);
+                if (achievement == null)
+                {
+                    responseData.StatusCode = HttpStatusCode.NotFound;
+                    return responseData;
+                }
+                responseData.StatusCode = HttpStatusCode.OK;
+                await responseData.WriteAsJsonAsync(achievement);
+            }
+            catch (Exception e)
             {
-
-                var res = _achievementService.GetAchievementByIdAndTitle(achievementTitle, UserId);
-                HttpResponseData response = req.CreateResponse(HttpStatusCode.OK);
-                await response.WriteAsJsonAsync(res);
-                return response;
+                responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", e.Message);
             }
-            else
-            {
-                HttpResponseData responseData = req.CreateResponse();
-                responseData.StatusCode = HttpStatusCode.NotFound;
-                return responseData;
-            }
-
-
-
-
+            return responseData;
         }
-        [Function(nameof(UpdateAchievementById))]
+        [Function(nameof(UpdateAchievementByIdAndTitle))]
         [OpenApiOperation(operationId: "UpdateAchievement", tags: new[] { "Achievement" })]
         [ExampleAuth]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The User ID parameter")]
         [OpenApiParameter(name: "CurrentValue", In = ParameterLocation.Query, Required = true, Type = typeof(int), Description = "The current value you want to change")]
         [OpenApiParameter(name: "achievementTitle", In = ParameterLocation.Path, Required = true, Type = typeof(string), Description = "Title of the requested achievement")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(Achievement), Description = "Achievement updated")]
-        public async Task<HttpResponseData> UpdateAchievementById([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "user/{UserId}/achievement/{achievementTitle}")] HttpRequestData req, Guid UserId, string achievementTitle, int CurrentValue, FunctionContext functionContext)
+        public async Task<HttpResponseData> UpdateAchievementByIdAndTitle([HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "user/{UserId}/achievement/{achievementTitle}")] HttpRequestData req, Guid UserId, string achievementTitle, int CurrentValue, FunctionContext functionContext)
         {
             _logger.LogInformation("Updating achievement by id");
-            if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+
+            HttpResponseData responseData = req.CreateResponse();
+
+            try
             {
-                HttpResponseData responseData = req.CreateResponse();
-                responseData.StatusCode = HttpStatusCode.Unauthorized;
+                if (AuthCheck.CheckIfUserNotAuthorized(functionContext))
+                {
+                    responseData.StatusCode = HttpStatusCode.Unauthorized;
+                    return responseData;
+                }
+
+                await _achievementService.UpdateAchievementByIdAndTitle(achievementTitle, UserId, CurrentValue);
+                responseData.StatusCode = HttpStatusCode.OK;
                 return responseData;
-            }
 
-            if (await _userRepository.CheckIfUserExistAndActive(UserId))
+            }
+            catch (Exception e)
             {
-                 await _achievementService.UpdateAchievementById(achievementTitle, UserId, CurrentValue);
-                HttpResponseData response = req.CreateResponse(HttpStatusCode.OK);
-                return response;
-            }
-            else
-            {
-                HttpResponseData responseData = req.CreateResponse();
-                responseData.StatusCode = HttpStatusCode.NotFound;
-                return responseData;
+
+                responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", e.Message);
             }
 
-
-
+            return responseData;
         }
 
 

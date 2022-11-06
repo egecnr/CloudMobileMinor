@@ -1,5 +1,7 @@
 ﻿using ExtraFunction.Model;
+using ExtraFunction.Repository_;
 using ExtraFunction.Repository_.Interface;
+using Microsoft.Azure.Cosmos.Core;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ExtraFunction.Service_
 {
-    internal class AchievementService : IAchievementService
+    public class AchievementService : IAchievementService
     {
         private readonly IAchievementRepository _achievementRepository;
         private readonly IUserRepository _userRepository;
@@ -22,21 +24,49 @@ namespace ExtraFunction.Service_
 
 
 
-        public Task<Achievement> GetAchievementByIdAndTitle(string achievementTitle, Guid userId)
+        public async Task<Achievement> GetAchievementByIdAndTitle(string achievementTitle, Guid userId)
         {
-            return _achievementRepository.GetAchievementByIdAndTitle(achievementTitle, userId);
+
+            if (await _userRepository.CheckIfUserExistAndActive(userId))
+            {
+                return await _achievementRepository.GetAchievementByIdAndTitle(achievementTitle, userId);
+            }
+
+
+            else
+            {
+                throw new Exception("User does not exist");
+            }
+
         }
 
 
-        public Task<List<Achievement>> GetAchievementsById(Guid userId)
+        public async Task<List<Achievement>> GetAchievementsById(Guid userId)
         {
-            return _achievementRepository.GetAchievementsById(userId);
+            if (await _userRepository.CheckIfUserExistAndActive(userId))
+            {
+                return await _achievementRepository.GetAchievementsById(userId);
+            }
+            else
+            {
+                throw new Exception("User does not exist");
+            }
         }
 
-        public async Task UpdateAchievementById(string achievementTitle, Guid userId, int currentValue)
+        public async Task UpdateAchievementByIdAndTitle(string achievementTitle, Guid userId, int currentValue)
         {
-            await _achievementRepository.UpdateAchievementByIdAndTitle(achievementTitle, userId, currentValue);
+            if(await _userRepository.CheckIfUserExistAndActive(userId))
+            {
+                await _achievementRepository.UpdateAchievementByIdAndTitle(achievementTitle, userId, currentValue);
+            }
+            else
+            {
+                throw new Exception("User does not exist");
+            }
+
+            //await _achievementRepository.UpdateAchievementByIdAndTitle(achievementTitle, userId, currentValue);
         }
+
 
     }
 }

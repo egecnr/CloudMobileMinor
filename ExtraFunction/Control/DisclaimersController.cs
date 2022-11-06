@@ -20,7 +20,7 @@ namespace ExtraFunction.Control
         public DisclaimersController(ILogger<DisclaimersController> log, IDisclaimersRepository disclaimersRepository)
         {
             _logger = log;
-            this._disclaimersRepository = disclaimersRepository;
+            _disclaimersRepository = disclaimersRepository;
         }
 
         [Function(nameof(GetDisclaimers))]
@@ -28,10 +28,24 @@ namespace ExtraFunction.Control
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Disclaimers), Description = "Successfully received disclaimers")]
         public async Task<HttpResponseData> GetDisclaimers([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "Disclaimers")] HttpRequestData req) //route is emtpy
         {
-            Disclaimers response = await _disclaimersRepository.GetDisclaimers();
-            HttpResponseData responseData = req.CreateResponse(HttpStatusCode.OK);
 
-            await responseData.WriteAsJsonAsync(response);
+            HttpResponseData responseData = req.CreateResponse();
+
+            try
+            {
+                Disclaimers disclaimer = await _disclaimersRepository.GetDisclaimers();
+                responseData = req.CreateResponse(HttpStatusCode.OK);
+
+                await responseData.WriteAsJsonAsync(disclaimer);
+                return responseData;
+            }
+            catch (Exception e)
+            {
+
+                responseData.StatusCode = HttpStatusCode.BadRequest;
+                responseData.Headers.Add("Reason", e.Message);
+            }
+
             return responseData;
         }
 
