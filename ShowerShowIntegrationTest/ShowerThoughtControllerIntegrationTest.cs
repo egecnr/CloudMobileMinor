@@ -97,7 +97,7 @@ namespace ShowerThoughtControllerIntegrationTest
         [Fact]
         public async Task GetThoughtByUserIdShouldReturnOK()
         {
-            string requestUri = $"shower/thoughts/{testUserId}/u";
+            string requestUri = $"shower/thoughts/{testUserId}/u/1";
             await Authenticate();
             var response = await client.GetAsync(requestUri);
 
@@ -108,7 +108,7 @@ namespace ShowerThoughtControllerIntegrationTest
         [Fact]
         public async Task GetThoughtByUserIdShouldReturnBadRequest()
         {
-            string requestUri = $"shower/thoughts/{Guid.NewGuid()}/u";
+            string requestUri = $"shower/thoughts/{Guid.NewGuid()}/u/1";
             await Authenticate();
             var response = await client.GetAsync(requestUri);
 
@@ -121,7 +121,7 @@ namespace ShowerThoughtControllerIntegrationTest
         [Fact]
         public async Task GetThoughtByDateShouldReturnOK()
         {
-            string requestUri = $"shower/thoughts/{testUserId}/date?Date=22-10-2022";
+            string requestUri = $"shower/thoughts/{testUserId}/date/time?Date=06-11-2022";
             await Authenticate();
             var response = await client.GetAsync(requestUri);
 
@@ -132,7 +132,7 @@ namespace ShowerThoughtControllerIntegrationTest
         [Fact]
         public async Task GetThoughtByDateShouldReturnBadRequest()
         {
-            string requestUri = $"shower/thoughts/{Guid.NewGuid()}/date?Date=22-10-2022";
+            string requestUri = $"shower/thoughts/{Guid.NewGuid()}/date/time?Date=06-11-2022";
             await Authenticate();
             var response = await client.GetAsync(requestUri);
 

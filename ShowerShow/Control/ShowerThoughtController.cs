@@ -155,7 +155,7 @@ namespace ShowerShow.Controllers
         [OpenApiParameter(name: "limit", In = ParameterLocation.Path, Required = true, Type = typeof(int), Description = "The limit parameter")]
 
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerThought), Description = "The OK response with the retrieved thoughts")]
-        public async Task<HttpResponseData> GetThoughtsByUserId([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "shower/thoughts/{UserId:Guid}/u")] HttpRequestData req, Guid UserId, int limit, FunctionContext functionContext)
+        public async Task<HttpResponseData> GetThoughtsByUserId([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "shower/thoughts/{UserId:Guid}/u/{limit}")] HttpRequestData req, Guid UserId, int limit, FunctionContext functionContext)
         {
             _logger.LogInformation("Retrieving thoughts.");
 
@@ -187,7 +187,7 @@ namespace ShowerShow.Controllers
         [OpenApiParameter(name: "Date", In = ParameterLocation.Query, Required = true, Type = typeof(string), Description = "The date parameter")]
         [OpenApiParameter(name: "UserId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The user ID parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(ShowerThought), Description = "The OK response with the retrieved thoughts")]
-        public async Task<HttpResponseData> GetThoughtsByDate([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "shower/thoughts/{UserId:Guid}/date")] HttpRequestData req, Guid UserId, string Date, FunctionContext functionContext)
+        public async Task<HttpResponseData> GetThoughtsByDate([HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "shower/thoughts/{UserId:Guid}/date/time")] HttpRequestData req, Guid UserId, string Date, FunctionContext functionContext)
         {
             _logger.LogInformation("Retrieving thoughts.");
 

@@ -27,7 +27,7 @@ namespace ShowerShow.Controllers
             _logger = log;
             this.bubbleMessageService = bubbleMessageService;
         }
-        [Function("CreateBubbleMessage")]
+/*        [Function("CreateBubbleMessage")]
         [OpenApiOperation(operationId: "CreateBubbleMessage", tags: new[] { "Bubble Messages" })]
         [OpenApiRequestBody("application/json", typeof(CreateBubbleMessageDTO), Description = "The Bubble Message")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.Created, contentType: "application/json", bodyType: typeof(BubbleMessage), Description = "The OK response with the new Bubble Message.")]
@@ -53,8 +53,8 @@ namespace ShowerShow.Controllers
                 return responseData;
 
             }
-        }
-        [Function("DeleteBubbleMessage")]
+        }*/
+/*        [Function("DeleteBubbleMessage")]
         [OpenApiOperation(operationId: "DeleteBubbleMessage", tags: new[] { "Bubble Messages" })]
         [OpenApiParameter(name: "MessageId", In = ParameterLocation.Path, Required = true, Type = typeof(Guid), Description = "The MessageId  parameter")]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Schedule), Description = "The OK response with the deleted message")]
@@ -75,7 +75,7 @@ namespace ShowerShow.Controllers
                 responseData.Headers.Add("Reason", ex.Message);
                 return responseData;
             }
-        }
+        }*/
         [Function("GetRandomMessage")]
         [OpenApiOperation(operationId: "GetRandomMessage", tags: new[] { "Bubble Messages" })]
         [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(BubbleMessage), Description = "Retrieved message")]
