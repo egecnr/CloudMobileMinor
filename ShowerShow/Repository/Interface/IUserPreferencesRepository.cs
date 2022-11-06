@@ -11,6 +11,7 @@ namespace ShowerShow.Repository.Interface
     public interface IUserPreferencesRepository
     {
         public Task CreateUserPreferences(Guid userId);
+        public Task DeleteUserPreferences(Guid userId);
         public Task<PreferencesDTO> GetUserPreferenceById(Guid userId);
 
         public Task UpdatePreferenceById(Guid userId, PreferencesDTO updatePreferencesDTO);

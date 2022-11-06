@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ShowerShow.Service
 {
-    internal class ShowerThoughtService : IShowerThoughtService
+    public class ShowerThoughtService : IShowerThoughtService
     {
         private IShowerThoughtRepository showerThoughtRepository;
         private IUserService userService;
