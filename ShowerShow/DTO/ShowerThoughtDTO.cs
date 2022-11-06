@@ -17,6 +17,5 @@ namespace ShowerShow.DTO
         [JsonRequired]
         public DateTime DateTime { get; set; }
         public bool IsFavorite { get; set; }
-        public bool IsPublic { get; set; }
     }
 }

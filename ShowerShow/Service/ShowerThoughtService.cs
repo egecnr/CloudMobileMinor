@@ -32,7 +32,14 @@ namespace ShowerShow.Service
 
         public async Task DeleteShowerThought(Guid thoughtId)
         {
+            if (!await DoesShowerThoughtExist(thoughtId))
+                throw new ArgumentException("The shower thought could not be found");
             await showerThoughtRepository.DeleteShowerThought(thoughtId);
+        }
+
+        public async Task<bool> DoesShowerThoughtExist(Guid id)
+        {
+            return await showerThoughtRepository.DoesShowerThoughtExist(id);
         }
 
         public async Task<IEnumerable<ShowerThought>> GetAllShowerThoughtsForUser(Guid userId, int limit)
@@ -45,6 +52,9 @@ namespace ShowerShow.Service
 
         public async Task<ShowerThought> GetShowerThoughtById(Guid id)
         {
+            if(!await DoesShowerThoughtExist(id))
+                throw new ArgumentException("The shower thought could not be found");
+
             return await showerThoughtRepository.GetShowerThoughtById(id);
         }
 
@@ -71,6 +81,8 @@ namespace ShowerShow.Service
 
         public async Task<ShowerThought> UpdateThought(Guid thoughtId, UpdateShowerThoughtDTO updatedThought)
         {
+            if (!await DoesShowerThoughtExist(thoughtId))
+                throw new ArgumentException("The shower thought could not be found");
             return await showerThoughtRepository.UpdateThought(thoughtId, updatedThought);
         }
     }

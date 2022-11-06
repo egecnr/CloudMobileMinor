@@ -16,5 +16,6 @@ namespace ShowerShow.Repository.Interface
         public Task<ShowerThought> GetShowerThoughtById(Guid id);
         public Task<IEnumerable<ShowerThought>> GetThoughtsByContent(string searchWord, Guid userId);
         public Task<ShowerThought> UpdateThought(Guid thoughtId, UpdateShowerThoughtDTO updatedThought);
+        public Task<bool> DoesShowerThoughtExist(Guid id);
     }
 }

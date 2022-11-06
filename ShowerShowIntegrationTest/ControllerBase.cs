@@ -1,4 +1,8 @@
-﻿using FluentAssertions;
+﻿using Microsoft.AspNetCore.Components.Routing;
+using Newtonsoft.Json;
+using System.Text;
+using Xunit.Abstractions;
+using FluentAssertions;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using ShowerShow.DTO;
@@ -21,7 +25,7 @@ namespace ShowerShowIntegrationTest
     }
     public class ControllerBase
     {
-        protected HttpClient client { get; }
+        protected HttpClient client { get; set; }
         protected ITestOutputHelper outputHelper;
         public ControllerBase(ITestOutputHelper outputHelper)
         {
@@ -39,7 +43,7 @@ namespace ShowerShowIntegrationTest
         //This should work. Contact me if it doesn't
         private async Task<string> GetAuthString()
         {
-            Login loginUser = new Login() {Username="test",Password="test"};
+            Login loginUser = new Login() { Username = "test", Password = "test" };
             string requesturi = "Login";
             HttpContent http = new StringContent(JsonConvert.SerializeObject(loginUser),Encoding.UTF8,"application/json");
             client.DefaultRequestHeaders.Clear();
