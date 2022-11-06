@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using ExtraFunction.Model_;
+using Newtonsoft.Json;
+using ShowerShow.Model;
 using ShowerShow.Models;
 using System;
 using System.Collections.Generic;
@@ -8,17 +10,18 @@ using System.Threading.Tasks;
 
 namespace ShowerShow.DTO
 {
-    internal class GetUserDTO
+    public class GetUserDTO
     {
+        [JsonRequired]
+        public Guid Id { get; set; }
         [JsonRequired]
         public string Name { get; set; }
         [JsonRequired]
-        public string Username { get; set; }
+        public string UserName { get; set; }
 
         [JsonRequired]
-        public string Email { get; set; }
-        public string UserBadge { get; set; }
-        public List<UserFriend> Friends { get; set; }
+        public string Email { get; set; } //Consider deleting this
+        public List<Achievement> Achievements { get; set; }
 
     }
 }

@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
+using ShowerShow.Model;
 using System;
 
 namespace ShowerShow.Models
 {
-    internal class ScheduleTag
+    public class ScheduleTag
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
         [JsonRequired]
         public string Name { get; set; }
 
@@ -13,10 +13,10 @@ namespace ShowerShow.Models
         public double ActivityDuration { get; set; }
 
         [JsonRequired]
-        public bool IsGasOn { get; set; }
+        public WaterTemperature waterTemperature { get; set; }
 
         [JsonRequired]
-        public bool IsWaterOn { get; set; }
+        public bool IsWaterOn { get; set; } 
 
 
     }

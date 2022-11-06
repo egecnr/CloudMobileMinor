@@ -5,7 +5,7 @@ using System;
 namespace ShowerShow.Models
 {
     [Flags]
-    internal enum DayOfWeek
+    public enum DayOfWeek
     {
         Monday,
         Tuesday,

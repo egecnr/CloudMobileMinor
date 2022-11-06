@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ShowerShow.Utils
 {
-    internal class EnumCollectionJsonValueConverter<T> : ValueConverter<List<T>, string> where T : Enum
+    public class EnumCollectionJsonValueConverter<T> : ValueConverter<List<T>, string> where T : Enum
     {
         public EnumCollectionJsonValueConverter() : base(
       v => JsonConvert

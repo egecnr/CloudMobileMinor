@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ShowerShow.Models
 {
-    internal class ShowerData
+    public class ShowerData
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         [JsonRequired]
@@ -23,6 +23,7 @@ namespace ShowerShow.Models
         public double GasCost { get; set; }
         [JsonRequired]
         public DateTime Date { get; set; }
+        public int Overtime { get; set; }
         
     }
 }

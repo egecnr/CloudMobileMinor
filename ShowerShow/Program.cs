@@ -9,6 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 using ShowerShow.Models;
 using User = ShowerShow.Models.User;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using ShowerShow.Service;
+using ShowerShow.Repository.Interface;
+using ShowerShow.Repository;
+using ShowerShow.Authorization;
+using Microsoft.Extensions.Configuration;
 
 namespace ShowerShow
 {
@@ -18,15 +26,46 @@ namespace ShowerShow
         static async Task Main(string[] args)
         {
             var host = new HostBuilder()
-                    .ConfigureFunctionsWorkerDefaults()
+                    .ConfigureFunctionsWorkerDefaults(Worker => Worker.UseNewtonsoftJson().UseMiddleware<JWTMiddleware>())
+                    .ConfigureAppConfiguration(config =>
+                         config.AddJsonFile("local.settings.json", optional: true, reloadOnChange: false))
                     .ConfigureOpenApi()
                     .ConfigureServices(services =>
                     {
+                        services.AddControllers();
+                        services.AddDbContext<DatabaseContext>(options =>
+
+                                  options.UseCosmos("https://sawa-db.documents.azure.com:443/",
+                        "gggcb28Z24nJAmpz4SRwQRNT9Xyd0wn1riSKAUkvVyaBf4WRALsyx4kgl6POPmi8Ka7JHZfTx06uWD3DHzoqTw==",
+                        "sawa-db"));
+                        services.AddTransient<IUserService, UserService>();
+                        services.AddTransient<IUserRepository, UserRepository>();
+                        services.AddTransient<IUserFriendService, UserFriendService>();
+                        services.AddTransient<IUserFriendRepository, UserFriendRepository>();
+                        services.AddTransient<ILoginService, LoginService>();
+                        services.AddTransient<ILoginRepository, LoginRepository>();
+                        services.AddSingleton<ITokenService, TokenService>();
+                        services.AddTransient<IShowerThoughtRepository, ShowerThoughtRepository>();
+                        services.AddTransient<IShowerThoughtService, ShowerThoughtService>();
+                        services.AddTransient<IUserPreferencesRepository, UserPrefencesRepository>();
+                        services.AddTransient<IUserPrefencesService, UserPreferencesService>();
+                        services.AddTransient<IScheduleRepository, ScheduleRepository>();
+                        services.AddTransient<IScheduleService, ScheduleService>();
+                        services.AddTransient<IShowerDataRepository, ShowerDataRepository>();
+                        services.AddTransient<IShowerDataService, ShowerDataService>();
+                        services.AddTransient<IBlobStorageService, BlobStorageService>();
+                        services.AddTransient<IBlobStorageRepository, BlobStorageRepository>();
+                        services.AddTransient<IUserStatisticsRepository, UserStatisticsRepository>();
+                        services.AddTransient<IUserStatisticsService, UserStatisticsService>();
+                        services.AddTransient<IBubbleMessageRepository, BubbleMessageRepository>();
+                        services.AddTransient<IBubbleMessageService, BubbleMessageService>();
                     })
                     .Build();
-            await host.RunAsync();
 
-            
+
+            host.Run();
+
+
         }
     }
 }

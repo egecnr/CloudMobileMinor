@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ShowerShow.DTO
 {
-    internal class CreateShowerDataDTO
+    public class CreateShowerDataDTO
     {
 
         [JsonRequired]
@@ -21,5 +21,6 @@ namespace ShowerShow.DTO
 
         [JsonRequired]
         public Guid ScheduleId { get; set; }
+        public int Overtime { get; set; }
     }
 }

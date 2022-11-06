@@ -1,21 +1,24 @@
 ﻿using Newtonsoft.Json;
-using ShowerShow.DTO;
+using ShowerShow.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ShowerShow.Models
+namespace ShowerShow.Model
 {
     public class UserFriend
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; }= Guid.NewGuid();
+
         [JsonRequired]
-        public string Name { get; set; }
+        public Guid MainUserId { get; set; }
+
         [JsonRequired]
-        public string Username { get; set; }
+        public Guid FriendId { get; set; }
+
         [JsonRequired]
-        public string UserBadge { get; set; }
+        public FriendStatus status { get; set; } = FriendStatus.Pending; //Its always pending by default
+
+        [JsonRequired]
+        public bool IsFavorite { get; set; }
     }
 }
