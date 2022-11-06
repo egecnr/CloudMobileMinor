@@ -31,7 +31,12 @@ namespace ShowerShow.Repository
             await _dbContext.SaveChangesAsync();
         }
 
-
+        public async Task DeleteUserPreferences(Guid userId)
+        {
+            Preferences preferences = _dbContext.Preferences.FirstOrDefault(p=>p.UserId==userId);
+             _dbContext.Preferences.Remove(preferences);
+            await _dbContext.SaveChangesAsync();
+        }
 
         public async Task<PreferencesDTO> GetUserPreferenceById(Guid userId)
         {
