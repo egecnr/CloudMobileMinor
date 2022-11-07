@@ -30,9 +30,21 @@ namespace ShowerShow.Repository
 
             QueueClient qClient = new QueueClient(connString, qName, clientOpt);
             var jsonOpt = new JsonSerializerOptions() { WriteIndented = true };
-            Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<CreateShowerDataDTO, ShowerData>()));
-            ShowerData showerData = mapper.Map<ShowerData>(shower);
-            showerData.UserId = userId;
+          //  Mapper mapper = AutoMapperUtil.ReturnMapper(new MapperConfiguration(con => con.CreateMap<CreateShowerDataDTO, ShowerData>()));
+
+            ShowerData showerData = new ShowerData
+            {
+                Id = Guid.NewGuid(),
+                UserId = userId,
+                ScheduleId = shower.ScheduleId,
+                GasCost = shower.GasCost,
+                GasUsage = shower.GasUsage,
+                WaterCost = shower.WaterCost,
+                WaterUsage = shower.WaterUsage,
+                Date = shower.Date,
+                Overtime = shower.Overtime,
+                Duration = shower.Duration
+            };
             string showerJson = JsonSerializer.Serialize<ShowerData>(showerData, jsonOpt);
             await qClient.SendMessageAsync(showerJson);
         }

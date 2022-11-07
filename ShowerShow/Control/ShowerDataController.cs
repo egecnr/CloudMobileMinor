@@ -53,7 +53,6 @@ namespace ShowerShow.Control
             {
                 ShowerData response = await _showerDataService.GetShowerDataByUserId(userId, showerId);
                 responseData.StatusCode = HttpStatusCode.OK;
-
                 await responseData.WriteAsJsonAsync(response);
                 return responseData;
             }

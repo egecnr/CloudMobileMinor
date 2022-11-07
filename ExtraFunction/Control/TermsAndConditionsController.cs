@@ -14,13 +14,14 @@ using System.Text;
 using System.Threading.Tasks;
 using ExtraFunction.Authorization;
 using ExtraFunction.Model;
+using System.IO;
 
 namespace ExtraFunction.Control
 {
     public class TermsAndConditionsController
     {
         private readonly ILogger<TermsAndConditionsController> _logger;
-        private readonly ITermsAndConditionRepository _termsAndConditionRepository;
+        private  ITermsAndConditionRepository _termsAndConditionRepository;
 
         public TermsAndConditionsController(ILogger<TermsAndConditionsController> log, ITermsAndConditionRepository termsAndConditionRepository)
         {
@@ -53,6 +54,7 @@ namespace ExtraFunction.Control
             return responseData;
         }
 
+    
 
         //[Function(nameof(UpdateTermsAndCondition))]
         //[OpenApiOperation(operationId: "UpdateTermsAndCondition", tags: new[] {"Terms and Conditions"})]

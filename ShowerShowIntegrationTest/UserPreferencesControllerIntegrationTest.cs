@@ -14,10 +14,6 @@ namespace ShowerShowIntegrationTest
     {
         public UserPreferencesControllerIntegrationTest(ITestOutputHelper outputHelper) : base(outputHelper)
         {
-            this.client = new HttpClient()
-            {
-                BaseAddress = new Uri($"http://localhost:7177/api/")
-            };
         }
         private Guid testUserId = Guid.Parse("31aa2d55-8eae-4d00-9daa-5be588aba14d");
         private Guid testShowerId = Guid.Parse("cbafec3c-fd12-45d1-b3c5-9fff052887e0");
@@ -38,7 +34,8 @@ namespace ShowerShowIntegrationTest
                 Notification = true
             };
             HttpContent http = new StringContent(JsonConvert.SerializeObject(updatePreferences), Encoding.UTF8, "application/json");
-            var response = await client.PostAsync(requestUri, http);
+            var response = await client.PutAsync(requestUri, http);
+            outputHelper.WriteLine(response.Headers.ToString());
             response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
         [Fact]
@@ -57,7 +54,7 @@ namespace ShowerShowIntegrationTest
             };
 
             HttpContent http = new StringContent(JsonConvert.SerializeObject(updatePreferences), Encoding.UTF8, "application/json");
-            var response = await client.PostAsync(requestUri, http);
+            var response = await client.PutAsync(requestUri, http);
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
         [Fact]
