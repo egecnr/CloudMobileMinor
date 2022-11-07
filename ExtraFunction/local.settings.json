@@ -9,7 +9,7 @@
     "UserFriendQueue": "create-user-friend-queue",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
     "DBUri": "https://sawa-db.documents.azure.com:443/",
-    "DbKey": "gggcb28Z24nJAmpz4SRwQRNT9Xyd0wn1riSKAUkvVyaBf4WRALsyx4kgl6POPmi8Ka7JHZfTx06uWD3DHzoqTw==;",
+    "DbKey": "gggcb28Z24nJAmpz4SRwQRNT9Xyd0wn1riSKAUkvVyaBf4WRALsyx4kgl6POPmi8Ka7JHZfTx06uWD3DHzoqTw==",
     "DbName": "sawa-db"
 
   },
